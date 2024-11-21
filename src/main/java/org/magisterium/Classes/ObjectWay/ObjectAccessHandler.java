@@ -1,7 +1,9 @@
 package org.magisterium.Classes.ObjectWay;
 
+import org.fusesource.jansi.Ansi;
 import org.magisterium.Classes.Banks.Bank;
 
+import java.util.Map;
 import java.util.Scanner;
 /**
  * Ciągle sie zastanawiam gdzie jest przewaga refleksji nad obiektowoscią. Przeciez w obiektowej opcji tez mamy
@@ -21,7 +23,20 @@ import java.util.Scanner;
  */
 public class ObjectAccessHandler {
     private final Bank bank;
+    private final String[] DATA_ACCESS_QUOTES = {
+            "🔐 Dostęp do skarbca danych...",
+            "📊 Panel kontrolny aktywowany...",
+            "🎯 Wybierz cel swojej operacji...",
+            "💫 Przygotuj się do inspekcji..."
+    };
 
+    private final Map<String, String> FIELD_ICONS = Map.of(
+            "saldo", "💰",
+            "nazwa", "👤",
+            "data", "📅",
+            "hasło", "🔑",
+            "status", "⚡"
+    );
     public ObjectAccessHandler(Bank bank) {
         this.bank = bank;
     }
@@ -41,14 +56,116 @@ public class ObjectAccessHandler {
     }
 
     private String displayFieldMenu(Scanner scanner) {
-        System.out.println("\n=== DOSTĘP DO DANYCH ===");
-        System.out.println("1. Saldo");
-        System.out.println("2. Nazwa użytkownika");
-        System.out.println("3. Data utworzenia konta");
-        System.out.println("4. Hasło");
-        System.out.println("5. Status aktywności");
-        System.out.println("0. Powrót");
-        System.out.print("Twój wybór: ");
+        // Losowy cytat
+        String randomQuote = DATA_ACCESS_QUOTES[(int)(Math.random() * DATA_ACCESS_QUOTES.length)];
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.CYAN)
+                        .bold()
+                        .a("\n" + randomQuote)
+                        .reset().toString()
+        );
+
+        // Header z efektem ramki
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.MAGENTA)
+                        .bold()
+                        .a("\n╔════════════════════════╗")
+                        .reset().toString()
+        );
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.MAGENTA)
+                        .bold()
+                        .a("║   DOSTĘP DO DANYCH    ║")
+                        .reset().toString()
+        );
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.MAGENTA)
+                        .bold()
+                        .a("╚════════════════════════╝")
+                        .reset().toString()
+        );
+
+        // Opcje menu z kolorami i ikonami
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.GREEN)
+                        .a("\n" + FIELD_ICONS.get("saldo") + " 1. Saldo")
+                        .reset().toString() +
+                        Ansi.ansi()
+                                .fg(Ansi.Color.BLUE)
+                                .a(" [Stan konta]")
+                                .reset().toString()
+        );
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.YELLOW)
+                        .a(FIELD_ICONS.get("nazwa") + " 2. Nazwa użytkownika")
+                        .reset().toString() +
+                        Ansi.ansi()
+                                .fg(Ansi.Color.BLUE)
+                                .a(" [Identyfikator]")
+                                .reset().toString()
+        );
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.CYAN)
+                        .a(FIELD_ICONS.get("data") + " 3. Data utworzenia konta")
+                        .reset().toString() +
+                        Ansi.ansi()
+                                .fg(Ansi.Color.BLUE)
+                                .a(" [Historia]")
+                                .reset().toString()
+        );
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.RED)
+                        .a(FIELD_ICONS.get("hasło") + " 4. Hasło")
+                        .reset().toString() +
+                        Ansi.ansi()
+                                .fg(Ansi.Color.BLUE)
+                                .a(" [Poufne]")
+                                .reset().toString()
+        );
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.GREEN)
+                        .a(FIELD_ICONS.get("status") + " 5. Status aktywności")
+                        .reset().toString() +
+                        Ansi.ansi()
+                                .fg(Ansi.Color.BLUE)
+                                .a(" [Monitoring]")
+                                .reset().toString()
+        );
+
+        // Opcja powrotu z efektem
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.RED)
+                        .bold()
+                        .a("\n↩ 0. Powrót do menu głównego")
+                        .reset().toString()
+        );
+
+        // Prompt z efektem migania
+        System.out.print(
+                Ansi.ansi()
+                        .fg(Ansi.Color.CYAN)
+                        .bold()
+                        .a("\n=> Twój wybór: ")
+                        .reset().toString()
+        );
+
         return scanner.nextLine();
     }
 

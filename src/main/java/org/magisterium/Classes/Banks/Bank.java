@@ -13,12 +13,11 @@ import org.magisterium.Annotations.BankInfo;
 @Data // Generuje gettery, settery, equals, hashCode i toString
 @AllArgsConstructor
 @BankInfo(description = " Parent class of banks ")
-public// Generuje konstruktor dla wszystkich pól
-class Bank  implements BankAccount {
+public class Bank  implements BankAccount {
     private double balance;
     private  String passwordHash; // Przechowujemy tylko hash hasła
-    String username;
-    public   double ukBalance;
+    private String username;
+    private  double ukBalance;
 
     protected long clientId;
     protected String email;
