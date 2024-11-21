@@ -80,6 +80,9 @@ Aby uruchomić projekt, upewnij się, że masz zainstalowane:
 - **Maven**: Narzędzie do zarządzania zależnościami i budowaniem projektów w Javie.
 - **Git**: System kontroli wersji do zarządzania kodem.
 
+![image](https://github.com/user-attachments/assets/6c7f312d-d24f-4dcd-86d4-8a54895d76e2)
+
+![image](https://github.com/user-attachments/assets/cfe00aa7-d321-4346-93de-5a6855e01a7a)
 
 
 
