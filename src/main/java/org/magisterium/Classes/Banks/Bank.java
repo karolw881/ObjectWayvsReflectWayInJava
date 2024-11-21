@@ -1,4 +1,4 @@
-package org.magisterium.Classes;
+package org.magisterium.Classes.Banks;
 
 import org.magisterium.Interfaces.BankAccount;
 
@@ -8,9 +8,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.magisterium.Interfaces.BankInfo;
 
 @Data // Generuje gettery, settery, equals, hashCode i toString
-@AllArgsConstructor // Generuje konstruktor dla wszystkich pól
+@AllArgsConstructor
+@BankInfo(description = " Parent class of banks ")
+public// Generuje konstruktor dla wszystkich pól
 class Bank  implements BankAccount {
     private double balance;
     private  String passwordHash; // Przechowujemy tylko hash hasła

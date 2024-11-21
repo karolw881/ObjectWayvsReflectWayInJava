@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
-@interface BankInfo {
+public @interface BankInfo {
     String description() default "";
 }

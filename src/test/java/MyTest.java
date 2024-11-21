@@ -1,12 +1,10 @@
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.magisterium.Classes.MyScanner;
+import org.magisterium.Classes.LolScanner.MyScanner;
 
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 public class MyTest {
 
