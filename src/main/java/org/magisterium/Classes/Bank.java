@@ -6,13 +6,17 @@ import org.magisterium.Interfaces.BankAccount;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-
+@Data // Generuje gettery, settery, equals, hashCode i toString
+@AllArgsConstructor // Generuje konstruktor dla wszystkich pól
 class Bank  implements BankAccount {
     private double balance;
     private  String passwordHash; // Przechowujemy tylko hash hasła
     String username;
     public   double ukBalance;
+
     protected long clientId;
     protected String email;
     protected String mothersMaidenName;
