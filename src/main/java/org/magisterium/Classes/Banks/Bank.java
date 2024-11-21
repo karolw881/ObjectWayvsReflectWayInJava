@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.magisterium.Interfaces.BankInfo;
+import org.magisterium.Annotations.BankInfo;
 
 @Data // Generuje gettery, settery, equals, hashCode i toString
 @AllArgsConstructor

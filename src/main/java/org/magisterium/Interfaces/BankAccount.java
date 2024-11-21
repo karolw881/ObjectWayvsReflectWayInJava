@@ -6,14 +6,8 @@ public interface BankAccount {
     void deposit(double amount);
     boolean withdraw(double amount);
     String getAdditionalInfo();
-    boolean verifyPassword(String password); // Metoda do weryfikacji hasła
-    boolean isActive(); // Metoda sprawdzająca czy konto jest aktywne
+    boolean verifyPassword(String password);
+    boolean isActive();
 
-    /*
-    @Override
-    String toString();
-    @Override
-    boolean equals(Object obj);
 
-     */
 }

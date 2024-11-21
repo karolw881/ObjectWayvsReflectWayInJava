@@ -1,4 +1,4 @@
-package org.magisterium.Interfaces;
+package org.magisterium.Annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -3,7 +3,22 @@ package org.magisterium.Classes.ObjectWay;
 import org.magisterium.Classes.Banks.Bank;
 
 import java.util.Scanner;
+/**
+ * Ciągle sie zastanawiam gdzie jest przewaga refleksji nad obiektowoscią. Przeciez w obiektowej opcji tez mamy
+ * dostep do pol private przez gettery
+ */
 
+// TODO: Albo refleksyjnie podczytac typ - property -  field  i wtedy na tej  podstawie  okreslac  dostęp (enkapsulacje)
+//  i jak wysietli private to wyswietlic acces deniad
+// TODO: Albo wszedzie sout-tem  po hamsku wysietlac acces deniad
+//  TODO3: Albo mozna tez z getterrami prywatne pola wysiwetlac i roznica w refleksji i obiektowosci bedzie to ze w
+//  refleksj mozna modyfikowac private i wysietlac cale informacje o klasach, metodach itd
+
+
+
+/**
+ * Wiec trzeba jeszcze poprwic funkcje
+ */
 public class ObjectAccessHandler {
     private final Bank bank;
 
