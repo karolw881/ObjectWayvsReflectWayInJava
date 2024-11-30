@@ -1,11 +1,13 @@
 package org.magisterium.Classes.ReflectWay;
 
+import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Classes.Banks.Bank;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-
+@BankInfo(description = " Parent class of banks ")
 public class ReflectionAccessHandler {
     private final Bank bank;
 
@@ -30,6 +32,26 @@ public class ReflectionAccessHandler {
                 System.out.println(constructor);
             }
 
+
+            // wysswietl annotacje
+
+            Annotation[] annotations = bankClass.getAnnotations();
+
+
+            for(Annotation annotation : annotations){
+                if(annotation instanceof BankInfo){
+                    BankInfo myAnnotation = (BankInfo) annotation;
+                    System.out.println("name: " + myAnnotation.description());
+                    System.out.println("value: " + myAnnotation);
+
+
+
+                }
+            }
+
+
+
+
             // Dostęp do pól za pomocą refleksji
             Field[] fields = bankClass.getDeclaredFields();
             System.out.println("\nPola:");
@@ -45,13 +67,25 @@ public class ReflectionAccessHandler {
     }
 
     private void printFieldDetails(Field field, Object value) {
-        boolean isPrivate = !field.canAccess(bank);
+        String accessModifier;
+
+        int modifiers = field.getModifiers();
+        if (Modifier.isPublic(modifiers)) {
+            accessModifier = "Public";
+        } else if (Modifier.isProtected(modifiers)) {
+            accessModifier = "Protected";
+        } else if (Modifier.isPrivate(modifiers)) {
+            accessModifier = "Private";
+        } else {
+            accessModifier = "Package-Private"; // Domyślny dostęp
+        }
+
         System.out.printf(
                 "Pole: %-20s Wartość: %-20s Typ: %-10s Dostęp: %s%n",
                 field.getName(),
                 value != null ? value : "null",
                 field.getType().getSimpleName(),
-                isPrivate ? "Access Denied" : "Public"
+                accessModifier
         );
     }
 }
