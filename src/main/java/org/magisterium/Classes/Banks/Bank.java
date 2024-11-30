@@ -12,7 +12,7 @@ import org.magisterium.Annotations.BankInfo;
 
 @Data // Generuje gettery, settery, equals, hashCode i toString
 @AllArgsConstructor
-@BankInfo(description = " Parent class of banks ")
+
 public class Bank  implements BankAccount {
     private double balance;
     private  String passwordHash; // Przechowujemy tylko hash hasła
@@ -58,7 +58,7 @@ public class Bank  implements BankAccount {
 
     @Override
     public double getBalance() {
-        return 0;
+        return this.balance;
     }
 
     @Override

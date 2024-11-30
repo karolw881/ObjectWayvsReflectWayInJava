@@ -51,9 +51,112 @@ public class ObjectAccessHandler {
                 return;
             }
 
-            System.out.println(getFieldValueObjectively(fieldChoice));
+            handleFieldAccess(fieldChoice, scanner);
         }
     }
+    public void handleFieldAccess(String fieldChoice, Scanner scanner) {
+        while (true) {
+            String accessChoice = displayFieldAccessMenu(fieldChoice, scanner);
+
+            if ("0".equals(accessChoice)) {
+                break;
+            }
+
+            switch (fieldChoice) {
+                case "1":
+                    handleBalanceAccess(accessChoice, scanner);
+                    break;
+                case "2":
+                    handleUsernameAccess(accessChoice, scanner);
+                    break;
+                case "3":
+                    handleAccountCreationDateAccess(accessChoice);
+                    break;
+                case "4":
+                    handlePasswordAccess(accessChoice, scanner);
+                    break;
+                case "5":
+                    handleActivityStatusAccess(accessChoice, scanner);
+                    break;
+            }
+        }
+    }
+
+    private void handleBalanceAccess(String accessChoice, Scanner scanner) {
+        switch (accessChoice) {
+            case "1":
+                System.out.println(
+                        Ansi.ansi()
+                                .fg(Ansi.Color.RED)
+                                .bold()
+                                .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
+                                .reset().toString()
+                );
+
+                break;
+            case "2":
+                System.out.println("💰 Saldo: " + bank.getBalance());
+                break;
+            case "3":
+                System.out.print("Podaj nowe saldo: ");
+                try {
+                    double newBalance = Double.parseDouble(scanner.nextLine());
+                     bank.setBalance(newBalance);  // Odkomentować, gdy Bank będzie miał metodę setBalance
+                    System.out.println("✅ Saldo zostało zaktualizowane.");
+                } catch (NumberFormatException e) {
+                    System.out.println("❌ Nieprawidłowy format kwoty.");
+                }
+                break;
+        }
+    }
+
+    private String displayFieldAccessMenu(String fieldChoice, Scanner scanner) {
+        String fieldName = getFieldName(fieldChoice);
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.MAGENTA)
+                        .bold()
+                        .a("\n╔══════════════════════════════════════════════════════╗")
+                        .reset().toString()
+        );
+
+
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.MAGENTA)
+                        .bold()
+                        .a("║   DOSTĘP DO POLA: " + fieldName + "                              ║")
+                        .reset().toString()
+        );
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.MAGENTA)
+                        .bold()
+                        .a("╚══════════════════════════════════════════════════════╝")
+                        .reset().toString()
+        );
+
+        System.out.println(Ansi.ansi().fg(Ansi.Color.RED).a("1. Bezpośredni dostęp").reset());
+        System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("2. Wyświetl wartość (Getter)").reset());
+        System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("3. Ustaw wartość (Setter)").reset());
+        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("0. Powrót do menu głównego").reset());
+
+        System.out.print(
+                Ansi.ansi()
+                        .fg(Ansi.Color.CYAN)
+                        .bold()
+                        .a("\n=> Twój wybór: ")
+                        .reset().toString()
+        );
+
+        return getNormalizedChoice(scanner.nextLine());
+    }
+
+
+
 
     private String displayFieldMenu(Scanner scanner) {
         // Losowy cytat
@@ -80,7 +183,7 @@ public class ObjectAccessHandler {
                 Ansi.ansi()
                         .fg(Ansi.Color.MAGENTA)
                         .bold()
-                        .a("║   DOSTĘP DO DANYCH    ║")
+                        .a("║   DOSTĘP DO DANYCH     ║")
                         .reset().toString()
         );
 
@@ -182,22 +285,108 @@ public class ObjectAccessHandler {
         }
     }
 
-    private String getFieldValueObjectively(String choice) {
-        switch (choice) {
-            case "1": return safelyGetBalance();
-            case "2": return "Nazwa użytkownika: " + bank.getUsername();
-            case "3": return "Data utworzenia konta: " + bank.getAccountCreationDate();
-            case "4": return "Dostęp do pola 'Hasło': Access Denied!";
-            case "5": return "Status aktywności: " + bank.isActive();
-            default: return "Nieprawidłowy wybór.";
+
+
+
+    private void handleUsernameAccess(String accessChoice, Scanner scanner) {
+        switch (accessChoice) {
+            case "1":
+
+
+                System.out.println(
+                        Ansi.ansi()
+                                .fg(Ansi.Color.RED)
+                                .bold()
+                                .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
+                                .reset().toString()
+                );
+
+
+                break;
+            case "2":
+                System.out.println("👤 Nazwa użytkownika: " + bank.getUsername());
+                break;
+            case "3":
+                System.out.print("Podaj nową nazwę użytkownika: ");
+                String newUsername = scanner.nextLine();
+                // bank.setUsername(newUsername);  // Odkomentować, gdy Bank będzie miał metodę setUsername
+                System.out.println("✅ Nazwa użytkownika została zaktualizowana.");
+                break;
         }
     }
 
-    private String safelyGetBalance() {
-        try {
-            return "Saldo: " + bank.getBalance();
-        } catch (Exception e) {
-            return "Access Denied: Pole prywatne!";
+    private void handleAccountCreationDateAccess(String accessChoice) {
+        switch (accessChoice) {
+            case "1":
+                System.out.println("🚫 Bezpośredni dostęp do daty utworzenia: Access Denied!");
+                break;
+            case "2":
+                System.out.println("📅 Data utworzenia konta: " + bank.getAccountCreationDate());
+                break;
+            case "3":
+                System.out.println("❌ Nie można modyfikować daty utworzenia konta.");
+                break;
+        }
+    }
+
+    private void handlePasswordAccess(String accessChoice, Scanner scanner) {
+        switch (accessChoice) {
+            case "1":
+                System.out.println(
+                        Ansi.ansi()
+                                .fg(Ansi.Color.RED)
+                                .bold()
+                                .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
+                                .reset().toString()
+                );
+                break;
+            case "2":
+                System.out.println("🔒 Status hasła: Chronione  ");
+                break;
+            case "3":
+                System.out.print("Podaj nowe hasło: ");
+                String newPassword = scanner.nextLine();
+                // bank.setPassword(newPassword);  // Odkomentować, gdy Bank będzie miał metodę setPassword
+                System.out.println("✅ Hasło zostało zaktualizowane.");
+                break;
+        }
+    }
+
+    private void handleActivityStatusAccess(String accessChoice, Scanner scanner) {
+        switch (accessChoice) {
+            case "1":
+                System.out.println(
+                        Ansi.ansi()
+                                .fg(Ansi.Color.RED)
+                                .bold()
+                                .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
+                                .reset().toString()
+                );
+                break;
+            case "2":
+                System.out.println("⚡ Status aktywności: " + bank.isActive());
+                break;
+            case "3":
+                System.out.print("Podaj nowy status aktywności (true/false): ");
+                try {
+                    boolean newStatus = Boolean.parseBoolean(scanner.nextLine());
+                    // bank.setActive(newStatus);  // Odkomentować, gdy Bank będzie miał metodę setActive
+                    System.out.println("✅ Status aktywności został zaktualizowany.");
+                } catch (Exception e) {
+                    System.out.println("❌ Nieprawidłowy format statusu.");
+                }
+                break;
+        }
+    }
+
+    private String getFieldName(String choice) {
+        switch (choice) {
+            case "1": return "SALDO";
+            case "2": return "NAZWA UŻYTKOWNIKA";
+            case "3": return "DATA UTWORZENIA";
+            case "4": return "HASŁO";
+            case "5": return "STATUS AKTYWNOŚCI";
+            default: return "NIEZNANE";
         }
     }
 }
