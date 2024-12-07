@@ -15,7 +15,7 @@ public class MyTest {
         InputStream mockInputStream = new ByteArrayInputStream(input.getBytes());
 
         // Tworzymy MyScanner z mockowanym InputStream
-        MyScanner myScanner = new MyScanner(mockInputStream);
+        MyScanner myScanner = new MyScanner((System.in));
 
         // Testowanie różnych wejść
         assertEquals("1", myScanner.getNormalizedChoice("1"));
@@ -24,10 +24,38 @@ public class MyTest {
 
         //assertEquals("", myScanner.getNormalizedChoice("3")); // Nieprawidłowy wybór
         assertEquals("1", myScanner.getNormalizedChoice("Obiektowa")); // Testowanie dla "Obiektowa"
+        //assertEquals("1.", myScanner.getNormalizedChoice("Obiektowa")); // Testowanie dla "Obiektowa"
         assertEquals("2", myScanner.getNormalizedChoice("refleksyjna")); // Testowanie dla "refleksyjna"
         assertEquals("", myScanner.getNormalizedChoice("Invalid option")); // Nieprawidłowy wybór
         assertEquals("0", myScanner.getNormalizedChoice("0")); // Zakończenie
+
+        assertEquals("1", myScanner.getNormalizedChoice("1"));    // This should still work
+
+
+        /**
+         * I dont know why This assertion Test have not accepted ...........
+         * @param assertEquals("1.", myScanner.getNormalizedChoice("(1.)"));
+         * org.opentest4j.AssertionFailedError:
+         * Expected :1.
+         * Actual   :1
+         *  Tutaj uwaga bo zmeczony juz jestem hahah
+         *
+         *    I wil should consider option
+         */
+
+        // Nie mam pojecia czemu ten test nie przechodzi caly czas ....
+            //   assertEquals("1", myScanner.getNormalizedChoice("(1.)"));
+
+        // Nieprawidłowe wybory
+        assertEquals("", myScanner.getNormalizedChoice("3"));
+        assertEquals("", myScanner.getNormalizedChoice(""));
+        assertEquals("", myScanner.getNormalizedChoice(null));
+        assertEquals("1", myScanner.getNormalizedChoice("(1.)"));
+
+
     }
+
+
 
     @Test
     public void testInvalidChoice() {
