@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 @BankInfo(description = " Parent class of banks ")
 public class ReflectionAccessHandler {
-    private final Bank bank;
+    protected final Bank bank;
 
     public ReflectionAccessHandler(Bank bank) {
         this.bank = bank;

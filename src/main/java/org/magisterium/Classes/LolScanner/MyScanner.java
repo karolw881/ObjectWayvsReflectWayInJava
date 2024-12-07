@@ -4,6 +4,7 @@ import org.fusesource.jansi.Ansi;
 import org.magisterium.Classes.Banks.Bank;
 import org.magisterium.Classes.ObjectWay.ObjectAccessHandler;
 import org.magisterium.Classes.ReflectWay.ReflectionAccessHandler;
+import org.magisterium.Classes.ReflectWay.ReflectionAccessHandlerChild;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -13,20 +14,23 @@ public class MyScanner {
     private String[] EPIC_SLOGANS = {
             "Hakuj jak prawdziwy władca kodu!",
             "Programowanie to Twoje królestwo!",
+            "Zatwierdz Enterem",
+            "Cofnij Zerem",
+            "1 , 1. , 2. , 2.  , (1) , (1.)   Dozwolone",
             "Złam system, nie zasady!",
-            "Kod to Twoja broń, compile to Twój sojusznik!"
+
     };
 
     private final Bank bank;
     private final ObjectAccessHandler objectAccessHandler;
-    private final ReflectionAccessHandler reflectionAccessHandler;
+    private final ReflectionAccessHandlerChild reflectionAccessHandlerChild;
 
 
     public MyScanner(InputStream in) {
         this.scanner = new Scanner(in);
         this.bank = new Bank(1000, "janek", "tajneHaslo123");
         this.objectAccessHandler = new ObjectAccessHandler(bank);
-        this.reflectionAccessHandler = new ReflectionAccessHandler(bank);
+        this.reflectionAccessHandlerChild = new ReflectionAccessHandlerChild(bank);
     }
 
     public void run() {
@@ -44,7 +48,7 @@ public class MyScanner {
             if ("1".equals(choice)) {
                 objectAccessHandler.handleAccess();
             } else if ("2".equals(choice)) {
-                reflectionAccessHandler.handleAccess();
+                reflectionAccessHandlerChild.handleAccess();
             } else if ("0".equals(choice)) {
                 System.out.println("Zakończono.");
                 return;
@@ -105,13 +109,49 @@ public class MyScanner {
 
             return scanner.nextLine();
         }
+
+
+
+    /**
+     * Normalizuje wybór użytkownika do standardowego formatu
+     * @param input String zawierający wybór użytkownika (może zawierać kropkę i nawiasy)
+     * @return znormalizowany string ("1", "2", "0" lub "" dla błędnego wyboru)
+     */
     public String getNormalizedChoice(String input) {
-        String normalized = input.strip().replace(".", "").toLowerCase();
-        switch (normalized) {
-            case "1": case "obiektowa": return "1";
-            case "2": case "refleksyjna": return "2";
-            case "0": case "zakończ": return "0";
-            default: return ""; // W przypadku nieprawidłowego wyboru
+        if (input == null) {
+            return "";
         }
-    }
-}
+
+        // Przygotuj string do normalizacji
+        String trimmed = input.strip();
+
+        // Usuń nawiasy i spacje, zachowując kropkę na końcu jeśli istnieje
+        String withoutBrackets = trimmed
+                .replace("(", "")
+                .replace(")", "")
+                .toLowerCase();
+
+        // Usuń kropkę tylko jeśli nie jest ostatnim znakiem
+        String normalized = withoutBrackets;
+        if (!withoutBrackets.endsWith(".")) {
+            normalized = withoutBrackets.replace(".", "");
+        }
+
+        // Usuń kropkę do porównania w switch
+        String forSwitch = normalized.replace(".", "");
+
+        switch (forSwitch) {
+            case "1":
+            case "obiektowa":
+                return "1";
+            case "2":
+            case "refleksyjna":
+                return "2";
+            case "0":
+            case "zakończ":
+            case "zakonicz":
+                return "0";
+            default:
+                return "";
+        }
+    }}
