@@ -193,6 +193,32 @@ BankApp
         └── MyTest.java
 
 
+        BankApp
+├── main
+│   └── java
+│       └── org.magisterium
+│           ├── Annotations
+│           │   └── BankInfo.java
+│           ├── Classes
+│           │   ├── Banks
+│           │   │   └── Bank.java
+│           │   ├── LoLScanner
+│           │   │   └── MyScanner.java
+│           │   ├── ObjectWay
+│           │   │   └── ObjectAccessHandler.java
+│           │   └── ReflectWay
+│           │       ├── ReflectionAccessHandler.java
+│           │       └── ReflectionAccessHandlerChild.java
+│           ├── Interfaces
+│           │   └── BankAccount.java
+│           └── Main
+│               └── Main.java
+├── resources
+└── test
+    └── java
+        └── MyTest.java
+
+
 Przyszłe Plany
 
     Implementacja nowych funkcjonalności w części refleksyjnej
