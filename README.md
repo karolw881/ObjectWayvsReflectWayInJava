@@ -1,6 +1,6 @@
 
 
-#  Programowanie Obiektowe a Refleksja w Javie
+#  Programowanie Obiektowe versus Programowanie Refleksyjne w Javie
 
 
 
