@@ -1,4 +1,4 @@
-![obraz](https://github.com/user-attachments/assets/d1c07b39-fb6a-4039-ab4a-b328cc2e28c4)﻿# OBjectvsReflect
+
 
 #  Programowanie Obiektowe a Refleksja w Javie
 
@@ -25,6 +25,7 @@ W ramach tej części projektu zaimplementowano różne aplikacje w języku Java
 
 - **Zadania z refleksją**: Programy wykorzystujące mechanizmy refleksji w Javie do manipulacji .
 - **Zadanie obiektowe **:  typowe podejscie oop
+ 
 
 ### 3. **Testowanie jednostkowe w Javie z JUnit**
 
@@ -70,9 +71,11 @@ Aby uruchomić projekt, upewnij się, że masz zainstalowane:
 
 - **Maven**: Narzędzie do zarządzania zależnościami i budowaniem projektów w Javie.
 - **Git**: System kontroli wersji do zarządzania kodem.
+![obraz](https://github.com/user-attachments/assets/d1c07b39-fb6a-4039-ab4a-b328cc2e28c4)﻿# OBjectvsReflect
 ![obraz](https://github.com/user-attachments/assets/28f81e08-cad3-4641-ba7f-cf52119ffc44)
 ![obraz](https://github.com/user-attachments/assets/62dc6ed0-d523-4e93-989b-dcd44ba24b19)
 ![obraz](https://github.com/user-attachments/assets/c781bbe3-bd2c-4201-9cd9-ff98655d8c4d)
+
 
 
 ObjectvsReflect - Dokumentacja Rozwoju Projektu
