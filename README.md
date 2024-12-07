@@ -165,7 +165,7 @@ Nowe Zależności
     <!-- inne zależności... -->
 </dependencies>
 
-Struktura Projektu
+
 
 BankApp
 ├── main
