@@ -68,5 +68,8 @@ public class MyTest {
 
         // Sprawdzamy, czy wynik jest pusty
         assertEquals("", myScanner.getNormalizedChoice("abc"));
+
+
+
     }
 }
