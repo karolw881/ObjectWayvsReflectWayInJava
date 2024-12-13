@@ -116,7 +116,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
 
     private void ChooseAllDataFields(Scanner scanner) {
-        while (true) {
+
             DisplayDataFields();
             String specificChoice = getNormalizedChoice(scanner.nextLine());
 
@@ -126,7 +126,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
             }
 
             handleFieldAccess(specificChoice, scanner);
-        }
+
     }
 
     private void DisplayDataFields() {
@@ -149,8 +149,9 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
     //
 
+    /*
 
-    private String displayFieldAccessMenu(String fieldChoice, Scanner scanner) {
+    private void displayFieldAccessMenu(String fieldChoice, Scanner scanner) {
         String fieldName = getFieldName2(fieldChoice);
 
         System.out.println(
@@ -194,104 +195,95 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
 
         if (fieldChoice == "1"){
-            handleBalanceAccess(fieldChoice, scanner);
+            handleBalanceAccess( scanner);
         }
-        return getNormalizedChoice(scanner.nextLine());
+        //return getNormalizedChoice(scanner.nextLine());
+
 
     }
 
 
+     */
 
-    // przechwyc wybor dostep do dancyhg
+
+
+
+
+
+
+
     public void handleFieldAccess(String fieldChoice, Scanner scanner) {
-        while (true) {
-            String accessChoice = displayFieldAccessMenu(fieldChoice, scanner);
 
-            switch (accessChoice) {
-                case "1":
-                    // Wywołaj metody dla balance
-                    handleBalanceAccess(accessChoice, scanner);
-                    break;
-                case "2":
-                    handleUsernameAccess(accessChoice, scanner);
-                    break;
-                case "3":
-                    handleAccountCreationDateAccess(accessChoice);
-                    break;
-                case "4":
-                    handlePasswordAccess(accessChoice);
-                    break;
-                case "5":
-                    handleUsernameAccess(accessChoice, scanner);
-                    break;
-                case "0":
-                    System.out.println("Powrót do poprzedniego menu");
-                    return; // Zakończ metodę i powrót do poprzedniego menu
-                default:
-                    System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
-            }
+
+        switch (fieldChoice) {
+            case "1" -> handleBalanceAccess(scanner);
+            case "2", "5" -> handleUsernameAccess(fieldChoice, scanner);
+            case "3" -> handleAccountCreationDateAccess(fieldChoice);
+            case "4" -> handlePasswordAccess(fieldChoice);
+            case "0" -> {
+                ChooseAllDataFields(scanner);  }
+            default -> System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
         }
-    }
 
+
+    }
 
     //
 
+    private void handleBalanceAccess( Scanner scanner) {
 
-    private void handleBalanceAccess(String accessChoice, Scanner scanner) {
-        while (true) {
             System.out.println("1. Odczytaj 'balance'");
             System.out.println("2. Ustaw 'balance'");
             System.out.println("0. Powrót");
 
             System.out.print("Wybierz opcję: ");
-            String choice = scanner.nextLine();
+            String choice = getNormalizedChoice(scanner.nextLine());
+
 
             switch (choice) {
                 case "1":
-                    handleBalaneAccessGet(); // Wyświetlenie wartości balance
+                    handleBalaneAccessGet(scanner);
                     break;
                 case "2":
-                    handleBalanceAccessSet(scanner); // Ustawienie nowej wartości balance
+                    handleBalanceAccessSet(scanner);
                     break;
                 case "0":
-                    System.out.println("Powrót do poprzedniego menu... Wcisni 0 jeszcze raz");
-                    return; // Wyjście z tej metody i powrót do poprzedniego menu
+                    ChooseAllDataFields(scanner);
+
+                    break;
                 default:
                     System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
-            }
+
         }
     }
 
     // Metoda do ustawienia wartości pola "balance" za pomocą metody settera
 
-        private void handleBalanceAccessSet(Scanner scanner) {
-            try {
-                System.out.print("🔄 Wprowadź nową wartość pola 'balance': ");
-                double newBalanceValue = scanner.nextDouble();
-                scanner.nextLine(); // Pobierz pozostały znak nowej linii po `nextDouble`
+    private void handleBalanceAccessSet(Scanner scanner) {
+        try {
+            System.out.print("🔄 Wprowadź nową wartość pola 'balance': ");
+            double newBalanceValue = scanner.nextDouble();
+            scanner.nextLine(); // Pobierz pozostały znak nowej linii po `nextDouble`
 
-                // Pobranie klasy obiektu bank
-                Class<?> bankClass = bank.getClass();
+            // Pobranie klasy obiektu bank
+            Class<?> bankClass = bank.getClass();
 
-                // Pobranie metody setBalance
-                Method setBalanceMethod = bankClass.getMethod("setBalance", double.class);
+            // Pobranie metody setBalance
+            Method setBalanceMethod = bankClass.getMethod("setBalance", double.class);
 
-                // Wywołanie metody setBalance na instancji obiektu bank
-                setBalanceMethod.invoke(bank, newBalanceValue);
+            // Wywołanie metody setBalance na instancji obiektu bank
+            setBalanceMethod.invoke(bank, newBalanceValue);
 
-                System.out.println("🔄 Wartość pola 'balance' została ustawiona na: " + newBalanceValue);
-            } catch (NoSuchMethodException e) {
-                System.out.println("❌ Metoda 'setBalance' nie istnieje.");
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                System.out.println("❌ Błąd podczas wywołania metody 'setBalance'.");
-                e.printStackTrace();
-        } finally {
-            scanner.close(); // Zamknięcie Scannera, aby uniknąć wycieków zasobów
-        }
-    }
+            System.out.println("🔄 Wartość pola 'balance' została ustawiona na: " + newBalanceValue);
+        } catch (NoSuchMethodException e) {
+            System.out.println("❌ Metoda 'setBalance' nie istnieje.");
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            System.out.println("❌ Błąd podczas wywołania metody 'setBalance'.");
+            e.printStackTrace();
+        }}
 
 
-    private void handleBalaneAccessGet() {
+    private void handleBalaneAccessGet(Scanner s) {
         try {
             // Pobranie klasy obiektu bank
             Class<?> bankClass = bank.getClass();
@@ -307,6 +299,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
 
             System.out.println("💰 balance/saldo : " + balanceValue);
+            ChooseAllDataFields(s);
         } catch (NoSuchFieldException e) {
             System.out.println("❌ Pole 'username' nie istnieje.");
         } catch (IllegalAccessException e) {
@@ -502,59 +495,55 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
     /* PASSWORD  */
     private void handlePasswordAccess(String accessChoice) {
-        switch (accessChoice) {
-            case "1":
-                try {
-                    // Pobranie klasy obiektu bank
-                    Class<?> bankClass = bank.getClass();
 
-                    // Pobranie pola "balance"
-                    Field passwordHashField = bankClass.getDeclaredField("passwordHash");
+            switch (accessChoice) {
+                case "1":
+                    try {
+                        // Pobranie klasy obiektu bank
+                        Class<?> bankClass = bank.getClass();
 
-                    // Ustawienie dostępu do prywatnego pola
-                    passwordHashField.setAccessible(true);
+                        // Pobranie pola "balance"
+                        Field passwordHashField = bankClass.getDeclaredField("passwordHash");
 
-                    // Odczytanie wartości pola "balance" z instancji obiektu bank
-                    Object balanceValue = passwordHashField.get(bank);
+                        // Ustawienie dostępu do prywatnego pola
+                        passwordHashField.setAccessible(true);
+
+                        // Odczytanie wartości pola "balance" z instancji obiektu bank
+                        Object balanceValue = passwordHashField.get(bank);
 
 
-                    System.out.println("💰 password: " + balanceValue);
-                } catch (NoSuchFieldException e) {
-                    System.out.println("❌ Pole 'balance' nie istnieje.");
-                } catch (IllegalAccessException e) {
-                    System.out.println("❌ Brak dostępu do pola 'balance'.");
-                }
-                break;
-            case "2":
-                try {
-                    // Pobranie klasy obiektu bank
-                    Class<?> bankClass = bank.getClass();
+                        System.out.println("💰 password: " + balanceValue);
+                    } catch (NoSuchFieldException e) {
+                        System.out.println("❌ Pole 'balance' nie istnieje.");
+                    } catch (IllegalAccessException e) {
+                        System.out.println("❌ Brak dostępu do pola 'balance'.");
+                    }
+                    break;
+                case "2":
+                    try {
+                        // Pobranie klasy obiektu bank
+                        Class<?> bankClass = bank.getClass();
 
-                    // Pobranie pola passwordHash
-                    Field passwordHash = bankClass.getDeclaredField("passwordHash");
+                        // Pobranie pola passwordHash
+                        Field passwordHash = bankClass.getDeclaredField("passwordHash");
 
-                    // Ustawienie dostępu do prywatnego pola
-                    passwordHash.setAccessible(true);
+                        // Ustawienie dostępu do prywatnego pola
+                        passwordHash.setAccessible(true);
 
-                    // Odczytanie wartości pola "balance" z instancji obiektu bank
-                    Object balanceValue = passwordHash.get(bank);
-                   // balanceValue.set(bank, 12);
+                        // Odczytanie wartości pola "balance" z instancji obiektu bank
+                        Object balanceValue = passwordHash.get(bank);
+                        // balanceValue.set(bank, 12);
 
-                    System.out.println("💰 Balance: " + balanceValue);
-                } catch (NoSuchFieldException e) {
-                    System.out.println("❌ Pole 'balance' nie istnieje.");
-                } catch (IllegalAccessException e) {
-                    System.out.println("❌ Brak dostępu do pola 'balance'.");
-                }
-                break;
+                        System.out.println("💰 Balance: " + balanceValue);
+                    } catch (NoSuchFieldException e) {
+                        System.out.println("❌ Pole 'balance' nie istnieje.");
+                    } catch (IllegalAccessException e) {
+                        System.out.println("❌ Brak dostępu do pola 'balance'.");
+                    }
 
+
+            }
         }
-    }
-
-
-
-
-
 
 
 
