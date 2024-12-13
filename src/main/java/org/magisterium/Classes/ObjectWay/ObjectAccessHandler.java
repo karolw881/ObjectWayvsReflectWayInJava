@@ -85,7 +85,7 @@ public class ObjectAccessHandler {
                 System.out.print("Podaj nowe saldo: ");
                 try {
                     double newBalance = Double.parseDouble(scanner.nextLine());
-                     bank.setBalance(newBalance);  // Odkomentować, gdy Bank będzie miał metodę setBalance
+                    bank.setBalance(newBalance);  // Odkomentować, gdy Bank będzie miał metodę setBalance
                     System.out.println("✅ Saldo zostało zaktualizowane.");
                 } catch (NumberFormatException e) {
                     System.out.println("❌ Nieprawidłowy format kwoty.");
