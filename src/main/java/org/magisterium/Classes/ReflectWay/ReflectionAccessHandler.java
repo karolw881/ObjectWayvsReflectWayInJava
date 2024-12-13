@@ -3,6 +3,7 @@ package org.magisterium.Classes.ReflectWay;
 import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Classes.Banks.Bank;
 
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -10,6 +11,7 @@ import java.lang.reflect.Modifier;
 @BankInfo(description = " Parent class of banks ")
 public class ReflectionAccessHandler {
     protected final Bank bank;
+
 
     public ReflectionAccessHandler(Bank bank) {
         this.bank = bank;

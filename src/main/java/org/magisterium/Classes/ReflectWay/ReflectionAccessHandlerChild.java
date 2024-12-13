@@ -4,6 +4,9 @@ import org.fusesource.jansi.Ansi;
 import org.magisterium.Classes.Banks.Bank;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -13,24 +16,39 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
         super(bank);
     }
 
+
+
+
     private final String[] DATA_ACCESS_QUOTES = {
             "🔐 Dostęp do skarbca danych...",
             "📊 Panel kontrolny aktywowany...",
             "🎯 Wybierz cel swojej operacji...",
             "💫 Przygotuj się do inspekcji..."
     };
+    private final Map<String, String> FIELD_ICONS2 = Map.of(
+            "wszystkie", "⚡⚡⚡",
+            "konstruktory", "⚡⚡",
+            "annotacje", "⚡"
 
-
-    private final Map<String, String> FIELD_ICONS = Map.of(
-            "Saldo [Stan konta]", "💰",
-            "Nazwa użytkownika [Identyfikator]", "👤",
-            "Data utworzenia konta [Historia]", "📅",
-            "Hasło [Poufne]", "⚡",
-            "Status aktywności", "[Monitoring]"
     );
 
+    private Map<String, String> createFieldIcons() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("Saldo [Stan konta]", "💰");
+        map.put("Nazwa użytkownika [Identyfikator]", "👤");
+        map.put("Data utworzenia konta [Historia]", "📅");
+        map.put("Hasło [Poufne]", "⚡");
+        map.put("Status aktywności", "[Monitoring]");
+        return map;
+    }
+
+
+    private final Map<String, String> FIELD_ICONS = createFieldIcons();
+
+
+
     public void handleAccess() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // Scanner zarządzany na poziomie głównym
         while (true) {
             String fieldChoice = getNormalizedChoice(displayFieldMenu(scanner));
 
@@ -39,18 +57,108 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                 return;
             }
 
-            handleFieldAccess(fieldChoice, scanner);
+            if ("1".equals(fieldChoice)) { // Dostęp do danych
+                ChooseAllDataFields(scanner);
+            }
+            // Możesz dodać obsługę innych opcji tutaj:
+            // 2 dla konstruktorów
+            // 3 dla annotacji
         }
     }
 
-    private String displayFieldAccessMenu(String fieldChoice, Scanner scanner) {
+
+
+
+
+    public String getNormalizedChoice(String input) {
+        String normalized = input.strip().replace(".", "").toLowerCase();
+        switch (normalized) {
+            case "1":
+                return "1";
+            case "2":
+                return "2";
+            case "3":
+                return "3";
+            case "4":
+                return "4";
+            case "5":
+                return "5";
+            case "0":
+                return "0";
+            default:
+                return ""; // W przypadku nieprawidłowego wyboru
+        }
+
+
+    }
+
+
+    private String getFieldName2(String choice) {
+        switch (choice) {
+            case "1":
+                return "Saldo [Stan konta]";
+            case "2":
+                return "Nazwa użytkownika [Identyfikator]";
+            case "3":
+                return "Data utworzenia konta [Historia]";
+            case "4":
+                return "Hasło [Poufne] ";
+            case "5":
+                return "Status aktywności";
+            default:
+                return "";
+
+        }
+    }
+
+
+
+
+
+    private void ChooseAllDataFields(Scanner scanner) {
+
+            DisplayDataFields();
+            String specificChoice = getNormalizedChoice(scanner.nextLine());
+
+            if ("0".equals(specificChoice)) {
+                System.out.println("Powrót do menu głównego.");
+                return; // Wyjście do menu głównego
+            }
+
+            handleFieldAccess(specificChoice, scanner);
+
+    }
+
+    private void DisplayDataFields() {
+        System.out.println("\n⚡⚡⚡ Wybrano: Dostęp do danych ⚡⚡⚡\n");
+
+        // Jeśli FIELD_ICONS to LinkedHashMap, kolejność wstawiania jest zachowana
+        FIELD_ICONS.forEach((key, value) ->
+                System.out.println(value + " " + key)
+        );
+
+        System.out.print(
+                Ansi.ansi()
+                        .fg(Ansi.Color.CYAN)
+                        .bold()
+                        .a("\nWybierz pole z powyższej listy: ")
+                        .reset().toString()
+        );
+    }
+
+
+    //
+
+    /*
+
+    private void displayFieldAccessMenu(String fieldChoice, Scanner scanner) {
         String fieldName = getFieldName2(fieldChoice);
 
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.MAGENTA)
                         .bold()
-                        .a("\n╔══════════════════════════════════════════════════════╗")
+                        .a("\n══════════════════════════════════════════════════════")
                         .reset().toString()
         );
 
@@ -59,7 +167,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                 Ansi.ansi()
                         .fg(Ansi.Color.MAGENTA)
                         .bold()
-                        .a("║   DOSTĘP DO : " + fieldName + "                              ║")
+                        .a("   DOSTĘP DO : " + fieldName + "                              ")
                         .reset().toString()
         );
 
@@ -67,14 +175,9 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                 Ansi.ansi()
                         .fg(Ansi.Color.MAGENTA)
                         .bold()
-                        .a("╚══════════════════════════════════════════════════════╝")
+                        .a("════════════════════════════════════════════════")
                         .reset().toString()
         );
-
-        System.out.println(Ansi.ansi().fg(Ansi.Color.RED).a("1. Bezpośredni dostęp").reset());
-        System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("2. Wyświetl wartość (Getter)").reset());
-        System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("3. Ustaw wartość (Setter)").reset());
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("0. Powrót do menu głównego").reset());
 
         System.out.print(
                 Ansi.ansi()
@@ -84,41 +187,126 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                         .reset().toString()
         );
 
-        return getNormalizedChoice(scanner.nextLine());
+
+        if (fieldChoice == "0"){
+            DisplayDataFields();
+            handleFieldAccess(fieldChoice,scanner);
+        }
+
+
+        if (fieldChoice == "1"){
+            handleBalanceAccess( scanner);
+        }
+        //return getNormalizedChoice(scanner.nextLine());
+
 
     }
+
+
+     */
+
+
+
+
+
+
 
 
     public void handleFieldAccess(String fieldChoice, Scanner scanner) {
-        while (true) {
-            String accessChoice = displayFieldAccessMenu(fieldChoice, scanner);
 
-            if ("0".equals(accessChoice)) {
-                break;
-            }
 
-            switch (fieldChoice) {
+        switch (fieldChoice) {
+            case "1" -> handleBalanceAccess(scanner);
+            case "2", "5" -> handleUsernameAccess(fieldChoice, scanner);
+            case "3" -> handleAccountCreationDateAccess(fieldChoice);
+            case "4" -> handlePasswordAccess(fieldChoice);
+            case "0" -> {
+                ChooseAllDataFields(scanner);  }
+            default -> System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
+        }
+
+
+    }
+
+    //
+
+    private void handleBalanceAccess( Scanner scanner) {
+
+            System.out.println("1. Odczytaj 'balance'");
+            System.out.println("2. Ustaw 'balance'");
+            System.out.println("0. Powrót");
+
+            System.out.print("Wybierz opcję: ");
+            String choice = getNormalizedChoice(scanner.nextLine());
+
+
+            switch (choice) {
                 case "1":
-                    handleBalanceAccess(accessChoice, scanner);
+                    handleBalaneAccessGet(scanner);
                     break;
                 case "2":
-                    handleUsernameAccess(accessChoice, scanner);
+                    handleBalanceAccessSet(scanner);
                     break;
-                case "3":
-                    handleAccountCreationDateAccess(accessChoice);
+                case "0":
+                    ChooseAllDataFields(scanner);
+
                     break;
-                case "4":
-                    handlePasswordAccess(accessChoice, scanner);
-                    break;
-                case "5":
-                    handleActivityStatusAccess(accessChoice, scanner);
-                    break;
-            }
+                default:
+                    System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
+
         }
     }
 
+    // Metoda do ustawienia wartości pola "balance" za pomocą metody settera
 
-    /*    Glowne Menu    */
+    private void handleBalanceAccessSet(Scanner scanner) {
+        try {
+            System.out.print("🔄 Wprowadź nową wartość pola 'balance': ");
+            double newBalanceValue = scanner.nextDouble();
+            scanner.nextLine(); // Pobierz pozostały znak nowej linii po `nextDouble`
+
+            // Pobranie klasy obiektu bank
+            Class<?> bankClass = bank.getClass();
+
+            // Pobranie metody setBalance
+            Method setBalanceMethod = bankClass.getMethod("setBalance", double.class);
+
+            // Wywołanie metody setBalance na instancji obiektu bank
+            setBalanceMethod.invoke(bank, newBalanceValue);
+
+            System.out.println("🔄 Wartość pola 'balance' została ustawiona na: " + newBalanceValue);
+        } catch (NoSuchMethodException e) {
+            System.out.println("❌ Metoda 'setBalance' nie istnieje.");
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            System.out.println("❌ Błąd podczas wywołania metody 'setBalance'.");
+            e.printStackTrace();
+        }}
+
+
+    private void handleBalaneAccessGet(Scanner s) {
+        try {
+            // Pobranie klasy obiektu bank
+            Class<?> bankClass = bank.getClass();
+
+            // Pobranie pola "username"
+            Field balance = bankClass.getDeclaredField("balance");
+
+            // Ustawienie dostępu do prywatnego pola
+            balance.setAccessible(true);
+
+            // Odczytanie wartości pola "username" z instancji obiektu bank
+            Object balanceValue = balance.get(bank);
+
+
+            System.out.println("💰 balance/saldo : " + balanceValue);
+            ChooseAllDataFields(s);
+        } catch (NoSuchFieldException e) {
+            System.out.println("❌ Pole 'username' nie istnieje.");
+        } catch (IllegalAccessException e) {
+            System.out.println("❌ Brak dostępu do pola 'username'.");
+        }
+
+    }
 
 
     private String displayFieldMenu(Scanner scanner) {
@@ -144,7 +332,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                 Ansi.ansi()
                         .fg(Ansi.Color.MAGENTA)
                         .bold()
-                        .a("║   DOSTĘP DO DANYCH     ║")
+                        .a("   DOSTĘP DO DANYCH     ")
                         .reset().toString()
         );
 
@@ -153,7 +341,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                 Ansi.ansi()
                         .fg(Ansi.Color.MAGENTA)
                         .bold()
-                        .a("════════════════════════")
+                        .a("════════════════════════ ")
                         .reset().toString()
         );
 
@@ -162,7 +350,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.GREEN)
-                        .a(FIELD_ICONS.get("wszystkie") + "1. wszystkie informacje o danych ")
+                        .a(FIELD_ICONS2.get("wszystkie") + "1.Dostep do danych ")
                         .reset().toString() +
                         Ansi.ansi()
                                 .fg(Ansi.Color.BLUE)
@@ -172,18 +360,18 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.YELLOW)
-                        .a(FIELD_ICONS.get("Konstruktory") + " 2. Konstruktory")
+                        .a(FIELD_ICONS2.get("konstruktory") + " 2. Konstruktory")
                         .reset().toString() +
                         Ansi.ansi()
                                 .fg(Ansi.Color.BLUE)
-                                .a(" [Dane o inicjalizacji]")
+                                .a(" [Dane o inicjalizacjach]")
                                 .reset().toString()
         );
 
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.CYAN)
-                        .a(FIELD_ICONS.get("data") + " 3. Annotacje ")
+                        .a(FIELD_ICONS2.get("annotacje") + "  3. Annotacje ")
                         .reset().toString() +
                         Ansi.ansi()
                                 .fg(Ansi.Color.BLUE)
@@ -191,6 +379,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                                 .reset().toString()
         );
 
+        /*
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.RED)
@@ -202,13 +391,15 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                                 .reset().toString()
         );
 
+         */
+
 
         // Opcja powrotu z efektem
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.RED)
                         .bold()
-                        .a("\n↩ 0. Powrót do menu głównego")
+                        .a("↩  0. Powrót do menu głównego")
                         .reset().toString()
         );
 
@@ -236,17 +427,17 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                     // Pobranie klasy obiektu bank
                     Class<?> bankClass = bank.getClass();
 
-                    // Pobranie pola "balance"
-                    Field balanceField = bankClass.getDeclaredField("username");
+                    // Pobranie pola "username"
+                    Field usernameField = bankClass.getDeclaredField("username");
 
                     // Ustawienie dostępu do prywatnego pola
-                    balanceField.setAccessible(true);
+                    usernameField.setAccessible(true);
 
-                    // Odczytanie wartości pola "balance" z instancji obiektu bank
-                    Object balanceValue = balanceField.get(bank);
+                    // Odczytanie wartości pola "username" z instancji obiektu bank
+                    Object usernameValue = usernameField.get(bank);
 
 
-                    System.out.println("💰 username: " + balanceValue);
+                    System.out.println("💰 username: " + usernameValue);
                 } catch (NoSuchFieldException e) {
                     System.out.println("❌ Pole 'username' nie istnieje.");
                 } catch (IllegalAccessException e) {
@@ -273,6 +464,8 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                     // Pobranie klasy obiektu bank
                     Class<?> bankClass = bank.getClass();
 
+                    // popraw na dtae
+
                     // Pobranie pola "balance"
                     Field balanceField = bankClass.getDeclaredField("username");
 
@@ -283,181 +476,78 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                     Object balanceValue = balanceField.get(bank);
 
 
-                    System.out.println("💰 username: " + balanceValue);
+                    System.out.println("💰 Saldo wynosi : " + balanceValue);
                 } catch (NoSuchFieldException e) {
-                    System.out.println("❌ Pole 'username' nie istnieje.");
+                    System.out.println("❌ Pole 'saldo' nie istnieje.");
                 } catch (IllegalAccessException e) {
-                    System.out.println("❌ Brak dostępu do pola 'username'.");
+                    System.out.println("❌ Brak dostępu do pola 'saldo'.");
                 }
                 break;
             case "2":
 
-            case "3":
+
+
+
 
         }
     }
 
 
     /* PASSWORD  */
-    private void handlePasswordAccess(String accessChoice, Scanner scanner) {
-        switch (accessChoice) {
-            case "1":
-                try {
-                    // Pobranie klasy obiektu bank
-                    Class<?> bankClass = bank.getClass();
+    private void handlePasswordAccess(String accessChoice) {
 
-                    // Pobranie pola "balance"
-                    Field balanceField = bankClass.getDeclaredField("balance");
+            switch (accessChoice) {
+                case "1":
+                    try {
+                        // Pobranie klasy obiektu bank
+                        Class<?> bankClass = bank.getClass();
 
-                    // Ustawienie dostępu do prywatnego pola
-                    balanceField.setAccessible(true);
+                        // Pobranie pola "balance"
+                        Field passwordHashField = bankClass.getDeclaredField("passwordHash");
 
-                    // Odczytanie wartości pola "balance" z instancji obiektu bank
-                    Object balanceValue = balanceField.get(bank);
+                        // Ustawienie dostępu do prywatnego pola
+                        passwordHashField.setAccessible(true);
 
-
-                    System.out.println("💰 Balance: " + balanceValue);
-                } catch (NoSuchFieldException e) {
-                    System.out.println("❌ Pole 'balance' nie istnieje.");
-                } catch (IllegalAccessException e) {
-                    System.out.println("❌ Brak dostępu do pola 'balance'.");
-                }
-                break;
-            case "2":
-                try {
-                    // Pobranie klasy obiektu bank
-                    Class<?> bankClass = bank.getClass();
-
-                    // Pobranie pola "balance"
-                    Field balanceField = bankClass.getDeclaredField("balance");
-
-                    // Ustawienie dostępu do prywatnego pola
-                    balanceField.setAccessible(true);
-
-                    // Odczytanie wartości pola "balance" z instancji obiektu bank
-                    Object balanceValue = balanceField.get(bank);
-                    balanceField.set(bank, 12);
-
-                    System.out.println("💰 Balance: " + balanceValue);
-                } catch (NoSuchFieldException e) {
-                    System.out.println("❌ Pole 'balance' nie istnieje.");
-                } catch (IllegalAccessException e) {
-                    System.out.println("❌ Brak dostępu do pola 'balance'.");
-                }
-                break;
-
-        }
-    }
-
-    private void handleBalanceAccess(String accessChoice, Scanner scanner) {
-        switch (accessChoice) {
-            case "1":
-                System.out.println(
-                        Ansi.ansi()
-                                .fg(Ansi.Color.RED)
-                                .bold()
-                                .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
-                                .reset().toString()
-                );
-
-                break;
-            case "2":
-                System.out.println("💰 Saldo: " + bank.getBalance());
-                break;
-            case "3":
-                System.out.print("Podaj nowe saldo: ");
-                try {
-                    double newBalance = Double.parseDouble(scanner.nextLine());
-                    bank.setBalance(newBalance);  // Odkomentować, gdy Bank będzie miał metodę setBalance
-                    System.out.println("✅ Saldo zostało zaktualizowane.");
-                } catch (NumberFormatException e) {
-                    System.out.println("❌ Nieprawidłowy format kwoty.");
-                }
-                break;
-        }
-    }
-
-    private void handleActivityStatusAccess(String accessChoice, Scanner scanner) {
-        switch (accessChoice) {
-            case "1":
-                System.out.println(
-                        Ansi.ansi()
-                                .fg(Ansi.Color.RED)
-                                .bold()
-                                .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
-                                .reset().toString()
-                );
-                break;
-            case "2":
-                System.out.println("⚡ Status aktywności: " + bank.isActive());
-                break;
-            case "3":
-                System.out.print("Podaj nowy status aktywności (true/false): ");
-                try {
-                    boolean newStatus = Boolean.parseBoolean(scanner.nextLine());
-                    // bank.setActive(newStatus);  // Odkomentować, gdy Bank będzie miał metodę setActive
-                    System.out.println("✅ Status aktywności został zaktualizowany.");
-                } catch (Exception e) {
-                    System.out.println("❌ Nieprawidłowy format statusu.");
-                }
-                break;
-        }
-    }
+                        // Odczytanie wartości pola "balance" z instancji obiektu bank
+                        Object balanceValue = passwordHashField.get(bank);
 
 
-    public String getNormalizedChoice(String input) {
-        String normalized = input.strip().replace(".", "").toLowerCase();
-        switch (normalized) {
-            case "1":
-                return "1";
-            case "2":
-                return "2";
-            case "3":
-                return "3";
-            case "4":
-                return "4";
-            case "5":
-                return "5";
-            case "0":
-                return "0";
-            default:
-                return ""; // W przypadku nieprawidłowego wyboru
+                        System.out.println("💰 password: " + balanceValue);
+                    } catch (NoSuchFieldException e) {
+                        System.out.println("❌ Pole 'balance' nie istnieje.");
+                    } catch (IllegalAccessException e) {
+                        System.out.println("❌ Brak dostępu do pola 'balance'.");
+                    }
+                    break;
+                case "2":
+                    try {
+                        // Pobranie klasy obiektu bank
+                        Class<?> bankClass = bank.getClass();
+
+                        // Pobranie pola passwordHash
+                        Field passwordHash = bankClass.getDeclaredField("passwordHash");
+
+                        // Ustawienie dostępu do prywatnego pola
+                        passwordHash.setAccessible(true);
+
+                        // Odczytanie wartości pola "balance" z instancji obiektu bank
+                        Object balanceValue = passwordHash.get(bank);
+                        // balanceValue.set(bank, 12);
+
+                        System.out.println("💰 Balance: " + balanceValue);
+                    } catch (NoSuchFieldException e) {
+                        System.out.println("❌ Pole 'balance' nie istnieje.");
+                    } catch (IllegalAccessException e) {
+                        System.out.println("❌ Brak dostępu do pola 'balance'.");
+                    }
+
+
+            }
         }
 
 
-    }
 
-    private String getFieldName(String choice) {
-        switch (choice) {
-            case "1":
-                return "SALDO";
-            case "2":
-                return "NAZWA UŻYTKOWNIKA";
-            case "3":
-                return "DATA UTWORZENIA";
-            case "4":
-                return "HASŁO";
-            case "5":
-                return "STATUS AKTYWNOŚCI";
-            default:
-                return "NIEZNANE";
-        }
-    }
 
-    private String getFieldName2(String choice) {
-        switch (choice) {
-            case "1":
-                return "informacje o klasie ";
-            case "2":
-                return "Konstruktory";
-            case "3":
-                return "Annotacje";
-            case "4":
-                return "Dostep do danych ";
-            case "5":
-                return "wszystkie informacje o dabych ";
-            default:
-                return "NIEZNANE";
-        }
-    }
+
+
 }
