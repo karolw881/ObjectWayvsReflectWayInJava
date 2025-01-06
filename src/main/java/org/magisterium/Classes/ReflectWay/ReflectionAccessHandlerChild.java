@@ -1,24 +1,24 @@
 package org.magisterium.Classes.ReflectWay;
 
 import org.fusesource.jansi.Ansi;
+import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Classes.Banks.Bank;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+@BankInfo
 
 public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
     public ReflectionAccessHandlerChild(Bank bank) {
         super(bank);
+
     }
-
-
-
-
+    
     private final String[] DATA_ACCESS_QUOTES = {
             "🔐 Dostęp do skarbca danych...",
             "📊 Panel kontrolny aktywowany...",
@@ -63,11 +63,37 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
             // Możesz dodać obsługę innych opcji tutaj:
             // 2 dla konstruktorów
             // 3 dla annotacji
+
+            if ("3".equals(fieldChoice)){
+                chooseAllInformationOfAnnotation();
+            }
+
+            if ("4".equals(fieldChoice)){
+                chooseAllInformationOfAnnotation();
+            }
         }
     }
 
 
+    public void chooseAllInformationOfAnnotation() {
+        Class<?> clazz = bank.getClass();
+        Method[] methods = clazz.getDeclaredMethods();
 
+        // Iterowanie po metodach klasy
+        for (Method method : methods) {
+            // Sprawdzenie, czy metoda ma adnotację @BankInfo
+            if (method.isAnnotationPresent(BankInfo.class)) {
+                try {
+                    // Wywołanie metody
+                    method.setAccessible(true); // Umożliwia wywołanie metod prywatnych
+                    method.invoke(bank); // Wywołanie metody na obiekcie
+                    System.out.println("Method " + method.getName() + " executed successfully.");
+                } catch (Exception e) {
+                    System.out.println("Error executing method " + method.getName() + ": " + e.getMessage());
+                }
+            }
+        }
+    }
 
 
     public String getNormalizedChoice(String input) {
@@ -93,23 +119,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
     }
 
 
-    private String getFieldName2(String choice) {
-        switch (choice) {
-            case "1":
-                return "Saldo [Stan konta]";
-            case "2":
-                return "Nazwa użytkownika [Identyfikator]";
-            case "3":
-                return "Data utworzenia konta [Historia]";
-            case "4":
-                return "Hasło [Poufne] ";
-            case "5":
-                return "Status aktywności";
-            default:
-                return "";
-
-        }
-    }
+  
 
 
 

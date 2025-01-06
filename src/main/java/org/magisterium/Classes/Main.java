@@ -7,4 +7,5 @@ public class Main {
         MyScanner scanner = new MyScanner(System.in);
         scanner.run();
     }
+
 }
