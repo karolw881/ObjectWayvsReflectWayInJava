@@ -97,31 +97,17 @@ public class ObjectAccessHandler {
     private String displayFieldAccessMenu(String fieldChoice, Scanner scanner) {
         String fieldName = getFieldName(fieldChoice);
 
-        System.out.println(
-                Ansi.ansi()
-                        .fg(Ansi.Color.MAGENTA)
-                        .bold()
-                        .a("\n╔══════════════════════════════════════════════════════╗")
-                        .reset().toString()
-        );
-
 
 
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.MAGENTA)
                         .bold()
-                        .a("║   DOSTĘP DO POLA: " + fieldName + "                              ║")
+                        .a("\nDOSTĘP DO POLA: " + fieldName + "\n" )
                         .reset().toString()
         );
 
-        System.out.println(
-                Ansi.ansi()
-                        .fg(Ansi.Color.MAGENTA)
-                        .bold()
-                        .a("╚══════════════════════════════════════════════════════╝")
-                        .reset().toString()
-        );
+
 
         System.out.println(Ansi.ansi().fg(Ansi.Color.RED).a("1. Bezpośredni dostęp").reset());
         System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("2. Wyświetl wartość (Getter)").reset());
@@ -154,20 +140,12 @@ public class ObjectAccessHandler {
                         .reset().toString()
         );
 
-        // Header z efektem ramki
-        System.out.println(
-                Ansi.ansi()
-                        .fg(Ansi.Color.MAGENTA)
-                        .bold()
-                        .a("\n╔════════════════════════╗")
-                        .reset().toString()
-        );
 
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.MAGENTA)
                         .bold()
-                        .a("║   DOSTĘP DO DANYCH     ║")
+                        .a("Wersja Obiektowa - Menu Główne")
                         .reset().toString()
         );
 
@@ -233,7 +211,7 @@ public class ObjectAccessHandler {
                 Ansi.ansi()
                         .fg(Ansi.Color.RED)
                         .bold()
-                        .a("\n↩ 0. Powrót do menu głównego")
+                        .a("↩ 0. Powrót do menu głównego")
                         .reset().toString()
         );
 
@@ -242,7 +220,7 @@ public class ObjectAccessHandler {
                 Ansi.ansi()
                         .fg(Ansi.Color.CYAN)
                         .bold()
-                        .a("\n=> Twój wybór: ")
+                        .a("=> Twój wybór: ")
                         .reset().toString()
         );
 

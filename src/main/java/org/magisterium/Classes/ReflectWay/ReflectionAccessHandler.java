@@ -46,12 +46,8 @@ public class ReflectionAccessHandler {
                     System.out.println("name: " + myAnnotation.description());
                     System.out.println("value: " + myAnnotation);
 
-
-
                 }
             }
-
-
 
 
             // Dostęp do pól za pomocą refleksji

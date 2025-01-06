@@ -16,7 +16,6 @@ public class MyScanner {
             "Programowanie to Twoje królestwo!",
             "Zatwierdz Enterem",
             "Cofnij Zerem",
-            "1 , 1. , 2. , 2.  , (1) , (1.)   Dozwolone",
             "Złam system, nie zasady!",
 
     };
