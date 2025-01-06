@@ -252,7 +252,7 @@ public class ObjectAccessHandler {
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
+                                .a(" \n 🚫  ❌ ACCESS DENIED  ❌  🚫")
                                 .reset().toString()
                 );
 

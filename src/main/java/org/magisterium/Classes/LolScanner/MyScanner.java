@@ -17,7 +17,6 @@ public class MyScanner {
             "Zatwierdz Enterem",
             "Cofnij Zerem",
             "Złam system, nie zasady!",
-
     };
 
     private final Bank bank;
@@ -35,10 +34,6 @@ public class MyScanner {
     public void run() {
         while (true) {
 
-
-            for (int i = 0; i < EPIC_SLOGANS.length; i++) {
-                System.out.println(EPIC_SLOGANS[i]);
-            }
 
 
             String choice = getNormalizedChoice(displayMainMenu());
@@ -62,22 +57,22 @@ public class MyScanner {
 
         private String displayMainMenu() {
             // Random epic slogan
-            String epicSlogan = EPIC_SLOGANS[(int)(Math.random() * EPIC_SLOGANS.length)];
-
-            // ANSI color and styling
-            System.out.println(
-                    Ansi.ansi()
-                            .fg(Ansi.Color.MAGENTA)
-                            .bold()
-                            .a("🔥 " + epicSlogan + " 🔥")
-                            .reset().toString()
-            );
-
+            int index = 1; // Numeracja zaczyna się od 1
+            for (String epicSlogan : EPIC_SLOGANS) {
+                System.out.println(
+                        Ansi.ansi()
+                                .fg(Ansi.Color.MAGENTA)
+                                .bold()
+                                .a(index + ". 🔥 " + epicSlogan + " 🔥")
+                                .reset().toString()
+                );
+                index++;
+            }
             System.out.println(
                     Ansi.ansi()
                             .fg(Ansi.Color.GREEN)
                             .bold()
-                            .a("\n==== MENU GŁÓWNE ====")
+                            .a("\nMENU GŁÓWNE")
                             .reset().toString()
             );
 

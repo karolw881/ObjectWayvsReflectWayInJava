@@ -52,27 +52,6 @@ public class Bank  implements BankAccount {
     public double getBalance() {
         return this.balance;
     }
-
-    @Override
-    public void deposit(double amount) {
-
-    }
-
-    @Override
-    public boolean withdraw(double amount) {
-        return false;
-    }
-
-    @Override
-    public String getAdditionalInfo() {
-        return null;
-    }
-
-    @Override
-    public boolean verifyPassword(String password) {
-        return false;
-    }
-
     @Override
     public boolean isActive() {
         return false;
