@@ -4,13 +4,11 @@ import org.fusesource.jansi.Ansi;
 import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Classes.Banks.Bank;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-@BankInfo
 
 public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
@@ -34,10 +32,10 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
     private Map<String, String> createFieldIcons() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("Saldo [Stan konta]", "💰");
-        map.put("Nazwa użytkownika [Identyfikator]", "👤");
-        map.put("Data utworzenia konta [Historia]", "📅");
-        map.put("Hasło [Poufne]", "⚡");
+        map.put("Saldo [Stan konta]", "1 - 💰");
+        map.put("Nazwa użytkownika [Identyfikator]", "2 - 👤");
+        map.put("Data utworzenia konta [Historia]", "3 - 📅");
+        map.put("Hasło [Poufne]", "4 - ⚡");
         map.put("Status aktywności", "[Monitoring]");
         return map;
     }
@@ -48,52 +46,49 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
 
     public void handleAccess() {
-        Scanner scanner = new Scanner(System.in); // Scanner zarządzany na poziomie głównym
+        Scanner scanner = new Scanner(System.in);
         while (true) {
             String fieldChoice = getNormalizedChoice(displayFieldMenu(scanner));
 
-            if ("0".equals(fieldChoice)) {
-                System.out.println("Powrót do menu głównego.");
-                return;
-            }
-
-            if ("1".equals(fieldChoice)) { // Dostęp do danych
-                ChooseAllDataFields(scanner);
-            }
-            // Możesz dodać obsługę innych opcji tutaj:
-            // 2 dla konstruktorów
-            // 3 dla annotacji
-
-            if ("3".equals(fieldChoice)){
-                chooseAllInformationOfAnnotation();
-            }
-
-            if ("4".equals(fieldChoice)){
-                chooseAllInformationOfAnnotation();
+            switch (fieldChoice) {
+                case "1":
+                    ChooseAllDataFields(scanner);
+                    break;
+                case "3":
+                    chooseAllInformationOfDeclaredAnnotation(); // Wyświetla informacje z adnotacji
+                    break;
+                case "0":
+                    System.out.println("Powrót do menu głównego.");
+                    return;
+                default:
+                    System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
             }
         }
     }
 
 
-    public void chooseAllInformationOfAnnotation() {
-        Class<?> clazz = bank.getClass();
-        Method[] methods = clazz.getDeclaredMethods();
 
-        // Iterowanie po metodach klasy
-        for (Method method : methods) {
+    public void chooseAllInformationOfDeclaredAnnotation() {
+        Class<?> clazz = bank.getClass();
+
             // Sprawdzenie, czy metoda ma adnotację @BankInfo
-            if (method.isAnnotationPresent(BankInfo.class)) {
+            if (clazz.isAnnotationPresent(BankInfo.class)) {
                 try {
-                    // Wywołanie metody
-                    method.setAccessible(true); // Umożliwia wywołanie metod prywatnych
-                    method.invoke(bank); // Wywołanie metody na obiekcie
-                    System.out.println("Method " + method.getName() + " executed successfully.");
+                    BankInfo annotation = clazz.getDeclaredAnnotation(BankInfo.class);
+
+                    // Wyświetlenie informacji z adnotacji
+                    System.out.println("=== Informacje o Banku ===");
+                    System.out.println("Nazwa: " + annotation.name());
+                    System.out.println("Opis: " + annotation.description());
+                    System.out.println("Siedziba: " + annotation.headquarters());
+                    System.out.println("Kapitał: " + annotation.capital());
+                    System.out.println("O nas: " + annotation.aboutUs());
+                    System.out.println("==========================");
                 } catch (Exception e) {
-                    System.out.println("Error executing method " + method.getName() + ": " + e.getMessage());
+                    System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
                 }
             }
         }
-    }
 
 
     public String getNormalizedChoice(String input) {
@@ -119,24 +114,34 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
     }
 
 
-  
+
 
 
 
 
 
     private void ChooseAllDataFields(Scanner scanner) {
-
-            DisplayDataFields();
+        while (true) {
+            DisplayDataFields(); // Wyświetlenie menu pól danych
             String specificChoice = getNormalizedChoice(scanner.nextLine());
 
-            if ("0".equals(specificChoice)) {
-                System.out.println("Powrót do menu głównego.");
-                return; // Wyjście do menu głównego
+            switch (specificChoice) {
+                case "1": // Obsługa Saldo
+                    handleBalanceAccess(scanner);
+                    break;
+                case "2": // Obsługa Nazwa użytkownika
+                    handleUsernameAccess(specificChoice, scanner);
+                    break;
+                case "3": // Obsługa Data utworzenia konta
+                    handleAccountCreationDateAccess(specificChoice);
+                    break;
+                case "0": // Powrót do poprzedniego poziomu
+                    System.out.println("Powrót do wcześniejszego menu.");
+                    return;
+                default:
+                    System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
             }
-
-            handleFieldAccess(specificChoice, scanner);
-
+        }
     }
 
     private void DisplayDataFields() {
@@ -240,8 +245,8 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
     //
 
-    private void handleBalanceAccess( Scanner scanner) {
-
+    private void handleBalanceAccess(Scanner scanner) {
+        while (true) {
             System.out.println("1. Odczytaj 'balance'");
             System.out.println("2. Ustaw 'balance'");
             System.out.println("0. Powrót");
@@ -249,23 +254,22 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
             System.out.print("Wybierz opcję: ");
             String choice = getNormalizedChoice(scanner.nextLine());
 
-
             switch (choice) {
-                case "1":
+                case "1": // Odczytaj saldo
                     handleBalaneAccessGet(scanner);
                     break;
-                case "2":
+                case "2": // Ustaw saldo
                     handleBalanceAccessSet(scanner);
                     break;
-                case "0":
-                    ChooseAllDataFields(scanner);
-
-                    break;
+                case "0": // Powrót do menu danych
+                    return;
                 default:
                     System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
-
+            }
         }
     }
+
+
 
     // Metoda do ustawienia wartości pola "balance" za pomocą metody settera
 
@@ -309,7 +313,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 
 
             System.out.println("💰 balance/saldo : " + balanceValue);
-            ChooseAllDataFields(s);
+            //ChooseAllDataFields(s);
         } catch (NoSuchFieldException e) {
             System.out.println("❌ Pole 'username' nie istnieje.");
         } catch (IllegalAccessException e) {
@@ -329,31 +333,16 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                         .reset().toString()
         );
 
-        // Header z efektem ramki
-        System.out.println(
-                Ansi.ansi()
-                        .fg(Ansi.Color.MAGENTA)
-                        .bold()
-                        .a("\n╔════════════════════════╗")
-                        .reset().toString()
-        );
+
 
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.MAGENTA)
                         .bold()
-                        .a("   DOSTĘP DO DANYCH     ")
+                        .a("Wersja Refleksyjna - Menu Główne")
                         .reset().toString()
         );
 
-        // Header z efektem ramki
-        System.out.println(
-                Ansi.ansi()
-                        .fg(Ansi.Color.MAGENTA)
-                        .bold()
-                        .a("════════════════════════ ")
-                        .reset().toString()
-        );
 
 
         // Opcje menu z kolorami i ikonami

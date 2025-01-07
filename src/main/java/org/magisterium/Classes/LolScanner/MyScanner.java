@@ -12,11 +12,11 @@ import java.util.Scanner;
 public class MyScanner {
     private final Scanner scanner;
     private String[] EPIC_SLOGANS = {
-            "Hakuj jak prawdziwy władca kodu!",
-            "Programowanie to Twoje królestwo!",
-            "Zatwierdz Enterem",
-            "Cofnij Zerem",
-            "Złam system, nie zasady!",
+            "Hakuj jak prawdziwy władca kodu",
+            "Programowanie to Twoje królestwo",
+            "Zatwierdź, Enterem",
+            "Cofnij, Zerem",
+            "Dozwolone np. 1 2. ",
     };
 
     private final Bank bank;

@@ -109,6 +109,9 @@ public class ObjectAccessHandler {
 
 
 
+
+
+
         System.out.println(Ansi.ansi().fg(Ansi.Color.RED).a("1. Bezpośredni dostęp").reset());
         System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("2. Wyświetl wartość (Getter)").reset());
         System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("3. Ustaw wartość (Setter)").reset());
@@ -264,7 +267,7 @@ public class ObjectAccessHandler {
             case "3":
                 System.out.print("Podaj nową nazwę użytkownika: ");
                 String newUsername = scanner.nextLine();
-                // bank.setUsername(newUsername);  // Odkomentować, gdy Bank będzie miał metodę setUsername
+                 bank.setUsername(newUsername);
                 System.out.println("✅ Nazwa użytkownika została zaktualizowana.");
                 break;
         }
@@ -279,7 +282,7 @@ public class ObjectAccessHandler {
                 System.out.println("📅 Data utworzenia konta: " + bank.getAccountCreationDate());
                 break;
             case "3":
-                System.out.println("❌ Nie można modyfikować daty utworzenia konta.");
+                System.out.println("❌ Nie można modyfikować daty utworzenia konta - ponieważ jest to nie zgodne z prawdą.");
                 break;
         }
     }

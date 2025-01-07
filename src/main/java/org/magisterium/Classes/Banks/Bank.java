@@ -1,5 +1,6 @@
 package org.magisterium.Classes.Banks;
 
+import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Interfaces.BankAccount;
 
 
@@ -11,7 +12,13 @@ import lombok.Data;
 
 @Data // Generuje gettery, settery, equals, hashCode i toString
 @AllArgsConstructor
-
+@BankInfo(
+        description = "Największy bank w regionie.",
+        headquarters = "Warszawa, Polska",
+        capital = 5000000.0,
+        aboutUs = "Oferujemy szeroką gamę usług finansowych dla klientów indywidualnych i firm.",
+        name = "Bank Magisterium"
+)
 public class Bank  implements BankAccount {
     private double balance;
     private  String passwordHash; // Przechowujemy tylko hash hasła

@@ -8,5 +8,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface BankInfo {
-    String description() default "";
+    String description() default ""; // Opis banku
+    String headquarters() default ""; // Siedziba
+    double capital() default 0.0; // Kapitał
+    String aboutUs() default ""; // Informacje "O nas"
+    String name() default ""; // Nazwa banku
 }
