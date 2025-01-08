@@ -54,8 +54,11 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                 case "1":
                     ChooseAllDataFields(scanner);
                     break;
+                case "2":
+                    showConstructorsInfo();
+                    break;
                 case "3":
-                    chooseAllInformationOfDeclaredAnnotation(); // Wyświetla informacje z adnotacji
+                    handleAnnotationChoice(scanner); // Nowa metoda obsługująca wybór typu annotacji
                     break;
                 case "0":
                     System.out.println("Powrót do menu głównego.");
@@ -64,6 +67,73 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                     System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
             }
         }
+    }
+
+    // opraw bez declared
+    private void handleAnnotationChoice(Scanner scanner) {
+        while (true) {
+            System.out.println("\nWybierz typ annotacji:");
+            System.out.println("1. Bez declared");
+            System.out.println("2. Z declared");
+            System.out.println("0. Powrót");
+
+            String choice = getNormalizedChoice(scanner.nextLine());
+
+            switch (choice) {
+                case "1":
+                   // chooseAllInformationOfAnnotation();
+                    break;
+                case "2":
+                    chooseAllInformationOfDeclaredAnnotation();
+                   break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
+            }
+        }
+    }
+
+
+    public void showConstructorsInfo() {
+        Class<?> clazz = bank.getClass();
+        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+
+        System.out.println("\n=== Informacje o Konstruktorach ===");
+
+        if (constructors.length == 0) {
+            System.out.println("Klasa nie ma zadeklarowanych konstruktorów.");
+            return;
+        }
+
+        for (Constructor<?> constructor : constructors) {
+            System.out.println("\nKonstruktor:");
+
+            // Modyfikatory dostępu
+            int modifiers = constructor.getModifiers();
+            System.out.println("Modyfikator dostępu: " + Modifier.toString(modifiers));
+
+            // Parametry
+            Parameter[] parameters = constructor.getParameters();
+            if (parameters.length == 0) {
+                System.out.println("Parametry: brak (konstruktor bezargumentowy)");
+            } else {
+                System.out.println("Parametry:");
+                for (Parameter param : parameters) {
+                    System.out.println("  - " + param.getType().getSimpleName() + " " + param.getName());
+                }
+            }
+
+            // Wyjątki
+            Class<?>[] exceptions = constructor.getExceptionTypes();
+            if (exceptions.length > 0) {
+                System.out.println("Deklarowane wyjątki:");
+                for (Class<?> exception : exceptions) {
+                    System.out.println("  - " + exception.getSimpleName());
+                }
+            }
+        }
+        System.out.println("=================================");
     }
 
 
@@ -117,7 +187,6 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                 case "4":
                     handlePasswordAccess(scanner);
                     break;
-
                 case "5":
                     handleisActive(scanner);
                     break;
@@ -144,11 +213,11 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
             String choice = getNormalizedChoice(scanner.nextLine());
 
             switch (choice) {
-                case "1": // Odczytaj saldo
-                   // handleBalaneAccessGet(scanner);
+                case "1": // Odczytaj  czy aktywny 
+                    handleisActiveAccessGet(scanner);
                     break;
-                case "2": // Ustaw saldo
-                    // handleBalanceAccessSet(scanner);
+                case "2": // Ustaw  czy atywny 
+                     handleisACtiveAccessSet(scanner);
                     break;
                 case "0": // Powrót do menu danych
                     return;
@@ -156,6 +225,32 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                     System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
             }
         }
+    }
+
+    private void handleisACtiveAccessSet(Scanner scanner) {
+
+        try{
+            System.out.println("Na jaką wartosc ustawic pole czy aktywy true/false ? ");
+            Boolean nextedBoolean = scanner.nextBoolean();
+            Class<?>  classToIsActive = bank.getClass();
+            Field field = classToIsActive.getDeclaredField("isActive");
+            field.setAccessible(true);
+            field.setBoolean(field,nextedBoolean);
+
+
+            System.out.println(field);
+
+
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void handleisActiveAccessGet(Scanner scanner) {
+
     }
 
     private void DisplayDataFields() {
@@ -418,27 +513,25 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
     private void handleUsernameAccessSet(Scanner scanner) {
         try {
             System.out.print("🔄 Wprowadź nową wartość pola 'username': ");
-            String newUsernameValue = scanner.nextLine(); // Odczytanie ciągu znaków od użytkownika
+            String newUsernameValue = scanner.nextLine();
 
-            // Pobranie klasy obiektu bank
-            Class<?> bankClass = bank.getClass();
+            // Pobranie pola 'username' z klasy Bank
+            Field usernameField = bank.getClass().getDeclaredField("username");
 
-            // Pobranie metody setUsername (oczekuje String jako argumentu)
-            Method setUsernameMethod = bankClass.getMethod("setUsername", String.class);
+            // Ustawienie dostępu do prywatnego pola
+            usernameField.setAccessible(true);
 
-            // Wywołanie metody setUsername na instancji obiektu bank
-            setUsernameMethod.invoke(bank, newUsernameValue);
+            // Zmiana wartości pola 'username' na instancji obiektu bank
+            usernameField.set(bank, newUsernameValue);
 
             System.out.println("🔄 Wartość pola 'username' została ustawiona na: " + newUsernameValue);
-        } catch (NoSuchMethodException e) {
-            System.out.println("❌ Metoda 'setUsername' nie istnieje.");
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            System.out.println("❌ Błąd podczas wywołania metody 'setUsername'.");
+        } catch (NoSuchFieldException e) {
+            System.out.println("❌ Pole 'username' nie istnieje.");
+        } catch (IllegalAccessException e) {
+            System.out.println("❌ Błąd podczas zmiany wartości pola 'username'.");
             e.printStackTrace();
         }
     }
-
-
 
 
 
