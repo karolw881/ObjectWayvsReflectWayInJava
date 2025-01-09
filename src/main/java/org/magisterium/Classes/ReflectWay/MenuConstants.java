@@ -17,7 +17,14 @@ public class MenuConstants {
     public static final Map<String, String> FIELD_ICONS2 = Map.of(
             "wszystkie", "⭐",
             "konstruktory", "⭐",
-            "annotacje", "⭐"
+            "annotacje", "⭐",
+            "metody" , "⭐",
+            "pola" , "⭐",
+            "dziedziczenie i interfejs" , "⭐",
+            "package" , "⭐",
+            "dostep" , "⭐"
+
+
     );
 
     // Metoda tworząca mapę ikon pól

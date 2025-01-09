@@ -43,6 +43,9 @@ SubBank subBank;
                 || normalized.equals("3")
                 || normalized.equals("4")
                 || normalized.equals("5")
+                || normalized.equals("6")
+                || normalized.equals("7")
+                || normalized.equals("8")
                 || normalized.equals("0")) {
             return normalized; // Zwrócenie znormalizowanego wyboru
         } else {
@@ -59,6 +62,11 @@ SubBank subBank;
                 case "1" -> ChooseAllDataFields(scanner);
                 case "2" -> showConstructorsInfo();
                 case "3" -> handleAnnotationChoice(scanner); // Nowa metoda obsługująca wybór typu annotacji
+                case "4" -> showMethodInfo();
+                case "5" -> showFieldInfo();
+                case "6" -> showInheritanceAndInterfacesInfo();
+                case "7" ->  showPackageInfo();
+                case "8" ->   showAccessModifiersInfo();
                 case "0" -> {
                     menuMainReturn();
                     return;
@@ -606,6 +614,61 @@ SubBank subBank;
 
 
         }
+
+    // 4. Metody
+    private static void showMethodInfo() {
+        Class<?> clazz = Bank.class;
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method method : methods) {
+            System.out.println("Metoda: " + method.getName());
+            System.out.println("Typ zwracany: " + method.getReturnType());
+            System.out.println("Modyfikatory: " + Modifier.toString(method.getModifiers()));
+        }
+    }
+
+    // 5. Pola
+    private static void showFieldInfo() {
+        Class<?> clazz = Bank.class;
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            System.out.println("Pole: " + field.getName());
+            System.out.println("Typ: " + field.getType());
+        }
+    }
+
+    // 6. Dziedziczenie i Interfejsy
+    private static void showInheritanceAndInterfacesInfo() {
+        Class<?> clazz = Bank.class;
+        Class<?>[] interfaces = clazz.getInterfaces();
+        for (Class<?> iface : interfaces) {
+            System.out.println("Implementowany interfejs: " + iface.getName());
+        }
+
+        Class<?> superclass = clazz.getSuperclass();
+        System.out.println("Superklasa: " + superclass.getName());
+    }
+
+
+
+
+
+    // 7. Pakiety
+    private static void showPackageInfo() {
+        Class<?> clazz = Bank.class;
+        Package pkg = clazz.getPackage();
+        System.out.println("Pakiet: " + pkg.getName());
+    }
+
+    // 8. Modyfikatory dostępu
+    private static void showAccessModifiersInfo() {
+        Class<?> clazz = Bank.class;
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method method : methods) {
+            System.out.println("Metoda: " + method.getName());
+            System.out.println("Modyfikatory dostępu: " + Modifier.toString(method.getModifiers()));
+        }
+    }
 
 
 

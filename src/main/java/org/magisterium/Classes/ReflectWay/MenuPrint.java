@@ -64,6 +64,65 @@ public class MenuPrint {
                                 .reset().toString()
         );
 
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.BLUE)
+                        .a(FIELD_ICONS2.get("metody") + "4. metody ")
+                        .reset().toString() +
+                        Ansi.ansi()
+                                .fg(Ansi.Color.BLUE)
+                                .a(" [Dane o metodach]")
+                                .reset().toString()
+        );
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.MAGENTA)
+                        .a(FIELD_ICONS2.get("pola") + "5. pola ")
+                        .reset().toString() +
+                        Ansi.ansi()
+                                .fg(Ansi.Color.BLUE)
+                                .a(" [Dane o polach]")
+                                .reset().toString()
+        );
+
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.YELLOW)
+                        .a(FIELD_ICONS2.get("dziedziczenie i interfejs") + "6. dziedziczenie i interfejs ")
+                        .reset().toString() +
+                        Ansi.ansi()
+                                .fg(Ansi.Color.BLUE)
+                                .a(" [Dane dziedziczeniu i interfejsach]")
+                                .reset().toString()
+        );
+
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.GREEN)
+                        .a(FIELD_ICONS2.get("package") + "7. Paczki ")
+                        .reset().toString() +
+                        Ansi.ansi()
+                                .fg(Ansi.Color.BLUE)
+                                .a(" [Dane paczce]")
+                                .reset().toString()
+        );
+
+
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.CYAN)
+                        .a(FIELD_ICONS2.get("dostep") + "8. dostep ")
+                        .reset().toString() +
+                        Ansi.ansi()
+                                .fg(Ansi.Color.BLUE)
+                                .a(" [Dane o dostepach]")
+                                .reset().toString()
+        );
+
+
 
 
 

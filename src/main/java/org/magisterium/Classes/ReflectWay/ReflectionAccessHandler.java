@@ -88,26 +88,5 @@ public class ReflectionAccessHandler {
     }
 
 
-    private void chooseAllInformationOfAnnotation() {
-        Class<?> clazz = bank.getClass();
 
-        // Sprawdzenie, czy metoda ma adnotację @BankInfo
-        if (clazz.isAnnotationPresent(BankInfo.class)) {
-            try {
-                BankInfo annotation = clazz.getAnnotation(BankInfo.class);
-
-                // Wyświetlenie informacji z adnotacji
-                System.out.println("=== Informacje o Banku ===");
-                System.out.println("Nazwa: " + annotation.name());
-                System.out.println("Opis: " + annotation.description());
-                System.out.println("Siedziba: " + annotation.headquarters());
-                System.out.println("Kapitał: " + annotation.capital());
-                System.out.println("O nas: " + annotation.aboutUs());
-                System.out.println("==========================");
-            } catch (Exception e) {
-                System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
-            }
-        }
-
-    }
 }
