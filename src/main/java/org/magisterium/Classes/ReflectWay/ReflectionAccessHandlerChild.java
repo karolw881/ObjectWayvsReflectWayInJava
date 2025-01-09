@@ -3,6 +3,7 @@ package org.magisterium.Classes.ReflectWay;
 import org.fusesource.jansi.Ansi;
 import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Classes.Banks.Bank;
+import org.magisterium.Classes.Banks.SubBank;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -12,9 +13,20 @@ import static org.magisterium.Classes.ReflectWay.MenuPrint.*;
 
 
 public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
-
+SubBank subBank;
+    Scanner scanner ;
     public ReflectionAccessHandlerChild(Bank bank) {
         super(bank);
+        try {
+            // Uzyskiwanie dostępu do konstruktora SubBank
+            Constructor<?> constructor = SubBank.class.getConstructor(double.class, String.class, String.class);
+
+            // Tworzenie instancji SubBank za pomocą refleksji
+            subBank = (SubBank) constructor.newInstance(2000.0, "Karol", "tatamamam123#");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public String getNormalizedChoice(String input) {
@@ -39,7 +51,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
     }
 
     public void handleAccess() {
-        Scanner scanner = new Scanner(System.in);
+       scanner = new Scanner(System.in);
         while (true) {
             String fieldChoice = getNormalizedChoice(MenuPrint.displayFieldMenu(scanner));
             System.out.println(fieldChoice);
@@ -86,7 +98,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
         }
     }
 
-    /**poddziel na mniejsze funkcje */
+    /**poddzielono na mniejsze funkcje */
 
     public void showConstructorsInfo() {
         Class<?> clazz = bank.getClass();
@@ -132,6 +144,8 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
             for (Class<?> exception : exceptions) {
                 System.out.println("  - " + exception.getSimpleName());
             }
+        }else{
+            System.out.println("mniejsze od 0 ");
         }
     }
 
@@ -169,12 +183,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
             Field field = classToIsActive.getDeclaredField("isActive");
             field.setAccessible(true);
             field.setBoolean(field,nextedBoolean);
-
-
             System.out.println(field);
-
-
-
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
@@ -183,9 +192,7 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
     }
 
     private void handleisActiveAccessGet(Scanner scanner) {
-
     }
-
 
 
   /**
@@ -481,6 +488,23 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
          *
          * **/
 
+    public void handleAnnotationChoice(Scanner scanner) {
+
+        while (true) {
+            showMenu();
+            String choice = getNormalizedChoice(scanner.nextLine());
+            System.out.println(choice);
+            if (choice.equals("1")) {
+                chooseAllInformationOfAnnotation();
+            } else if (choice.equals("2")) {
+                chooseAllInformationOfDeclaredAnnotation();
+            } else if (choice.equals("0")) {
+                return;
+            } else {
+                System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
+            }
+        }
+    }
         public void chooseAllInformationOfDeclaredAnnotation() {
             Class<?> clazz = bank.getClass();
 
@@ -500,6 +524,29 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
                     System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
                 }
             }
+
+
+            Class<?>  clazz1 = subBank.getClass();
+
+            // Sprawdzenie, czy metoda ma adnotację @BankInfo
+            if (clazz1.isAnnotationPresent(BankInfo.class)) {
+                try {
+                    BankInfo annotation = clazz1.getDeclaredAnnotation(BankInfo.class);
+                    // Wyświetlenie informacji z adnotacji
+                    System.out.println("=== Informacje o Banku ===");
+                    System.out.println("Nazwa: " + annotation.name());
+                    System.out.println("Opis: " + annotation.description());
+                    System.out.println("Siedziba: " + annotation.headquarters());
+                    System.out.println("Kapitał: " + annotation.capital());
+                    System.out.println("O nas: " + annotation.aboutUs());
+                    System.out.println("==========================");
+                } catch (Exception e) {
+                    System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
+                }
+            }
+
+
+
         }
 
 
@@ -507,24 +554,10 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
      * Dodaj opcje bez declared
      *
      * **/
-    public void handleAnnotationChoice(Scanner scanner) {
-        while (true) {
-            showMenu();
-            String choice = getNormalizedChoice(scanner.nextLine());
-            if (choice.equals("1")) {
-                chooseAllInformationOfAnnotation();
-            } else if (choice.equals("2")) {
-                chooseAllInformationOfDeclaredAnnotation();
-            } else if (choice.equals("0")) {
-                return;
-            } else {
-                System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
-            }
-        }
-    }
 
-    private void chooseAllInformationOfAnnotation() {
-        Class<?> clazz = bank.getClass();
+
+        private void chooseAllInformationOfAnnotation() {
+            Class<?> clazz = bank.getClass();
 
         // Sprawdzenie, czy metoda ma adnotację @BankInfo
         if (clazz.isAnnotationPresent(BankInfo.class)) {
@@ -550,7 +583,29 @@ public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
             }
         }
 
-    }
+
+
+            Class<?>  clazz1 = subBank.getClass();
+
+            // Sprawdzenie, czy metoda ma adnotację @BankInfo
+            if (clazz1.isAnnotationPresent(BankInfo.class)) {
+                try {
+                    BankInfo annotation = clazz1.getAnnotation(BankInfo.class);
+                    // Wyświetlenie informacji z adnotacji
+                    System.out.println("=== Informacje o Banku ===");
+                    System.out.println("Nazwa: " + annotation.name());
+                    System.out.println("Opis: " + annotation.description());
+                    System.out.println("Siedziba: " + annotation.headquarters());
+                    System.out.println("Kapitał: " + annotation.capital());
+                    System.out.println("O nas: " + annotation.aboutUs());
+                    System.out.println("==========================");
+                } catch (Exception e) {
+                    System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
+                }
+            }
+
+
+        }
 
 
 

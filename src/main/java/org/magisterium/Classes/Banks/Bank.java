@@ -28,6 +28,7 @@ public class Bank  implements BankAccount {
     protected boolean isIndebted;
 
     public Bank(double initialBalance, String username, String password) {
+
         this.balance = initialBalance;
         this.username = username;
         this.passwordHash = password;

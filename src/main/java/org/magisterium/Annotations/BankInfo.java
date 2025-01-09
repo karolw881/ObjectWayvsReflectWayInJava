@@ -1,12 +1,10 @@
 package org.magisterium.Annotations;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
+@Inherited // Adnotacja będzie dziedziczona
 public @interface BankInfo {
     String description() default ""; // Opis banku
     String headquarters() default ""; // Siedziba
