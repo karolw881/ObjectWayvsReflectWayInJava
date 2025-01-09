@@ -3,7 +3,6 @@ package org.magisterium.Classes.LolScanner;
 import org.fusesource.jansi.Ansi;
 import org.magisterium.Classes.Banks.Bank;
 import org.magisterium.Classes.ObjectWay.ObjectAccessHandler;
-import org.magisterium.Classes.ReflectWay.ReflectionAccessHandler;
 import org.magisterium.Classes.ReflectWay.ReflectionAccessHandlerChild;
 
 import java.io.InputStream;
@@ -28,7 +27,7 @@ public class MyScanner {
         this.scanner = new Scanner(in);
         this.bank = new Bank(1000, "janek", "tajneHaslo123");
         this.objectAccessHandler = new ObjectAccessHandler(bank);
-        this.reflectionAccessHandlerChild = new ReflectionAccessHandlerChild(bank);
+        this.reflectionAccessHandlerChild = new ReflectionAccessHandlerChild( bank);
     }
 
     public void run() {
