@@ -1,14 +1,13 @@
 package org.magisterium.Classes.ReflectWay;
 
-import org.fusesource.jansi.Ansi;
 import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Classes.Banks.Bank;
 import org.magisterium.Classes.Banks.SubBank;
 
 import java.lang.reflect.*;
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-import static org.magisterium.Classes.ReflectWay.MenuConstants.*;
 import static org.magisterium.Classes.ReflectWay.MenuPrint.*;
 
 
@@ -57,6 +56,7 @@ SubBank subBank;
        scanner = new Scanner(System.in);
         while (true) {
             String fieldChoice = getNormalizedChoice(MenuPrint.displayFieldMenu(scanner));
+
             System.out.println(fieldChoice);
             switch (fieldChoice) {
                 case "1" -> ChooseAllDataFields(scanner);

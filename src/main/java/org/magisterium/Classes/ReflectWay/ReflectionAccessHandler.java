@@ -8,7 +8,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-@BankInfo(description = " Parent class of banks ")
+
 public class ReflectionAccessHandler {
     protected final Bank bank;
 

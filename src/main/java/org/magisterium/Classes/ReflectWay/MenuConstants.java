@@ -22,7 +22,7 @@ public class MenuConstants {
             "pola" , "⭐",
             "dziedziczenie i interfejs" , "⭐",
             "package" , "⭐",
-            "dostep" , "⭐"
+            "dostep", "⭐"
 
 
     );
