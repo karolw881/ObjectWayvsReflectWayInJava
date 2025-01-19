@@ -23,6 +23,7 @@ public class MyScanner {
     private final ReflectionAccessHandlerChild reflectionAccessHandlerChild;
 
 
+
     public MyScanner(InputStream in) {
         this.scanner = new Scanner(in);
         this.bank = new Bank(1000, "janek", "tajneHaslo123");
@@ -30,11 +31,9 @@ public class MyScanner {
         this.reflectionAccessHandlerChild = new ReflectionAccessHandlerChild( bank);
     }
 
+
     public void run() {
         while (true) {
-
-
-
             String choice = getNormalizedChoice(displayMainMenu());
 
 
