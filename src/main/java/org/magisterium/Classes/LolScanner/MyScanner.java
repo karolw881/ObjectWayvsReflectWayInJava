@@ -104,6 +104,33 @@ public class MyScanner {
 
 
 
+        public String Normalize(String input) {
+            if (input == null) {
+                return "";
+            }
+
+            // Przygotuj string do normalizacji
+            String trimmed = input.strip();
+
+            // Usuń nawiasy i spacje, zachowując kropkę na końcu jeśli istnieje
+            String withoutBrackets = trimmed
+                    .replace("(", "")
+                    .replace(")", "")
+                    .toLowerCase();
+
+            // Usuń kropkę tylko jeśli nie jest ostatnim znakiem
+            String normalized = withoutBrackets;
+            if (!withoutBrackets.endsWith(".")) {
+                normalized = withoutBrackets.replace(".", "");
+            }
+
+            // Usuń kropkę do porównania w switch
+            String forSwitch = normalized.replace(".", "");
+
+            return forSwitch;
+        }
+
+
     /**
      * Normalizuje wybór użytkownika do standardowego formatu
      * @param input String zawierający wybór użytkownika (może zawierać kropkę i nawiasy)

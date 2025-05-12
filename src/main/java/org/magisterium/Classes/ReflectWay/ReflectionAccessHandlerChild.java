@@ -1,17 +1,20 @@
 package org.magisterium.Classes.ReflectWay;
 
+import org.fusesource.jansi.Ansi;
 import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Classes.Banks.Bank;
 import org.magisterium.Classes.Banks.SubBank;
 
 import java.lang.reflect.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static org.magisterium.Classes.ReflectWay.MenuPrint.*;
 
 
-public class ReflectionAccessHandlerChild extends ReflectionAccessHandler {
+public class    ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 SubBank subBank;
     Scanner scanner ;
     public ReflectionAccessHandlerChild(Bank bank) {
@@ -169,10 +172,10 @@ SubBank subBank;
 
             switch (choice) {
                 case "1": // Odczytaj  czy aktywny 
-                    handleisActiveAccessGet(scanner);
+                    handleisActiveAccessGet();
                     break;
                 case "2": // Ustaw  czy atywny 
-                     handleisACtiveAccessSet(scanner);
+                     handleisActiveAccessSet(scanner);
                     break;
                 case "0": // Powrót do menu danych
                     return;
@@ -182,24 +185,84 @@ SubBank subBank;
         }
     }
 
-    private void handleisACtiveAccessSet(Scanner scanner) {
+    private void handleisActiveAccessSet(Scanner scanner) {
+        try {
+            // Pobranie klasy obiektu
+            Class<?> bankClass = bank.getClass();
 
-        try{
-            System.out.println("Na jaką wartosc ustawic pole czy aktywy true/false ? ");
-            Boolean nextedBoolean = scanner.nextBoolean();
-            Class<?>  classToIsActive = bank.getClass();
-            Field field = classToIsActive.getDeclaredField("isActive");
-            field.setAccessible(true);
-            field.setBoolean(field,nextedBoolean);
-            System.out.println(field);
+            // Pobranie pola isActive
+            Field isActiveField = bankClass.getDeclaredField("isActive");
+            isActiveField.setAccessible(true);
+
+            // Zapytanie użytkownika o nową wartość pola
+            System.out.print("🔄 Ustaw nową wartość pola 'isActive' (true/false): ");
+            boolean newValue = scanner.nextBoolean();
+            scanner.nextLine(); // Czyszczenie bufora wejścia
+
+            // Ustawienie nowej wartości dla pola isActive
+            isActiveField.setBoolean(bank, newValue);
+
+            // Wyświetlenie nowej wartości
+            System.out.println("✅ Wartość pola 'isActive' została zmieniona na: " + isActiveField.getBoolean(bank));
         } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
+            System.out.println("❌ Pole 'isActive' nie istnieje.");
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            System.out.println("❌ Brak dostępu do pola 'isActive'.");
+        } catch (Exception e) {
+            System.out.println("❌ Błąd: Wystąpił nieoczekiwany problem.");
         }
     }
 
-    private void handleisActiveAccessGet(Scanner scanner) {
+
+    /**
+     *
+     * @param string
+     */
+    private void dispplayAnsiMethodGreen(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.GREEN)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+    private void dispplayAnsiMethodRed(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.RED)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+
+
+
+    private void handleisActiveAccessGet() {
+        try {
+            // Pobranie klasy obiektu
+            Class<?> bankClass = bank.getClass();
+
+            // Pobranie pola isActive
+            Field isActiveField = bankClass.getDeclaredField("isActive");
+            isActiveField.setAccessible(true);
+
+            // Odczytanie wartości pola z instancji obiektu bank
+            boolean currentValue = isActiveField.getBoolean(bank);
+
+            // Wyświetlenie wartości
+            dispplayAnsiMethodMagenta("🔍 Aktualna wartość pola 'isActive': " + currentValue);
+
+        } catch (NoSuchFieldException e) {
+            System.out.println("❌ Pole 'isActive' nie istnieje.");
+        } catch (IllegalAccessException e) {
+            System.out.println("❌ Brak dostępu do pola 'isActive'.");
+        } catch (Exception e) {
+            System.out.println("❌ Błąd: Wystąpił nieoczekiwany problem.");
+        }
     }
 
 
@@ -251,12 +314,16 @@ SubBank subBank;
             // Odczytanie wartości pola "username" z instancji obiektu bank
             Object balanceValue = balance.get(bank);
 
-            System.out.println("💰 balance/saldo : " + balanceValue);
+
+          //  dispplayAnsiMethodGreen("💰 balance/saldo : " + balanceValue);
+
+
+            dispplayAnsiMethodRed("💰 balance/saldo : " + balanceValue);
 
         } catch (NoSuchFieldException e) {
-            System.out.println("❌ Pole 'balance' nie istnieje.");
+            dispplayAnsiMethodGreen("❌ Pole 'balance' nie istnieje.");
         } catch (IllegalAccessException e) {
-            System.out.println("❌ Brak dostępu do pola 'balance'.");
+            dispplayAnsiMethodRed("❌ Brak dostępu do pola 'balance'.");
         }
 
     }
@@ -331,8 +398,8 @@ SubBank subBank;
 
             // Odczytanie wartości pola "username" z instancji obiektu bank
             Object usernameValue = usernameField.get(bank);
+            dispplayAnsiMethodGreen("💰 username: " + usernameValue);
 
-            System.out.println("💰 username: " + usernameValue);
         } catch (NoSuchFieldException e) {
             System.out.println("❌ Pole 'username' nie istnieje.");
         } catch (IllegalAccessException e) {
@@ -428,11 +495,11 @@ SubBank subBank;
             Object passwordValue = passwordHashField.get(bank);
 
 
-            System.out.println("💰 password: " + passwordValue);
+            dispplayAnsiMethodBlue("💰 password: " + passwordValue);
         } catch (NoSuchFieldException e) {
-            System.out.println("❌ Pole 'balance' nie istnieje.");
+            dispplayAnsiMethodRed("❌ Pole 'balance' nie istnieje.");
         } catch (IllegalAccessException e) {
-            System.out.println("❌ Brak dostępu do pola 'balance'.");
+            dispplayAnsiMethodRed("❌ Brak dostępu do pola 'balance'.");
         }
     }
 
@@ -461,33 +528,62 @@ SubBank subBank;
 
 
 
-    private void handleDateAccessSet(Scanner scanner) {
-
-    }
-
-    private void handleDataAccessGet(Scanner scanner) {
+    public void handleDateAccessSet(Scanner scanner) {
         try {
+
+            // Pobranie daty od użytkownika
             // Pobranie klasy obiektu bank
             Class<?> bankClass = bank.getClass();
 
-            // Pobranie pola "balance"
-            Field accountCreationDate = bankClass.getDeclaredField("accountCreationDate");
+            // Pobranie pola accountCreationDate
+            Field accountCreationDateField = bankClass.getDeclaredField("accountCreationDate");
 
             // Ustawienie dostępu do prywatnego pola
-            accountCreationDate.setAccessible(true);
+            accountCreationDateField.setAccessible(true);
 
-            // Odczytanie wartości pola "password" z instancji obiektu bank
-            Object ac = accountCreationDate.get(bank);
+            String inputDate = scanner.nextLine();
+
+            // Konwersja na LocalDateTime
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime newDate = LocalDateTime.parse(inputDate, formatter);
+
+            // Ustawienie nowej wartości pola
+            accountCreationDateField.set(bank, newDate);
 
 
-            System.out.println("💰 Data utworzenia: " + ac);
+            dispplayAnsiMethodGreen("✅ Data utworzenia konta została zmieniona na: " + newDate);
         } catch (NoSuchFieldException e) {
-            System.out.println("❌ Pole 'utworzenia nie istnieje' nie istnieje.");
+            dispplayAnsiMethodRed("❌ Pole 'accountCreationDate' nie istnieje.");
         } catch (IllegalAccessException e) {
-            System.out.println("❌ Brak dostępu do pola 'data utworzenia'.");
+            dispplayAnsiMethodRed("❌ Brak dostępu do pola 'accountCreationDate'.");
+        } catch (Exception e) {
+            dispplayAnsiMethodRed( "❌ Błąd: Nie udało się zmienić daty. Upewnij się, że podany format jest poprawny.");
         }
-
     }
+
+        private void handleDataAccessGet(Scanner scanner) {
+            try {
+                // Pobranie klasy obiektu bank
+                Class<?> bankClass = bank.getClass();
+
+                // Pobranie pola "balance"
+                Field accountCreationDate = bankClass.getDeclaredField("accountCreationDate");
+
+                // Ustawienie dostępu do prywatnego pola
+                accountCreationDate.setAccessible(true);
+
+                // Odczytanie wartości pola "password" z instancji obiektu bank
+                Object ac = accountCreationDate.get(bank);
+
+                dispplayAnsiMethodYellow("💰 Data utworzenia: " + ac);
+            //    System.out.println("💰 Data utworzenia: " + ac);
+            } catch (NoSuchFieldException e) {
+                System.out.println("❌ Pole 'utworzenia nie istnieje' nie istnieje.");
+            } catch (IllegalAccessException e) {
+                System.out.println("❌ Brak dostępu do pola 'data utworzenia'.");
+            }
+
+        }
 
 
     /**
@@ -669,6 +765,50 @@ SubBank subBank;
             System.out.println("Modyfikatory dostępu: " + Modifier.toString(method.getModifiers()));
         }
     }
+
+    public void dispplayAnsiMethodYellow(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.YELLOW)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+
+    public void dispplayAnsiMethodBlue(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.BLUE)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+    public void dispplayAnsiMethodMagenta(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.MAGENTA)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+    public void dispplayAnsiMethodWhite(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.WHITE)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+
+
 
 
 

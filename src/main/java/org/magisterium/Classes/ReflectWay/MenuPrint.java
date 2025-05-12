@@ -146,6 +146,95 @@ public class MenuPrint {
         return scanner.nextLine();
     }
 
+
+    /**
+     *   Ansi.Color[] colors = {
+     *                 Ansi.Color.RED,
+     *                 Ansi.Color.GREEN,
+     *                 Ansi.Color.YELLOW,
+     *                 Ansi.Color.BLUE,
+     *                 Ansi.Color.MAGENTA,
+     *                 Ansi.Color.CYAN,
+     *                 Ansi.Color.WHITE
+     *         };
+     */
+
+    /**
+     * GREEEN
+     * @param string
+     */
+    public void dispplayAnsiMethodGreen(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.GREEN)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+    /**
+     * REd
+     * @param string
+     */
+
+    public void dispplayAnsiMethodYellow(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.YELLOW)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+
+    public void dispplayAnsiMethodBlue(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.BLUE)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+    public void dispplayAnsiMethodMagenta(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.MAGENTA)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+    public void dispplayAnsiMethodWhite(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.WHITE)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+    public void dispplayAnsiMethodRed(String string){
+        System.out.println(
+                Ansi.ansi()
+                        .fg(Ansi.Color.RED)
+                        .bold()
+                        .a(string)
+                        .reset().toString());
+
+    }
+
+
+
+
+
+
+
     static void showMenu(){
         System.out.println("\nWybierz typ annotacji:");
         System.out.println("1. Bez declared");

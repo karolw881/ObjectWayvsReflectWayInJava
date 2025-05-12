@@ -1,5 +1,7 @@
 package org.magisterium.Classes.Banks;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Interfaces.BankAccount;
 
@@ -12,6 +14,8 @@ import lombok.Data;
 
 @Data // Generuje gettery, settery, equals, hashCode i toString
 @AllArgsConstructor
+@Getter
+@Setter
 @BankInfo(
         description = "Największy bank w regionie.",
         headquarters = "Warszawa, Polska",
@@ -56,12 +60,5 @@ public class Bank  implements BankAccount {
         return Double.compare(other.balance, balance) == 0 && Objects.equals(username, other.username);
     }
 
-    @Override
-    public double getBalance() {
-        return this.balance;
-    }
-    @Override
-    public boolean isActive() {
-        return false;
-    }
+
 }
