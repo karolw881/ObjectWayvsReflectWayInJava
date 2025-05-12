@@ -46,10 +46,19 @@ public class MyScanner {
                 System.out.println("Zakończono.");
                 return;
             } else {
-                System.out.println("Nieprawidłowy wybór.");
+                System.out.println(
+                        Ansi.ansi()
+                                .fg(Ansi.Color.RED)
+                                .bold()
+                                .a("❌ Nieprawidłowy wybór. Spróbuj ponownie.")
+                                .reset()
+                                .toString()
+                );
             }
         }
     }
+
+
 
 
 

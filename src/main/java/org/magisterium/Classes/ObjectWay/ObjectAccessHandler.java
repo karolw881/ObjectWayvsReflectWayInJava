@@ -77,6 +77,16 @@ public class ObjectAccessHandler {
                 case "5":
                     handleActivityStatusAccess(accessChoice, scanner);
                     break;
+                default:
+                    System.out.println(
+                            Ansi.ansi()
+                                    .fg(Ansi.Color.RED)
+                                    .bold()
+                                    .a("❌ Nieprawidłowy wybór pola. Spróbuj ponownie.")
+                                    .reset()
+                                    .toString()
+                    );
+                    break;
             }
         }
     }
@@ -89,29 +99,29 @@ public class ObjectAccessHandler {
                                 .fg(Ansi.Color.RED)
                                 .bold()
                                 .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
-                                .reset().toString()
+                                .reset()
+                                .toString()
                 );
-
                 break;
             case "2":
-
-
                 System.out.println(
                         Ansi.ansi()
                                 .fg(Ansi.Color.GREEN)
                                 .bold()
                                 .a(bank.getBalance())
-                                .reset().toString());
+                                .reset()
+                                .toString()
+                );
                 break;
             case "3":
-
                 System.out.println(
                         Ansi.ansi()
                                 .fg(Ansi.Color.GREEN)
                                 .bold()
                                 .a("Podaj nowe saldo : ")
-                                .reset().toString());
-
+                                .reset()
+                                .toString()
+                );
                 try {
                     double newBalance = Double.parseDouble(scanner.nextLine());
                     bank.setBalance(newBalance);
@@ -120,16 +130,26 @@ public class ObjectAccessHandler {
                                     .fg(Ansi.Color.GREEN)
                                     .bold()
                                     .a("✅ Saldo zostało zaktualizowane.")
-                                    .reset().toString());
-
+                                    .reset()
+                                    .toString()
+                    );
                 } catch (NumberFormatException e) {
                     dispplayAnsiMethodRed("❌ Nieprawidłowy format kwoty.");
-
-
                 }
+                break;
+            default:
+                System.out.println(
+                        Ansi.ansi()
+                                .fg(Ansi.Color.RED)
+                                .bold()
+                                .a("❌ Nieprawidłowy wybór. Spróbuj ponownie.")
+                                .reset()
+                                .toString()
+                );
                 break;
         }
     }
+
 
     /**
      * @param string
@@ -360,6 +380,16 @@ public class ObjectAccessHandler {
                 bank.setUsername(newUsername);
                 dispplayAnsiMethodGreen("✅ Nazwa użytkownika została zaktualizowana.");
                 break;
+            default:
+                System.out.println(
+                        Ansi.ansi()
+                                .fg(Ansi.Color.RED)
+                                .bold()
+                                .a("❌ Nieprawidłowy wybór. Spróbuj ponownie.")
+                                .reset()
+                                .toString()
+                );
+                break;
         }
     }
 
@@ -499,6 +529,16 @@ public class ObjectAccessHandler {
                                 .fg(Ansi.Color.GREEN)
                                 .bold()
                                 .a("✅ Hasło zostało zaktualizowane."));
+                break;
+            default:
+                System.out.println(
+                        Ansi.ansi()
+                                .fg(Ansi.Color.RED)
+                                .bold()
+                                .a("❌ Nieprawidłowy wybór. Spróbuj ponownie.")
+                                .reset()
+                                .toString()
+                );
                 break;
         }
     }
