@@ -5,11 +5,13 @@ import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Classes.Banks.Bank;
 import org.magisterium.Classes.Banks.SubBank;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 import static org.magisterium.Classes.ReflectWay.MenuPrint.*;
 
@@ -115,15 +117,15 @@ SubBank subBank;
         Class<?> clazz = bank.getClass();
         Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 
-        System.out.println("\n=== Informacje o Konstruktorach ===");
+        dispplayAnsiMethodGreen("\n=== Informacje o Konstruktorach ===");
 
         if (constructors.length == 0) {
-            System.out.println("Klasa nie ma zadeklarowanych konstruktorów.");
+            dispplayAnsiMethodGreen("Klasa nie ma zadeklarowanych konstruktorów.");
             return;
         }
 
         for (Constructor<?> constructor : constructors) {
-            System.out.println("\nKonstruktor:");
+            dispplayAnsiMethodGreen("\nKonstruktor:");
             printModifiers(constructor);
             printParameters(constructor);
             printExceptions(constructor);
@@ -133,17 +135,17 @@ SubBank subBank;
 
     private void printModifiers(Constructor<?> constructor) {
         int modifiers = constructor.getModifiers();
-        System.out.println("Modyfikator dostępu: " + Modifier.toString(modifiers));
+        MenuPrint.dispplayAnsiMethodGreen("Modyfikator dostępu: " + Modifier.toString(modifiers));
     }
 
     private void printParameters(Constructor<?> constructor) {
         Parameter[] parameters = constructor.getParameters();
         if (parameters.length == 0) {
-            System.out.println("Parametry: brak (konstruktor bezargumentowy)");
+            MenuPrint.dispplayAnsiMethodGreen("Parametry: brak (konstruktor bezargumentowy)");
         } else {
-            System.out.println("Parametry:");
+            MenuPrint.dispplayAnsiMethodGreen("Parametry:");
             for (Parameter param : parameters) {
-                System.out.println("  - " + param.getType().getSimpleName() + " " + param.getName());
+                MenuPrint.dispplayAnsiMethodGreen("  - " + param.getType().getSimpleName() + " " + param.getName());
             }
         }
     }
@@ -151,12 +153,12 @@ SubBank subBank;
     private void printExceptions(Constructor<?> constructor) {
         Class<?>[] exceptions = constructor.getExceptionTypes();
         if (exceptions.length > 0) {
-            System.out.println("Deklarowane wyjątki:");
+            MenuPrint.dispplayAnsiMethodGreen("Deklarowane wyjątki:");
             for (Class<?> exception : exceptions) {
-                System.out.println("  - " + exception.getSimpleName());
+                dispplayAnsiMethodGreen("  - " + exception.getSimpleName());
             }
         }else{
-            System.out.println("mniejsze od 0 ");
+            dispplayAnsiMethodGreen("mniejsze od 0 ");
         }
     }
 
@@ -600,11 +602,11 @@ SubBank subBank;
         while (true) {
             showMenu();
             String choice = getNormalizedChoice(scanner.nextLine());
-            System.out.println(choice);
+           // System.out.println(choice);
             if (choice.equals("1")) {
-                chooseAllInformationOfAnnotation();
+                displayAllAnnotationsInfo();
             } else if (choice.equals("2")) {
-                chooseAllInformationOfDeclaredAnnotation();
+                displayDeclaredAnnotationsInfo();
             } else if (choice.equals("0")) {
                 return;
             } else {
@@ -612,107 +614,57 @@ SubBank subBank;
             }
         }
     }
-        public void chooseAllInformationOfDeclaredAnnotation() {
-            Class<?> clazz = bank.getClass();
-
-            // Sprawdzenie, czy metoda ma adnotację @BankInfo
-            if (clazz.isAnnotationPresent(BankInfo.class)) {
-                try {
-                    BankInfo annotation = clazz.getDeclaredAnnotation(BankInfo.class);
-                    // Wyświetlenie informacji z adnotacji
-                    dispplayAnsiMethodGreen("=== Informacje o Banku ===");
-                    dispplayAnsiMethodGreen("Nazwa: " + annotation.name());
-                    dispplayAnsiMethodGreen("Opis: " + annotation.description());
-                    dispplayAnsiMethodGreen("Siedziba: " + annotation.headquarters());
-                    dispplayAnsiMethodGreen("Kapitał: " + annotation.capital());
-                    dispplayAnsiMethodGreen("O nas: " + annotation.aboutUs());
-                   dispplayAnsiMethodGreen("==========================");
-                } catch (Exception e) {
-                    MenuPrint.dispplayAnsiMethodRed("Error executing method " + clazz.getName() + ": " + e.getMessage());
-                }
-            }
-
-
-            Class<?>  clazz1 = subBank.getClass();
-
-            // Sprawdzenie, czy metoda ma adnotację @BankInfo
-            if (clazz1.isAnnotationPresent(BankInfo.class)) {
-                try {
-                    BankInfo annotation = clazz1.getDeclaredAnnotation(BankInfo.class);
-                    // Wyświetlenie informacji z adnotacji
-                    dispplayAnsiMethodMagenta("=== Informacje o Banku ===");
-                    dispplayAnsiMethodMagenta("Nazwa: " + annotation.name());
-                    dispplayAnsiMethodMagenta("Opis: " + annotation.description());
-                    dispplayAnsiMethodMagenta("Siedziba: " + annotation.headquarters());
-                    dispplayAnsiMethodMagenta("Kapitał: " + annotation.capital());
-                    dispplayAnsiMethodMagenta("O nas: " + annotation.aboutUs());
-                    dispplayAnsiMethodMagenta("==========================");
-                } catch (Exception e) {
-                    MenuPrint.dispplayAnsiMethodRed("Error executing method " + clazz.getName() + ": " + e.getMessage());
-                }
-            }
-
-
-
-        }
 
 
     /**
-     * Dodaj opcje bez declared
-     *
-     * **/
-
-
-        private void chooseAllInformationOfAnnotation() {
-            Class<?> clazz = bank.getClass();
-
-        // Sprawdzenie, czy metoda ma adnotację @BankInfo
-        if (clazz.isAnnotationPresent(BankInfo.class)) {
-            try {
-                BankInfo annotation = clazz.getAnnotation(BankInfo.class);
-                System.out.println("Hierarchia klas:");
-                Class<?> currentClass = bank.getClass();
-                while (currentClass != null) {
-                    System.out.println(currentClass.getName() + " ma @BankInfo: " +
-                            currentClass.isAnnotationPresent(BankInfo.class));
-                    currentClass = currentClass.getSuperclass();
-                }
-                // Wyświetlenie informacji z adnotacji
-                dispplayAnsiMethodMagenta("=== Informacje o Banku ===");
-                dispplayAnsiMethodMagenta("Nazwa: " + annotation.name());
-                dispplayAnsiMethodMagenta("Opis: " + annotation.description());
-                dispplayAnsiMethodMagenta("Siedziba: " + annotation.headquarters());
-                dispplayAnsiMethodMagenta("Kapitał: " + annotation.capital());
-                dispplayAnsiMethodMagenta("O nas: " + annotation.aboutUs());
-                dispplayAnsiMethodMagenta("==========================");
-            } catch (Exception e) {
-                MenuPrint.dispplayAnsiMethodRed("Error executing method " + clazz.getName() + ": " + e.getMessage());
-            }
+     * Wariant "pełny": getAnnotation() zwraca adnotację zadeklarowaną bezpośrednio
+     * oraz odziedziczoną (jeśli @BankInfo ma @Inherited).
+     */
+    public void displayAllAnnotationsInfo() {
+        Object[] banks = { bank, subBank };
+        for (Object obj : banks) {
+            Class<?> clazz = obj.getClass();
+            BankInfo info = clazz.getAnnotation(BankInfo.class);
+            if (info == null) continue;
+            printInfo(clazz, info, obj);
         }
+    }
 
-
-
-            Class<?>  clazz1 = subBank.getClass();
-
-            // Sprawdzenie, czy metoda ma adnotację @BankInfo
-            if (clazz1.isAnnotationPresent(BankInfo.class)) {
-                try {
-                    BankInfo annotation = clazz1.getAnnotation(BankInfo.class);
-                    // Wyświetlenie informacji z adnotacji
-                    dispplayAnsiMethodBlue("=== Informacje o Banku ===");
-                    dispplayAnsiMethodBlue("Nazwa: " + annotation.name());
-                    dispplayAnsiMethodBlue("Opis: " + annotation.description());
-                    dispplayAnsiMethodBlue("Siedziba: " + annotation.headquarters());
-                    dispplayAnsiMethodBlue("Kapitał: " + annotation.capital());
-                    dispplayAnsiMethodBlue("O nas: " + annotation.aboutUs());
-                    dispplayAnsiMethodBlue("==========================");
-                } catch (Exception e) {
-                    MenuPrint.dispplayAnsiMethodRed("Error executing method " + clazz.getName() + ": " + e.getMessage());
-                }
-            }
-
-
+    /**
+     * Wariant "declare-only": getDeclaredAnnotation() zwraca tylko te adnotacje,
+     * które klasa sama deklaruje.
+     */
+    public void displayDeclaredAnnotationsInfo() {
+        Object[] banks = { bank, subBank };
+        for (Object obj : banks) {
+            Class<?> clazz = obj.getClass();
+            BankInfo info = clazz.getDeclaredAnnotation(BankInfo.class);
+            if (info == null) continue;
+            printInfo(clazz, info, obj);
         }
+    }
+
+    /**
+     * Wspólna metoda do wyświetlania pełnego bloku informacji.
+     */
+    private void printInfo(Class<?> clazz, BankInfo info, Object obj) {
+        // wybór koloru wg typu instancji
+        Consumer<String> printer = (obj instanceof SubBank)
+                ? MenuPrint::dispplayAnsiMethodBlue
+                : MenuPrint::dispplayAnsiMethodMagenta;
+
+        printer.accept("=== Informacje o Banku (" + clazz.getSimpleName() + ") ===");
+        printer.accept("Nazwa:     " + info.name());
+        printer.accept("Opis:      " + info.description());
+        printer.accept("Siedziba:  " + info.headquarters());
+        printer.accept("Kapitał:   " + info.capital());
+        printer.accept("O nas:     " + info.aboutUs());
+        printer.accept("===============================\n");
+    }
+
+
+
+
 
     // 4. Metody
     private static void showMethodInfo() {

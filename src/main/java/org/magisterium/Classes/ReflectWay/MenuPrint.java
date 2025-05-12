@@ -131,7 +131,7 @@ public class MenuPrint {
                 Ansi.ansi()
                         .fg(Ansi.Color.RED)
                         .bold()
-                        .a(" ↩ 0. Powrót do menu głównego")
+                        .a("↩ 0. Powrót do menu głównego")
                         .reset().toString()
         );
 

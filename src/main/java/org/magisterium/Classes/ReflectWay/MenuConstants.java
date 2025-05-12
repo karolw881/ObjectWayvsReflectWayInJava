@@ -35,6 +35,7 @@ public class MenuConstants {
         map.put("Data utworzenia konta [Historia]", "3 - 📅");
         map.put("Hasło [Poufne]", "4 - ⚡");
         map.put("Status aktywności", "5 - [Monitoring]");
+        map.put("Cofnij" , "0 - [powrót]");
         return map;
     }
 

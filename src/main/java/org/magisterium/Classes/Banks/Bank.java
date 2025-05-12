@@ -6,6 +6,7 @@ import org.magisterium.Annotations.BankInfo;
 import org.magisterium.Interfaces.BankAccount;
 
 
+import java.lang.annotation.Inherited;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -16,6 +17,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Getter
 @Setter
+
 @BankInfo(
         description = "Największy bank w regionie.",
         headquarters = "Warszawa, Polska",
