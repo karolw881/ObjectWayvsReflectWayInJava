@@ -21,7 +21,7 @@ class ReflectionAccessHandlerChildTest {
     @BeforeEach
     void setUp() {
         System.setOut(new PrintStream(outputStreamCaptor));
-        testBank = new Bank(1000.0, "testUser", "testPass", LocalDateTime.now(), true, false);
+        testBank = new Bank(1000.0, "testUser", "testPass", LocalDateTime.now(), true, false , "a");
         handler = new ReflectionAccessHandlerChild(testBank);
     }
 
@@ -94,7 +94,7 @@ class ReflectionAccessHandlerChildTest {
     @Test
     @DisplayName("Test informacji o konstruktorach")
     void testShowConstructorsInfo() {
-        handler.showConstructorsInfo();
+        handler.showPublicConstructorsInfo();
         String output = outputStreamCaptor.toString();
         assertTrue(output.contains("=== Informacje o Konstruktorach ==="));
         assertTrue(output.contains("Modyfikator dostępu: public"));

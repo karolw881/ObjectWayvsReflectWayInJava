@@ -231,6 +231,30 @@ public class MenuPrint {
 
 
 
+    static void showMenuMethods2(){
+        dispplayAnsiMethodBlue("\nWybierz typ metod:");
+        dispplayAnsiMethodBlue("1. Bez declared");
+        dispplayAnsiMethodBlue("2. Z declared");
+        dispplayAnsiMethodBlue("0. Powrót");
+    }
+
+    static void showMenuFields(){
+        dispplayAnsiMethodBlue("\nWybierz typ pol:");
+        dispplayAnsiMethodBlue("1. Bez declared");
+        dispplayAnsiMethodBlue("2. Z declared");
+        dispplayAnsiMethodBlue("0. Powrót");
+    }
+
+    static void showMenuConstructor(){
+        dispplayAnsiMethodBlue("\nWybierz typ Konstruktor:");
+        dispplayAnsiMethodBlue("1. Bez declared");
+        dispplayAnsiMethodBlue("2. Z declared");
+        dispplayAnsiMethodBlue("0. Powrót");
+    }
+
+
+
+
 
 
 

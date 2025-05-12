@@ -65,10 +65,10 @@ SubBank subBank;
             System.out.println(fieldChoice);
             switch (fieldChoice) {
                 case "1" -> ChooseAllDataFields(scanner);
-                case "2" -> showConstructorsInfo();
+                case "2" -> handleConstructor(scanner);
                 case "3" -> handleAnnotationChoice(scanner); // Nowa metoda obsługująca wybór typu annotacji
-                case "4" -> showMethodInfo();
-                case "5" -> showFieldInfo();
+                case "4" -> handleMethodsChoice2(scanner);
+                case "5" -> handleFieldChoice(scanner);
                 case "6" -> showInheritanceAndInterfacesInfo();
                 case "7" ->  showPackageInfo();
                 case "8" ->   showAccessModifiersInfo();
@@ -113,24 +113,47 @@ SubBank subBank;
 
     /**poddzielono na mniejsze funkcje */
 
-    public void showConstructorsInfo() {
+    /**
+     * Wariant „bez declarED” – pokazuje tylko publiczne konstruktory zadeklarowane w klasie.
+     */
+    public void showPublicConstructorsInfo() {
+        Class<?> clazz = bank.getClass();
+        Constructor<?>[] constructors = clazz.getConstructors();
+
+        MenuPrint.dispplayAnsiMethodYellow("\n=== Publiczne konstruktory (getConstructors) ===");
+        if (constructors.length == 0) {
+            MenuPrint.dispplayAnsiMethodYellow("Brak publicznych konstruktorów.");
+        } else {
+            for (Constructor<?> ctor : constructors) {
+                MenuPrint.dispplayAnsiMethodYellow("\nKonstruktor:");
+                printModifiers(ctor);
+                printParameters(ctor);
+                printExceptions(ctor);
+            }
+        }
+        MenuPrint.dispplayAnsiMethodYellow("=================================\n");
+    }
+
+    /**
+     * Wariant „z declarED” – pokazuje wszystkie konstruktory zadeklarowane w klasie,
+     * niezależnie od modyfikatora.
+     */
+    public void showDeclaredConstructorsInfo() {
         Class<?> clazz = bank.getClass();
         Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 
-        dispplayAnsiMethodGreen("\n=== Informacje o Konstruktorach ===");
-
+        MenuPrint.dispplayAnsiMethodGreen("\n=== Wszystkie konstruktory (getDeclaredConstructors) ===");
         if (constructors.length == 0) {
-            dispplayAnsiMethodGreen("Klasa nie ma zadeklarowanych konstruktorów.");
-            return;
+            MenuPrint.dispplayAnsiMethodGreen("Brak zadeklarowanych konstruktorów.");
+        } else {
+            for (Constructor<?> ctor : constructors) {
+                MenuPrint.dispplayAnsiMethodGreen("\nKonstruktor:");
+                printModifiers(ctor);
+                printParameters(ctor);
+                printExceptions(ctor);
+            }
         }
-
-        for (Constructor<?> constructor : constructors) {
-            dispplayAnsiMethodGreen("\nKonstruktor:");
-            printModifiers(constructor);
-            printParameters(constructor);
-            printExceptions(constructor);
-        }
-        System.out.println("=================================");
+        MenuPrint.dispplayAnsiMethodGreen("=================================\n");
     }
 
     private void printModifiers(Constructor<?> constructor) {
@@ -161,6 +184,29 @@ SubBank subBank;
             dispplayAnsiMethodGreen("mniejsze od 0 ");
         }
     }
+
+
+
+    private void handleConstructor(Scanner scanner){
+        while (true) {
+            showMenuConstructor();
+            String choice = getNormalizedChoice(scanner.nextLine());
+
+            switch (choice) {
+                case "1": // Odczytaj  czy aktywny
+                    showPublicConstructorsInfo();
+                    break;
+                case "2": // Ustaw  czy atywny
+                    showDeclaredConstructorsInfo();
+                    break;
+                case "0": // Powrót do menu danych
+                    return;
+                default:
+                    wrongChoose();
+            }
+        }
+    }
+
 
 
 
@@ -383,6 +429,77 @@ SubBank subBank;
         }
     }
 
+    public void showAllFields() {
+        MenuPrint.dispplayAnsiMethodGreen("=== getFields() (publiczne pola z klasy i nadklas) ===");
+        for (Object obj : new Object[]{bank, subBank}) {
+            Class<?> clazz = obj.getClass();
+            Field[] fields = clazz.getFields();
+            MenuPrint.dispplayAnsiMethodGreen("[" + clazz.getSimpleName() + "]");
+            for (Field f : fields) {
+                String line = String.format("  • %s %s (%s)",
+                        Modifier.toString(f.getModifiers()),
+                        f.getType().getSimpleName(),
+                        f.getName()
+                );
+                MenuPrint.dispplayAnsiMethodGreen(line);
+            }
+            System.out.println();
+        }
+    }
+
+    public void showDeclaredFields() {
+        MenuPrint.dispplayAnsiMethodMagenta("=== getDeclaredFields() (wszystkie pola zadeklarowane w klasie) ===");
+        for (Object obj : new Object[]{bank, subBank}) {
+            Class<?> clazz = obj.getClass();
+            Field[] fields = clazz.getDeclaredFields();
+            MenuPrint.dispplayAnsiMethodMagenta("[" + clazz.getSimpleName() + "]");
+            for (Field f : fields) {
+                String line = String.format("  • %s %s (%s)",
+                        Modifier.toString(f.getModifiers()),
+                        f.getType().getSimpleName(),
+                        f.getName()
+                );
+                MenuPrint.dispplayAnsiMethodMagenta(line);
+            }
+            System.out.println();
+        }
+    }
+
+    public void showAllMethods() {
+        MenuPrint.dispplayAnsiMethodYellow("=== getMethods() (publiczne metody z klasy, nadklas i interfejsów) ===");
+        for (Object obj : new Object[]{bank, subBank}) {
+            Class<?> clazz = obj.getClass();
+            Method[] methods = clazz.getMethods();
+            MenuPrint.dispplayAnsiMethodYellow("[" + clazz.getSimpleName() + "]");
+            for (Method m : methods) {
+                String line = String.format("  • %s %s %s()",
+                        Modifier.toString(m.getModifiers()),
+                        m.getReturnType().getSimpleName(),
+                        m.getName()
+                );
+                MenuPrint.dispplayAnsiMethodYellow(line);
+            }
+            System.out.println();
+        }
+    }
+
+    public void showDeclaredMethods() {
+        MenuPrint.dispplayAnsiMethodMagenta("=== getDeclaredMethods() (wszystkie metody zadeklarowane w klasie) ===");
+        for (Object obj : new Object[]{bank, subBank}) {
+            Class<?> clazz = obj.getClass();
+            Method[] methods = clazz.getDeclaredMethods();
+            MenuPrint.dispplayAnsiMethodMagenta("[" + clazz.getSimpleName() + "]");
+            for (Method m : methods) {
+                String line = String.format("  • %s %s %s()",
+                        Modifier.toString(m.getModifiers()),
+                        m.getReturnType().getSimpleName(),
+                        m.getName()
+                );
+                MenuPrint.dispplayAnsiMethodMagenta(line);
+            }
+            System.out.println();
+        }
+    }
 
 
     /**
@@ -420,7 +537,7 @@ SubBank subBank;
 
     private void handleUsernameAccessSet(Scanner scanner) {
         try {
-            System.out.print("🔄 Wprowadź nową wartość pola 'username': ");
+            dispplayAnsiMethodBlue("🔄 Wprowadź nową wartość pola 'username': ");
             String newUsernameValue = scanner.nextLine();
 
             // Pobranie pola 'username' z klasy Bank
@@ -464,7 +581,7 @@ SubBank subBank;
 
     private void handlePasswordAccessSet(Scanner scanner) {
         try {
-            System.out.print("🔄 Wprowadź nową wartość pola 'passwordHash': ");
+            dispplayAnsiMethodBlue("🔄 Wprowadź nową wartość pola 'passwordHash': ");
             String newPasswordValue = scanner.nextLine(); // Odczytanie ciągu znaków od użytkownika
 
             // Pobranie klasy obiektu bank
@@ -616,6 +733,46 @@ SubBank subBank;
     }
 
 
+    public void handleMethodsChoice2(Scanner scanner) {
+
+        while (true) {
+            showMenuMethods2();
+            String choice = getNormalizedChoice(scanner.nextLine());
+            // System.out.println(choice);
+            if (choice.equals("1")) {
+                showAllMethods();
+            } else if (choice.equals("2")) {
+                showDeclaredMethods();
+            } else if (choice.equals("0")) {
+                return;
+            } else {
+                MenuPrint.dispplayAnsiMethodRed("Nieprawidłowy wybór. Spróbuj ponownie.");
+            }
+        }
+    }
+
+
+    public void handleFieldChoice(Scanner scanner) {
+
+        while (true) {
+            showMenuFields();
+            String choice = getNormalizedChoice(scanner.nextLine());
+            // System.out.println(choice);
+            if (choice.equals("1")) {
+                showAllFields();
+            } else if (choice.equals("2")) {
+                showDeclaredFields();
+            } else if (choice.equals("0")) {
+                return;
+            } else {
+                MenuPrint.dispplayAnsiMethodRed("Nieprawidłowy wybór. Spróbuj ponownie.");
+            }
+        }
+    }
+
+
+
+
     /**
      * Wariant "pełny": getAnnotation() zwraca adnotację zadeklarowaną bezpośrednio
      * oraz odziedziczoną (jeśli @BankInfo ma @Inherited).
@@ -676,6 +833,7 @@ SubBank subBank;
             dispplayAnsiMethodBlue("Modyfikatory: " + Modifier.toString(method.getModifiers()));
         }
     }
+
 
     // 5. Pola
     private static void showFieldInfo() {

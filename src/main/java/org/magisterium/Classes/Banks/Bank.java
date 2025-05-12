@@ -32,8 +32,18 @@ public class Bank  implements BankAccount {
     protected LocalDateTime accountCreationDate; // Użycie LocalDateTime
     protected boolean isActive;
     protected boolean isIndebted;
+    public String string;
 
     public Bank(double initialBalance, String username, String password) {
+
+        this.balance = initialBalance;
+        this.username = username;
+        this.passwordHash = password;
+        this.accountCreationDate = LocalDateTime.now();
+        this.isActive = true;
+    }
+
+    private Bank(double initialBalance, String username, String password , LocalDateTime accountCreationDate) {
 
         this.balance = initialBalance;
         this.username = username;
