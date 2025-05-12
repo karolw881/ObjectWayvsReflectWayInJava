@@ -337,7 +337,7 @@ SubBank subBank;
 
     private void handleBalanceAccessSet(Scanner scanner) {
         try {
-            System.out.print("🔄 Wprowadź nową wartość pola 'balance': ");
+            dispplayAnsiMethodBlue("🔄 Wprowadź nową wartość pola 'balance': ");
             String line = scanner.nextLine().trim();
             double newBalanceValue = Double.parseDouble(line);
 
@@ -347,13 +347,13 @@ SubBank subBank;
             balanceField.setAccessible(true);
             balanceField.set(bank, newBalanceValue);
 
-            System.out.println("🔄 Wartość pola 'balance' została ustawiona na: " + newBalanceValue);
+           dispplayAnsiMethodBlue("🔄 Wartość pola 'balance' została ustawiona na: " + newBalanceValue);
 
         } catch (NumberFormatException e) {
-            System.out.println("❌ Wprowadzono nieprawidłową wartość. Proszę wprowadzić poprawną liczbę.");
+            MenuPrint.dispplayAnsiMethodRed("❌ Wprowadzono nieprawidłową wartość.");
             // już pobraliśmy linię powyżej, więc bufor jest czysty — nie trzeba dodatkowego scanner.next()
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            System.out.println("❌ Błąd wewnętrzny: nie można uzyskać dostępu do pola 'balance'.");
+            MenuPrint.dispplayAnsiMethodRed("❌ Błąd wewnętrzny: nie można uzyskać dostępu do pola 'balance'.");
             e.printStackTrace();
         }
     }
@@ -376,7 +376,7 @@ SubBank subBank;
                 case "0": // Powrót do menu danych
                     return;
                 default:
-                    System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
+                    dispplayAnsiMethodRed("Nieprawidłowy wybór. Spróbuj ponownie.");
             }
         }
     }
@@ -401,11 +401,11 @@ SubBank subBank;
 
             dispplayAnsiMethodGreen("🔐 Username: " + usernameValue);
         } catch (NoSuchMethodException e) {
-            System.out.println("❌ Metoda 'getUsername' nie istnieje.");
+            MenuPrint.dispplayAnsiMethodRed("❌ Metoda 'getUsername' nie istnieje.");
         } catch (IllegalAccessException e) {
-            System.out.println("❌ Brak dostępu do metody 'getUsername'.");
+            MenuPrint.dispplayAnsiMethodRed("❌ Brak dostępu do metody 'getUsername'.");
         } catch (InvocationTargetException e) {
-            System.out.println("❌ Błąd przy wywoływaniu metody: " + e.getCause());
+            MenuPrint.dispplayAnsiMethodRed("❌ Błąd przy wywoływaniu metody: " + e.getCause());
         }
     }
 
@@ -430,11 +430,11 @@ SubBank subBank;
             // Zmiana wartości pola 'username' na instancji obiektu bank
             usernameField.set(bank, newUsernameValue);
 
-            System.out.println("🔄 Wartość pola 'username' została ustawiona na: " + newUsernameValue);
+           dispplayAnsiMethodBlue("🔄 Wartość pola 'username' została ustawiona na: " + newUsernameValue);
         } catch (NoSuchFieldException e) {
-            System.out.println("❌ Pole 'username' nie istnieje.");
+            MenuPrint.dispplayAnsiMethodRed("❌ Pole 'username' nie istnieje.");
         } catch (IllegalAccessException e) {
-            System.out.println("❌ Błąd podczas zmiany wartości pola 'username'.");
+            MenuPrint.dispplayAnsiMethodRed("❌ Błąd podczas zmiany wartości pola 'username'.");
             e.printStackTrace();
         }
     }
@@ -452,7 +452,7 @@ SubBank subBank;
                 case "1" -> handlePasswordAccessGet(scanner); // Użycie nowego składni switch (Java 13+)
                 case "2" -> handlePasswordAccessSet(scanner);
                 case "0" -> {
-                    System.out.println("Powrót do menu danych...");
+                    MenuPrint.dispplayAnsiMethodGreen("Powrót do menu danych...");
                     return; // Dodano komunikat, aby użytkownik wiedział, co się dzieje
                 }
                 default -> wrongChoose(); // Użycie nowej składni switch (Java 13+)
@@ -474,11 +474,11 @@ SubBank subBank;
             // Wywołanie metody setUsername na instancji obiektu bank
             setPasswordMethod.invoke(bank, newPasswordValue);
 
-            System.out.println("🔄 Wartość pola 'password' została ustawiona na: " + newPasswordValue);
+            dispplayAnsiMethodBlue("🔄 Wartość pola 'password' została ustawiona na: " + newPasswordValue);
         } catch (NoSuchMethodException e) {
-            System.out.println("❌ Metoda 'setUsername' nie istnieje.");
+            MenuPrint.dispplayAnsiMethodRed("❌ Metoda 'setUsername' nie istnieje.");
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            System.out.println("❌ Błąd podczas wywołania metody 'setUsername'.");
+            MenuPrint.dispplayAnsiMethodRed("❌ Błąd podczas wywołania metody 'setUsername'.");
             e.printStackTrace();
         }
     }
@@ -539,7 +539,7 @@ SubBank subBank;
             // Pobranie metody setAccountCreationDate(LocalDateTime)
             Method setDateMethod = bankClass.getDeclaredMethod("setAccountCreationDate", LocalDateTime.class);
             setDateMethod.setAccessible(true); // pozwalamy na dostęp do prywatnej metody
-
+            dispplayAnsiMethodYellow("format daty yyyy-MM-dd HH:mm:ss ");
             // Pobranie daty od użytkownika
             String inputDate = scanner.nextLine();
 
@@ -581,9 +581,9 @@ SubBank subBank;
                 dispplayAnsiMethodYellow("💰 Data utworzenia: " + ac);
             //    System.out.println("💰 Data utworzenia: " + ac);
             } catch (NoSuchFieldException e) {
-                System.out.println("❌ Pole 'utworzenia nie istnieje' nie istnieje.");
+                MenuPrint.dispplayAnsiMethodRed("❌ Pole 'utworzenia nie istnieje' nie istnieje.");
             } catch (IllegalAccessException e) {
-                System.out.println("❌ Brak dostępu do pola 'data utworzenia'.");
+                MenuPrint.dispplayAnsiMethodRed("❌ Brak dostępu do pola 'data utworzenia'.");
             }
 
         }
@@ -608,7 +608,7 @@ SubBank subBank;
             } else if (choice.equals("0")) {
                 return;
             } else {
-                System.out.println("Nieprawidłowy wybór. Spróbuj ponownie.");
+                MenuPrint.dispplayAnsiMethodRed("Nieprawidłowy wybór. Spróbuj ponownie.");
             }
         }
     }
@@ -628,7 +628,7 @@ SubBank subBank;
                     dispplayAnsiMethodGreen("O nas: " + annotation.aboutUs());
                    dispplayAnsiMethodGreen("==========================");
                 } catch (Exception e) {
-                    System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
+                    MenuPrint.dispplayAnsiMethodRed("Error executing method " + clazz.getName() + ": " + e.getMessage());
                 }
             }
 
@@ -648,7 +648,7 @@ SubBank subBank;
                     dispplayAnsiMethodMagenta("O nas: " + annotation.aboutUs());
                     dispplayAnsiMethodMagenta("==========================");
                 } catch (Exception e) {
-                    System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
+                    MenuPrint.dispplayAnsiMethodRed("Error executing method " + clazz.getName() + ": " + e.getMessage());
                 }
             }
 
@@ -686,7 +686,7 @@ SubBank subBank;
                 dispplayAnsiMethodMagenta("O nas: " + annotation.aboutUs());
                 dispplayAnsiMethodMagenta("==========================");
             } catch (Exception e) {
-                System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
+                MenuPrint.dispplayAnsiMethodRed("Error executing method " + clazz.getName() + ": " + e.getMessage());
             }
         }
 
@@ -707,7 +707,7 @@ SubBank subBank;
                     dispplayAnsiMethodBlue("O nas: " + annotation.aboutUs());
                     dispplayAnsiMethodBlue("==========================");
                 } catch (Exception e) {
-                    System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
+                    MenuPrint.dispplayAnsiMethodRed("Error executing method " + clazz.getName() + ": " + e.getMessage());
                 }
             }
 
