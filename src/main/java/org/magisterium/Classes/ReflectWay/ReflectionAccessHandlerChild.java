@@ -338,21 +338,23 @@ SubBank subBank;
     private void handleBalanceAccessSet(Scanner scanner) {
         try {
             System.out.print("🔄 Wprowadź nową wartość pola 'balance': ");
-            double newBalanceValue2 = Double.parseDouble(scanner.nextLine());
-          // Oczyszczenie bufora po wprowadzeniu liczby
+            String line = scanner.nextLine().trim();
+            double newBalanceValue = Double.parseDouble(line);
 
-            // Ustawienie salda
+            // Refleksja: ustawiamy pole 'balance'
             Class<?> bankClass = bank.getClass();
             Field balanceField = bankClass.getDeclaredField("balance");
             balanceField.setAccessible(true);
-            balanceField.set(bank, newBalanceValue2);
+            balanceField.set(bank, newBalanceValue);
 
-            System.out.println("🔄 Wartość pola 'balance' została ustawiona na: " + balanceField);
+            System.out.println("🔄 Wartość pola 'balance' została ustawiona na: " + newBalanceValue);
+
+        } catch (NumberFormatException e) {
+            System.out.println("❌ Wprowadzono nieprawidłową wartość. Proszę wprowadzić poprawną liczbę.");
+            // już pobraliśmy linię powyżej, więc bufor jest czysty — nie trzeba dodatkowego scanner.next()
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InputMismatchException e) {
-            System.out.println("Wprowadzono nieprawidłową wartość. Proszę wprowadzić liczbę.");
-            scanner.next(); // Oczyszczenie błędnego wejścia
+            System.out.println("❌ Błąd wewnętrzny: nie można uzyskać dostępu do pola 'balance'.");
+            e.printStackTrace();
         }
     }
 
@@ -618,13 +620,13 @@ SubBank subBank;
                 try {
                     BankInfo annotation = clazz.getDeclaredAnnotation(BankInfo.class);
                     // Wyświetlenie informacji z adnotacji
-                    System.out.println("=== Informacje o Banku ===");
-                    System.out.println("Nazwa: " + annotation.name());
-                    System.out.println("Opis: " + annotation.description());
-                    System.out.println("Siedziba: " + annotation.headquarters());
-                    System.out.println("Kapitał: " + annotation.capital());
-                    System.out.println("O nas: " + annotation.aboutUs());
-                    System.out.println("==========================");
+                    dispplayAnsiMethodGreen("=== Informacje o Banku ===");
+                    dispplayAnsiMethodGreen("Nazwa: " + annotation.name());
+                    dispplayAnsiMethodGreen("Opis: " + annotation.description());
+                    dispplayAnsiMethodGreen("Siedziba: " + annotation.headquarters());
+                    dispplayAnsiMethodGreen("Kapitał: " + annotation.capital());
+                    dispplayAnsiMethodGreen("O nas: " + annotation.aboutUs());
+                   dispplayAnsiMethodGreen("==========================");
                 } catch (Exception e) {
                     System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
                 }
@@ -638,13 +640,13 @@ SubBank subBank;
                 try {
                     BankInfo annotation = clazz1.getDeclaredAnnotation(BankInfo.class);
                     // Wyświetlenie informacji z adnotacji
-                    System.out.println("=== Informacje o Banku ===");
-                    System.out.println("Nazwa: " + annotation.name());
-                    System.out.println("Opis: " + annotation.description());
-                    System.out.println("Siedziba: " + annotation.headquarters());
-                    System.out.println("Kapitał: " + annotation.capital());
-                    System.out.println("O nas: " + annotation.aboutUs());
-                    System.out.println("==========================");
+                    dispplayAnsiMethodMagenta("=== Informacje o Banku ===");
+                    dispplayAnsiMethodMagenta("Nazwa: " + annotation.name());
+                    dispplayAnsiMethodMagenta("Opis: " + annotation.description());
+                    dispplayAnsiMethodMagenta("Siedziba: " + annotation.headquarters());
+                    dispplayAnsiMethodMagenta("Kapitał: " + annotation.capital());
+                    dispplayAnsiMethodMagenta("O nas: " + annotation.aboutUs());
+                    dispplayAnsiMethodMagenta("==========================");
                 } catch (Exception e) {
                     System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
                 }
@@ -676,13 +678,13 @@ SubBank subBank;
                     currentClass = currentClass.getSuperclass();
                 }
                 // Wyświetlenie informacji z adnotacji
-                System.out.println("=== Informacje o Banku ===");
-                System.out.println("Nazwa: " + annotation.name());
-                System.out.println("Opis: " + annotation.description());
-                System.out.println("Siedziba: " + annotation.headquarters());
-                System.out.println("Kapitał: " + annotation.capital());
-                System.out.println("O nas: " + annotation.aboutUs());
-                System.out.println("==========================");
+                dispplayAnsiMethodMagenta("=== Informacje o Banku ===");
+                dispplayAnsiMethodMagenta("Nazwa: " + annotation.name());
+                dispplayAnsiMethodMagenta("Opis: " + annotation.description());
+                dispplayAnsiMethodMagenta("Siedziba: " + annotation.headquarters());
+                dispplayAnsiMethodMagenta("Kapitał: " + annotation.capital());
+                dispplayAnsiMethodMagenta("O nas: " + annotation.aboutUs());
+                dispplayAnsiMethodMagenta("==========================");
             } catch (Exception e) {
                 System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
             }
@@ -697,13 +699,13 @@ SubBank subBank;
                 try {
                     BankInfo annotation = clazz1.getAnnotation(BankInfo.class);
                     // Wyświetlenie informacji z adnotacji
-                    System.out.println("=== Informacje o Banku ===");
-                    System.out.println("Nazwa: " + annotation.name());
-                    System.out.println("Opis: " + annotation.description());
-                    System.out.println("Siedziba: " + annotation.headquarters());
-                    System.out.println("Kapitał: " + annotation.capital());
-                    System.out.println("O nas: " + annotation.aboutUs());
-                    System.out.println("==========================");
+                    dispplayAnsiMethodBlue("=== Informacje o Banku ===");
+                    dispplayAnsiMethodBlue("Nazwa: " + annotation.name());
+                    dispplayAnsiMethodBlue("Opis: " + annotation.description());
+                    dispplayAnsiMethodBlue("Siedziba: " + annotation.headquarters());
+                    dispplayAnsiMethodBlue("Kapitał: " + annotation.capital());
+                    dispplayAnsiMethodBlue("O nas: " + annotation.aboutUs());
+                    dispplayAnsiMethodBlue("==========================");
                 } catch (Exception e) {
                     System.out.println("Error executing method " + clazz.getName() + ": " + e.getMessage());
                 }
@@ -717,9 +719,9 @@ SubBank subBank;
         Class<?> clazz = Bank.class;
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
-            System.out.println("Metoda: " + method.getName());
-            System.out.println("Typ zwracany: " + method.getReturnType());
-            System.out.println("Modyfikatory: " + Modifier.toString(method.getModifiers()));
+            dispplayAnsiMethodBlue("Metoda: " + method.getName());
+            dispplayAnsiMethodBlue("Typ zwracany: " + method.getReturnType());
+            dispplayAnsiMethodBlue("Modyfikatory: " + Modifier.toString(method.getModifiers()));
         }
     }
 
@@ -729,8 +731,8 @@ SubBank subBank;
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
-            System.out.println("Pole: " + field.getName());
-            System.out.println("Typ: " + field.getType());
+            dispplayAnsiMethodBlue("Pole: " + field.getName());
+            dispplayAnsiMethodBlue("Typ: " + field.getType());
         }
     }
 
@@ -739,11 +741,11 @@ SubBank subBank;
         Class<?> clazz = Bank.class;
         Class<?>[] interfaces = clazz.getInterfaces();
         for (Class<?> iface : interfaces) {
-            System.out.println("Implementowany interfejs: " + iface.getName());
+            dispplayAnsiMethodBlue("Implementowany interfejs: " + iface.getName());
         }
 
         Class<?> superclass = clazz.getSuperclass();
-        System.out.println("Superklasa: " + superclass.getName());
+        dispplayAnsiMethodBlue("Superklasa: " + superclass.getName());
     }
 
 
@@ -754,7 +756,7 @@ SubBank subBank;
     private static void showPackageInfo() {
         Class<?> clazz = Bank.class;
         Package pkg = clazz.getPackage();
-        System.out.println("Pakiet: " + pkg.getName());
+        dispplayAnsiMethodBlue("Pakiet: " + pkg.getName());
     }
 
     // 8. Modyfikatory dostępu
@@ -762,8 +764,8 @@ SubBank subBank;
         Class<?> clazz = Bank.class;
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
-            System.out.println("Metoda: " + method.getName());
-            System.out.println("Modyfikatory dostępu: " + Modifier.toString(method.getModifiers()));
+            dispplayAnsiMethodBlue("Metoda: " + method.getName());
+            dispplayAnsiMethodBlue("Modyfikatory dostępu: " + Modifier.toString(method.getModifiers()));
         }
     }
 
@@ -778,7 +780,7 @@ SubBank subBank;
     }
 
 
-    public void dispplayAnsiMethodBlue(String string){
+    public static void dispplayAnsiMethodBlue(String string){
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.BLUE)

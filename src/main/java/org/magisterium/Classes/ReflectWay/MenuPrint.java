@@ -163,7 +163,7 @@ public class MenuPrint {
      * GREEEN
      * @param string
      */
-    public void dispplayAnsiMethodGreen(String string){
+    public static void dispplayAnsiMethodGreen(String string){
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.GREEN)
@@ -178,7 +178,7 @@ public class MenuPrint {
      * @param string
      */
 
-    public void dispplayAnsiMethodYellow(String string){
+    public static void dispplayAnsiMethodYellow(String string){
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.YELLOW)
@@ -189,7 +189,7 @@ public class MenuPrint {
     }
 
 
-    public void dispplayAnsiMethodBlue(String string){
+    public static void dispplayAnsiMethodBlue(String string){
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.BLUE)
@@ -199,7 +199,7 @@ public class MenuPrint {
 
     }
 
-    public void dispplayAnsiMethodMagenta(String string){
+    public static void dispplayAnsiMethodMagenta(String string){
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.MAGENTA)
@@ -209,7 +209,7 @@ public class MenuPrint {
 
     }
 
-    public void dispplayAnsiMethodWhite(String string){
+    public static void dispplayAnsiMethodWhite(String string){
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.WHITE)
@@ -219,7 +219,7 @@ public class MenuPrint {
 
     }
 
-    public void dispplayAnsiMethodRed(String string){
+    public static void dispplayAnsiMethodRed(String string){
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.RED)
@@ -236,54 +236,54 @@ public class MenuPrint {
 
 
     static void showMenu(){
-        System.out.println("\nWybierz typ annotacji:");
-        System.out.println("1. Bez declared");
-        System.out.println("2. Z declared");
-        System.out.println("0. Powrót");
+        dispplayAnsiMethodBlue("\nWybierz typ annotacji:");
+        dispplayAnsiMethodBlue("1. Bez declared");
+        dispplayAnsiMethodBlue("2. Z declared");
+        dispplayAnsiMethodBlue("0. Powrót");
     }
 
 
     static void showMenuActive(){
-        System.out.println("1. Odczytaj 'czy aktywny'");
-        System.out.println("2. Ustaw 'czy aktywny '");
-        System.out.println("0. Powrót");
+        dispplayAnsiMethodGreen("1. Odczytaj 'czy aktywny'");
+        dispplayAnsiMethodGreen("2. Ustaw 'czy aktywny '");
+        dispplayAnsiMethodGreen("0. Powrót");
 
-        System.out.print("Wybierz opcję: ");
+        dispplayAnsiMethodGreen("Wybierz opcję: ");
     }
 
 
     static void showMenuBalance(){
-        System.out.println("1. Odczytaj 'balance'");
-        System.out.println("2. Ustaw 'balance'");
-        System.out.println("0. Powrót");
-
-        System.out.print("Wybierz opcję: ");
+        dispplayAnsiMethodMagenta("1. Odczytaj 'balance'");
+        dispplayAnsiMethodMagenta("2. Ustaw 'balance'");
+        dispplayAnsiMethodMagenta("0. Powrót");
+        dispplayAnsiMethodMagenta("Wybierz opcję: ");
     }
 
 
     static void showMenuPassword(){
-        System.out.println("1. Odczytaj 'password'");
-        System.out.println("2. Ustaw 'password'");
-        System.out.println("0. Powrót");
+        dispplayAnsiMethodMagenta("1. Odczytaj 'password'");
+        dispplayAnsiMethodMagenta("2. Ustaw 'password'");
+        dispplayAnsiMethodMagenta("0. Powrót");
 
-        System.out.print("Wybierz opcję: ");
+        dispplayAnsiMethodMagenta("Wybierz opcję: ");
     }
+
+
 
 
     static void showMenuUsername(){
-        System.out.println("1. Odczytaj 'username'");
-        System.out.println("2. Ustaw 'username'");
-        System.out.println("0. Powrót");
+        dispplayAnsiMethodYellow("1. Odczytaj 'username'");
+        dispplayAnsiMethodYellow("2. Ustaw 'username'");
+        dispplayAnsiMethodYellow("0. Powrót");
 
-        System.out.print("Wybierz opcję: ");
+        dispplayAnsiMethodYellow("Wybierz opcję: ");
     }
 
     static void showMenuDataAcces(){
-        System.out.println("1. Odczytaj 'date utworzenie '");
-        System.out.println("2. Ustaw 'date utworzenia '");
-        System.out.println("0. Powrót");
-
-        System.out.print("Wybierz opcję: ");
+        dispplayAnsiMethodYellow("1. Odczytaj 'date utworzenie '");
+        dispplayAnsiMethodYellow("2. Ustaw 'date utworzenia '");
+        dispplayAnsiMethodYellow("0. Powrót");
+        dispplayAnsiMethodYellow("Wybierz opcję: ");
     }
 
     static void menuMainReturn(){
@@ -358,6 +358,8 @@ public class MenuPrint {
                         .reset().toString()
         );
     }
+
+
 
 
 }
