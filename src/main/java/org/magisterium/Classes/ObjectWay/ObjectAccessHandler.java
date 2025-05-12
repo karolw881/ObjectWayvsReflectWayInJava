@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.fusesource.jansi.Ansi;
 import org.magisterium.Classes.Banks.Bank;
+import org.magisterium.Classes.LolScanner.MyScanner;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -288,8 +289,37 @@ public class ObjectAccessHandler {
         return scanner.nextLine();
     }
 
+
+
+    public String Normalize(String input) {
+        if (input == null) {
+            return "";
+        }
+
+        // Przygotuj string do normalizacji
+        String trimmed = input.strip();
+
+        // Usuń nawiasy i spacje, zachowując kropkę na końcu jeśli istnieje
+        String withoutBrackets = trimmed
+                .replace("(", "")
+                .replace(")", "")
+                .toLowerCase();
+
+        // Usuń kropkę tylko jeśli nie jest ostatnim znakiem
+        String normalized = withoutBrackets;
+        if (!withoutBrackets.endsWith(".")) {
+            normalized = withoutBrackets.replace(".", "");
+        }
+
+        // Usuń kropkę do porównania w switch
+        String forSwitch = normalized.replace(".", "");
+
+        return forSwitch;
+    }
+
+
     public String getNormalizedChoice(String input) {
-        String normalized = input.strip().replace(".", "").toLowerCase();
+        String normalized = Normalize(input);
         switch (normalized) {
             case "1":
                 return "1";
@@ -493,7 +523,7 @@ public class ObjectAccessHandler {
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a("  \"Nieprawidłowy wybór. Spróbuj ponownie.\" ")
+                                .a("Nieprawidłowy wybór. Spróbuj ponownie. ")
                                 .reset().toString());
 
 

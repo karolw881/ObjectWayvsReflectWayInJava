@@ -15,7 +15,8 @@ public class MyScanner {
             "Programowanie to Twoje królestwo",
             "Zatwierdź, Enterem",
             "Cofnij, Zerem",
-            "Dozwolone np. 1 2. (3) ",
+            "Dozwolone głowne np. 1 2. (3) ",
+            "A także jak się pomylisz ((1  1.) (1.)) itd "
     };
 
     private final Bank bank;
