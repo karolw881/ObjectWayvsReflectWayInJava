@@ -56,11 +56,9 @@ public class ObjectAccessHandler {
     public void handleFieldAccess(String fieldChoice, Scanner scanner) {
         while (true) {
             String accessChoice = displayFieldAccessMenu(fieldChoice, scanner);
-
             if ("0".equals(accessChoice)) {
                 break;
             }
-
             switch (fieldChoice) {
                 case "1":
                     handleBalanceAccess(accessChoice, scanner);
@@ -411,39 +409,45 @@ public class ObjectAccessHandler {
                 dispplayAnsiMethodGreen("⚡ Status aktywności: " + bank.isActive());
                 break;
             case "3":
+            setIsActive(scanner);
 
-                dispplayAnsiMethodGreen("Podaj nowy status aktywności (true/false): ");
-                String input = scanner.nextLine();
-                // Walidacja – akceptujemy tylko "true" lub "false" (bez względu na wielkość liter)
-                if (input.equals("true") || input.equals("false")) {
-                    boolean newStatus = Boolean.parseBoolean(input);
-                    //  System.out.println(newStatus);
-                    // rzutowanie z boolena na stringa !!!!
-/// TYKO zmienic tego Sysemouta
-
-                    bank.setActive(newStatus);
-                    System.out.println(
-                            Ansi.ansi()
-                                    .fg(Ansi.Color.GREEN)
-                                    .bold()
-                                    .a("✅ Status aktywności został zaktualizowany.")
-                                    .reset().toString()
-                    );
-                } else {
-                    System.out.println(
-                            Ansi.ansi()
-                                    .fg(Ansi.Color.RED)
-                                    .bold()
-                                    .a("❌ Nieprawidłowy format statusu. Wprowadź 'true' lub 'false'.")
-                                    .reset().toString()
-                    );
-                }
                 break;
             default:
                 dispplayAnsiMethodRed("Nieprawidłowy wybór.");
                 break;
         }
     }
+
+    private void setIsActive(Scanner scanner) {
+        dispplayAnsiMethodGreen("Podaj nowy status aktywności (true/false): ");
+        String input = scanner.nextLine();
+        // Walidacja – akceptujemy tylko "true" lub "false" (bez względu na wielkość liter)
+        if (input.equals("true") || input.equals("false")) {
+            boolean newStatus = Boolean.parseBoolean(input);
+            //  System.out.println(newStatus);
+            // rzutowanie z boolena na stringa !!!!
+/// TYKO zmienic tego Sysemouta
+
+            bank.setActive(newStatus);
+            System.out.println(
+                    Ansi.ansi()
+                            .fg(Ansi.Color.GREEN)
+                            .bold()
+                            .a("✅ Status aktywności został zaktualizowany.")
+                            .reset().toString()
+            );
+        } else {
+            System.out.println(
+                    Ansi.ansi()
+                            .fg(Ansi.Color.RED)
+                            .bold()
+                            .a("❌ Nieprawidłowy format statusu. Wprowadź 'true' lub 'false'.")
+                            .reset().toString()
+            );
+        }
+    }
+
+
 
     private void handleAccountCreationDateAccess(String accessChoice) {
         switch (accessChoice) {
@@ -545,6 +549,7 @@ public class ObjectAccessHandler {
 
 
     private String getFieldName(String choice) {
+        choice = Normalize(choice);
         switch (choice) {
             case "1":
                 return "SALDO";

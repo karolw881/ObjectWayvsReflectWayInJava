@@ -390,22 +390,23 @@ SubBank subBank;
             // Pobranie klasy obiektu bank
             Class<?> bankClass = bank.getClass();
 
-            // Pobranie pola "username"
-            Field usernameField = bankClass.getDeclaredField("username");
+            // Pobranie prywatnej metody getUsername()
+            Method getUsernameMethod = bankClass.getDeclaredMethod("getUsername");
+            getUsernameMethod.setAccessible(true);
 
-            // Ustawienie dostępu do prywatnego pola
-            usernameField.setAccessible(true);
+            // Wywołanie metody refleksyjnie
+            Object usernameValue = getUsernameMethod.invoke(bank);
 
-            // Odczytanie wartości pola "username" z instancji obiektu bank
-            Object usernameValue = usernameField.get(bank);
-            dispplayAnsiMethodGreen("💰 username: " + usernameValue);
-
-        } catch (NoSuchFieldException e) {
-            System.out.println("❌ Pole 'username' nie istnieje.");
+            dispplayAnsiMethodGreen("🔐 Username: " + usernameValue);
+        } catch (NoSuchMethodException e) {
+            System.out.println("❌ Metoda 'getUsername' nie istnieje.");
         } catch (IllegalAccessException e) {
-            System.out.println("❌ Brak dostępu do pola 'username'.");
+            System.out.println("❌ Brak dostępu do metody 'getUsername'.");
+        } catch (InvocationTargetException e) {
+            System.out.println("❌ Błąd przy wywoływaniu metody: " + e.getCause());
         }
     }
+
 
 
 
@@ -530,38 +531,38 @@ SubBank subBank;
 
     public void handleDateAccessSet(Scanner scanner) {
         try {
-
-            // Pobranie daty od użytkownika
             // Pobranie klasy obiektu bank
             Class<?> bankClass = bank.getClass();
 
-            // Pobranie pola accountCreationDate
-            Field accountCreationDateField = bankClass.getDeclaredField("accountCreationDate");
+            // Pobranie metody setAccountCreationDate(LocalDateTime)
+            Method setDateMethod = bankClass.getDeclaredMethod("setAccountCreationDate", LocalDateTime.class);
+            setDateMethod.setAccessible(true); // pozwalamy na dostęp do prywatnej metody
 
-            // Ustawienie dostępu do prywatnego pola
-            accountCreationDateField.setAccessible(true);
-
+            // Pobranie daty od użytkownika
             String inputDate = scanner.nextLine();
 
             // Konwersja na LocalDateTime
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime newDate = LocalDateTime.parse(inputDate, formatter);
 
-            // Ustawienie nowej wartości pola
-            accountCreationDateField.set(bank, newDate);
-
+            // Wywołanie metody refleksyjnie
+            setDateMethod.invoke(bank, newDate);
 
             dispplayAnsiMethodGreen("✅ Data utworzenia konta została zmieniona na: " + newDate);
-        } catch (NoSuchFieldException e) {
-            dispplayAnsiMethodRed("❌ Pole 'accountCreationDate' nie istnieje.");
+
+        } catch (NoSuchMethodException e) {
+            dispplayAnsiMethodRed("❌ Metoda 'setAccountCreationDate' nie istnieje.");
         } catch (IllegalAccessException e) {
-            dispplayAnsiMethodRed("❌ Brak dostępu do pola 'accountCreationDate'.");
+            dispplayAnsiMethodRed("❌ Brak dostępu do metody 'setAccountCreationDate'.");
+        } catch (InvocationTargetException e) {
+            dispplayAnsiMethodRed("❌ Błąd przy wywoływaniu metody: " + e.getCause());
         } catch (Exception e) {
-            dispplayAnsiMethodRed( "❌ Błąd: Nie udało się zmienić daty. Upewnij się, że podany format jest poprawny.");
+            dispplayAnsiMethodRed("❌ Błąd: Nie udało się zmienić daty. Upewnij się, że podany format jest poprawny.");
         }
     }
 
-        private void handleDataAccessGet(Scanner scanner) {
+
+    private void handleDataAccessGet(Scanner scanner) {
             try {
                 // Pobranie klasy obiektu bank
                 Class<?> bankClass = bank.getClass();
