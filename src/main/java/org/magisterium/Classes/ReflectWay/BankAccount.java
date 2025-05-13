@@ -1,10 +1,8 @@
-package org.magisterium.Interfaces;
+package org.magisterium.Classes.ReflectWay;
 
 
 public interface BankAccount {
     double getBalance();
-
-
     boolean isActive();
 
 

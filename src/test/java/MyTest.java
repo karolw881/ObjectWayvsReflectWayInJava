@@ -12,7 +12,7 @@ public class MyTest {
     public void testGetNormalizedChoiceWithMocks() {
         // Mockowanie wejścia za pomocą ByteArrayInputStream
         String input = "1\n2\n3\nObiektowa\n   refleksyjna  \nInvalid option\n0\n";
-        InputStream mockInputStream = new ByteArrayInputStream(input.getBytes());
+
 
         // Tworzymy MyScanner z mockowanym InputStream
         MyScanner myScanner = new MyScanner((System.in));

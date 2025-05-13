@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 import static org.magisterium.Classes.ReflectWay.MenuPrint.*;
 
 
-public class    ReflectionAccessHandlerChild extends ReflectionAccessHandler {
+public class   ReflectionAccessHandlerChild extends ReflectionAccessHandler {
 SubBank subBank;
     Scanner scanner ;
     public ReflectionAccessHandlerChild(Bank bank) {
@@ -111,6 +111,9 @@ SubBank subBank;
         }
     }
 
+    private void DisplayDataFields() {
+    }
+
     /**poddzielono na mniejsze funkcje */
 
     /**
@@ -135,7 +138,7 @@ SubBank subBank;
     }
 
     /**
-     * Wariant „z declarED” – pokazuje wszystkie konstruktory zadeklarowane w klasie,
+     * Wariant „z declared” – pokazuje wszystkie konstruktory zadeklarowane w klasie,
      * niezależnie od modyfikatora.
      */
     public void showDeclaredConstructorsInfo() {
@@ -289,7 +292,7 @@ SubBank subBank;
 
 
 
-    private void handleisActiveAccessGet() {
+    public void handleisActiveAccessGet() {
         try {
             // Pobranie klasy obiektu
             Class<?> bankClass = bank.getClass();
@@ -579,7 +582,7 @@ SubBank subBank;
         }
     }
 
-    private void handlePasswordAccessSet(Scanner scanner) {
+    public void handlePasswordAccessSet(Scanner scanner) {
         try {
             dispplayAnsiMethodBlue("🔄 Wprowadź nową wartość pola 'passwordHash': ");
             String newPasswordValue = scanner.nextLine(); // Odczytanie ciągu znaków od użytkownika
@@ -683,7 +686,7 @@ SubBank subBank;
     }
 
 
-    private void handleDataAccessGet(Scanner scanner) {
+    public void handleDataAccessGet(Scanner scanner) {
             try {
                 // Pobranie klasy obiektu bank
                 Class<?> bankClass = bank.getClass();
@@ -773,10 +776,7 @@ SubBank subBank;
 
 
 
-    /**
-     * Wariant "pełny": getAnnotation() zwraca adnotację zadeklarowaną bezpośrednio
-     * oraz odziedziczoną (jeśli @BankInfo ma @Inherited).
-     */
+
     public void displayAllAnnotationsInfo() {
         Object[] banks = { bank, subBank };
         for (Object obj : banks) {
@@ -787,10 +787,7 @@ SubBank subBank;
         }
     }
 
-    /**
-     * Wariant "declare-only": getDeclaredAnnotation() zwraca tylko te adnotacje,
-     * które klasa sama deklaruje.
-     */
+
     public void displayDeclaredAnnotationsInfo() {
         Object[] banks = { bank, subBank };
         for (Object obj : banks) {

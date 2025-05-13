@@ -3,20 +3,24 @@ package org.magisterium.Classes.Banks;
 import lombok.Getter;
 import lombok.Setter;
 import org.magisterium.Annotations.BankInfo;
-import org.magisterium.Interfaces.BankAccount;
+import org.magisterium.Classes.ReflectWay.BankAccount;
 
 
-import java.lang.annotation.Inherited;
+
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
+
 @Data // Generuje gettery, settery, equals, hashCode i toString
 @AllArgsConstructor
 @Getter
 @Setter
+
 
 @BankInfo(
         description = "Największy bank w regionie.",
@@ -25,6 +29,7 @@ import lombok.Data;
         aboutUs = "Oferujemy szeroką gamę usług finansowych dla klientów indywidualnych i firm.",
         name = "Bank Magisterium"
 )
+
 public class Bank  implements BankAccount {
     private double balance;
     private  String passwordHash; // Przechowujemy tylko hash hasła
@@ -34,6 +39,12 @@ public class Bank  implements BankAccount {
     protected boolean isIndebted;
     public String string;
 
+    /**
+     *
+     * @param initialBalance
+     * @param username
+     * @param password
+     */
     public Bank(double initialBalance, String username, String password) {
 
         this.balance = initialBalance;
@@ -42,6 +53,14 @@ public class Bank  implements BankAccount {
         this.accountCreationDate = LocalDateTime.now();
         this.isActive = true;
     }
+
+    /**
+     *
+     * @param initialBalance
+     * @param username
+     * @param password
+     * @param accountCreationDate
+     */
 
     private Bank(double initialBalance, String username, String password , LocalDateTime accountCreationDate) {
 
@@ -53,6 +72,10 @@ public class Bank  implements BankAccount {
     }
 
 
+    /**
+     *
+     * @return Bank fields
+     */
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -63,6 +86,12 @@ public class Bank  implements BankAccount {
                 ", isActive=" + isActive +
                 '}';
     }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
 
     @Override
     public boolean equals(Object obj) {

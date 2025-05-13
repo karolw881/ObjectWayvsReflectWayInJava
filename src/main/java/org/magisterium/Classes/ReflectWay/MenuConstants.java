@@ -4,7 +4,7 @@ package org.magisterium.Classes.ReflectWay;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MenuConstants {
+public class MenuConstants implements IMenuConstants {
     // Stałe cytaty dla dostępu do danych
     public static final String[] DATA_ACCESS_QUOTES = {
             "🔐 Dostęp do skarbca danych...\n",
@@ -26,6 +26,7 @@ public class MenuConstants {
 
 
     );
+
 
     // Metoda tworząca mapę ikon pól
     static Map<String, String> createFieldIcons() {

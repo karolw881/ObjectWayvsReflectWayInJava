@@ -13,6 +13,11 @@ public class SubBank extends Bank {
     }
 
 
+    public SubBank(double initialBalance, String username, String password) {
+        super(initialBalance, username, password);
+    }
+
+
     // --- nowa publiczna metoda ---
     public void processLoan(double amount) {
         System.out.println("Processing loan of " + amount + " PLN at branch " + branchCode);
@@ -29,7 +34,5 @@ public class SubBank extends Bank {
         return super.toString() +
                 ", SubBank(branch=" + branchCode + ", employees=" + employeeCount + ")";
     }
-    public SubBank(double initialBalance, String username, String password) {
-        super(initialBalance, username, password);
-    }
+
 }

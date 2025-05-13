@@ -8,13 +8,19 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Scanner;
 
-public class ReflectionAccessHandler {
+public class ReflectionAccessHandler implements IReflectionAccesHandler {
     protected final Bank bank;
 
 
     public ReflectionAccessHandler(Bank bank) {
         this.bank = bank;
+    }
+
+    @Override
+    public String getNormalizedChoice(String input) {
+        return "";
     }
 
     public void handleAccess() {
@@ -62,6 +68,86 @@ public class ReflectionAccessHandler {
         } catch (Exception e) {
             System.err.println("Błąd podczas dostępu do pól: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void showPublicConstructorsInfo() {
+
+    }
+
+    @Override
+    public void showDeclaredConstructorsInfo() {
+
+    }
+
+    @Override
+    public void handleBalanceAccess(Scanner scanner) {
+
+    }
+
+    @Override
+    public void handleUsernameAccess(Scanner scanner) {
+
+    }
+
+    @Override
+    public void handlePasswordAccess(Scanner scanner) {
+
+    }
+
+    @Override
+    public void handleAccountCreationDateAccess(Scanner scanner) {
+
+    }
+
+    @Override
+    public void handleDateAccessSet(Scanner scanner) {
+
+    }
+
+    @Override
+    public void handleAnnotationChoice(Scanner scanner) {
+
+    }
+
+    @Override
+    public void handleMethodsChoice2(Scanner scanner) {
+
+    }
+
+    @Override
+    public void handleFieldChoice(Scanner scanner) {
+
+    }
+
+    @Override
+    public void showAllFields() {
+
+    }
+
+    @Override
+    public void showDeclaredFields() {
+
+    }
+
+    @Override
+    public void showAllMethods() {
+
+    }
+
+    @Override
+    public void showDeclaredMethods() {
+
+    }
+
+    @Override
+    public void displayAllAnnotationsInfo() {
+
+    }
+
+    @Override
+    public void displayDeclaredAnnotationsInfo() {
+
     }
 
     private void printFieldDetails(Field field, Object value) {

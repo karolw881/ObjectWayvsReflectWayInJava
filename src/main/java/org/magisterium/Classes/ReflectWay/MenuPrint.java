@@ -199,6 +199,18 @@ public class MenuPrint {
 
     }
 
+    public static String dispplayAnsiMethodBlueDotestu(String string){
+       return
+
+                Ansi.ansi()
+                        .fg(Ansi.Color.BLUE)
+                        .bold()
+                        .a(string)
+                        .reset().toString();
+
+    }
+
+
     public static void dispplayAnsiMethodMagenta(String string){
         System.out.println(
                 Ansi.ansi()

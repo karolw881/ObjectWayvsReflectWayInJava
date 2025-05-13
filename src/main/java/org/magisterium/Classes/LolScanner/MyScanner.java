@@ -8,7 +8,7 @@ import org.magisterium.Classes.ReflectWay.ReflectionAccessHandlerChild;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class MyScanner {
+public class MyScanner implements IMyScanner {
     private final Scanner scanner;
     private String[] EPIC_SLOGANS = {
             "Hakuj jak prawdziwy władca kodu",
