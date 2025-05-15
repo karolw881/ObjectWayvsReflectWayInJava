@@ -84,7 +84,7 @@ SubBank subBank;
 
     private void ChooseAllDataFields(Scanner scanner) {
         while (true) {
-            DisplayDataFields(); // Wyświetlenie menu pól danych
+            MenuPrint.DisplayDataFields(); // Wyświetlenie menu pól danych
             String specificChoice = getNormalizedChoice(scanner.nextLine());
             switch (specificChoice) {
                 case "1": // Obsługa Saldo
