@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Scanner;
 @Getter
 @Setter
-public class ObjectAccessHandler implements IObjectAccessHandler {
+public class ObjectAccessHandler  {
     private final Bank bank;
     private final String[] DATA_ACCESS_QUOTES = {
             "🔐 Dostęp do skarbca danych...",

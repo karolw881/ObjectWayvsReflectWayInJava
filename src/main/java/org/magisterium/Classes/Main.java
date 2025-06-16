@@ -1,55 +1,37 @@
 package org.magisterium.Classes;
 
-import com.sun.net.httpserver.HttpServer;
-import org.magisterium.Classes.LolScanner.MyScanner;
-import org.magisterium.Classes.http.ConsoleToHtmlHandler;
-import org.magisterium.Classes.http.ConsoleOutputHandler;
 
+import org.magisterium.Classes.LolScanner.MyScanner;
 import java.io.*;
-import java.net.InetSocketAddress;
-import java.util.concurrent.ConcurrentLinkedQueue;
+
 
 public class Main {
-    private static final ConcurrentLinkedQueue<String> consoleOutput = new ConcurrentLinkedQueue<>();
 
-    public static void main(String[] args) throws IOException {
-        // Przekierowanie wyjścia konsoli
-        redirectSystemOut();
 
-        // Uruchomienie serwera HTTP
-        HttpServer server = HttpServer.create(new InetSocketAddress(7777), 0);
-        server.createContext("/", new ConsoleToHtmlHandler(consoleOutput));
-        server.createContext("/output", new ConsoleOutputHandler(consoleOutput));
-        server.setExecutor(null);
-        server.start();
-
-        System.out.println("Serwer uruchomiony na http://localhost:7777");
-
-        // Uruchomienie skanera
-        MyScanner scanner = new MyScanner(System.in);
-        scanner.run();
-    }
-
-    private static void redirectSystemOut() {
-        PrintStream originalOut = System.out;
-
-        PrintStream customOut = new PrintStream(new OutputStream() {
-            private StringBuilder line = new StringBuilder();
-
-            @Override
-            public void write(int b) {
-                char c = (char) b;
-                line.append(c);
-
-                if (c == '\n') {
-                    consoleOutput.offer(line.toString());
-                    line = new StringBuilder();
-                }
-
-                originalOut.write(b);
+    public static void main(String[] args) {
+        try {
+            // Sprawdź czy System.in jest dostępny
+            if (System.in.available() < 0) {
+                System.out.println("Błąd: System.in nie jest dostępny!");
+                System.exit(1);
             }
-        });
 
-        System.setOut(customOut);
+            // Uruchomienie skanera z obsługą błędów
+            MyScanner scanner = new MyScanner(System.in);
+            scanner.run();
+
+        } catch (IOException e) {
+            System.err.println("Błąd I/O podczas sprawdzania System.in: " + e.getMessage());
+            System.exit(1);
+        } catch (Exception e) {
+            System.err.println("Nieoczekiwany błąd: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+            // Zapewnienie, że program się zakończy prawidłowo
+            System.out.println("Program zakończony.");
+        }
     }
 }
+
+
