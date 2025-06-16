@@ -12,13 +12,24 @@ public class MyScanner implements IMyScanner {
     private final Scanner scanner;
     private String[] EPIC_SLOGANS = {
             "Jakie podejście wybierzesz?",
-            "Jaką drogę obierzesz?",
-            "Refleksje zawansowana?" ,
-            "Czy obiektowosc schowana? ",
+            "Czy dobra drogę obierzesz?",
             "Zatwierdź, Enterem",
-            "Cofnij, Zerem",
-            "Dozwolone głowne np. 1 2. (3) ",
-            "A także jak się pomylisz ((1  1.) (1.)) itd "
+            "Cofniesz sie Zerem",
+            "1. .2  ((((0  -- decyzje podejmujesz",
+            "((1  1.) (1.)) --  sie nie przejmujesz",
+            " ...12..1.   ()()1 --  teraz odnowa probujesz" ,
+            "Nieprawidłowy wybór.",
+            "Teraz popatrz ",
+            "Spróbuj ponownie." ,
+            "Znowu rozpatrz",
+            "Jakiego podejścia szukasz?",
+            "Ktorej drogi poszukasz?",
+            "Refleksje obierzesz?" ,
+            "Obiektowa wybierzesz?",
+
+
+
+
     };
 
     private final Bank bank;

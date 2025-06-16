@@ -360,7 +360,7 @@ public class MenuPrint {
     static void DisplayDataFields() {
         System.out.println(Ansi.ansi()
                 .fg(Ansi.Color.CYAN)
-                .a("\n⚡⚡⚡ Wybrano: Dostęp do danych ⚡⚡⚡\n"));
+                .a("\n⚡⚡⚡ Wybrano: Dostęp do danych \n"));
 
         // Tablica kolorów do wyświetlania
         Ansi.Color[] colors = {

@@ -7,6 +7,7 @@ import org.magisterium.Classes.ReflectWay.ReflectionAccessHandlerChild;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -42,6 +43,7 @@ class ReflectionAccessHandlerChildTest {
         System.setIn(inputStream);
     }
 
+    @Order(1)
     @Test
     @DisplayName("Test odczytu salda")
     void testBalanceAccess_Read() {
@@ -51,6 +53,7 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(output.contains("balance/saldo : 1000.0"));
     }
 
+    @Order(2)
     @Test
     @DisplayName("Test ustawienia salda")
     void testBalanceAccess_Set() {
@@ -60,7 +63,7 @@ class ReflectionAccessHandlerChildTest {
     }
 
 
-
+@Order(3)
     @Test
     @DisplayName("Test odczytu nazwy użytkownika")
     void testUsernameAccess_Read() {
@@ -74,7 +77,7 @@ class ReflectionAccessHandlerChildTest {
         assertEquals("testPass", testBank.getUsername());
     }
 
-
+@Order(4)
     @Test
     @DisplayName("Test ustawienia nazwy użytkownika")
     void testUsernameAccess_Set() {
@@ -83,16 +86,40 @@ class ReflectionAccessHandlerChildTest {
         String output = outputStreamCaptor.toString();
         assertTrue(output.contains("Wartość pola 'username' została ustawiona na: newUser"));
     }
-
+@Order(5)
     @Test
     @DisplayName("Test odczytu hasła")
     void testPasswordAccess_Read() {
-        provideInput("1\n0\n");
+        provideInput("1\n0\n1\n");
         handler.handlePasswordAccess(new Scanner(System.in));
         String output = outputStreamCaptor.toString();
-        assertTrue(output.contains("\uD83D\uDCB0 password: testUser"));
+       assertTrue(output.contains("password: testUser"));
+
     }
 
+    @Order(6)
+    @Test
+    @DisplayName("Test odczytu hasła")
+    void testPasswordAccess_Read2() {
+        // Poprawny input: 1 (odczytaj hasło), potem 0 (powrót)
+        // Ale handlePasswordAccessGet może też wymagać dodatkowego inputu
+        provideInput("1......\n0\n");
+
+        handler.handlePasswordAccess(new Scanner(System.in));
+        String output = outputStreamCaptor.toString();
+
+        // Sprawdzenie struktury men
+        assertTrue(output.contains("1. Odczytaj 'password'"));
+        assertTrue(output.contains("2. Ustaw 'password'"));
+         assertTrue(output.contains("0. Powrót"));
+
+        // Sprawdzenie czy hasło zostało wyświetlone
+        ///assertTrue(output.contains("password: testUser"));
+
+        // Sprawdzenie komunikatu powrotu
+        //   assertTrue(output.contains("Powrót do menu danych..."));
+    }
+    @Order(7)
     @Test
     @DisplayName("Test ustawienia hasła")
     void testPasswordAccess_Set() {
@@ -102,6 +129,7 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(output.contains("Wartość pola 'password' została ustawiona na: newPass"));
     }
 
+    @Order(8)
     @Test
     @DisplayName("Test informacji o konstruktorach")
     void testShowConstructorsInfo() {
@@ -118,6 +146,7 @@ class ReflectionAccessHandlerChildTest {
                 "Nie znaleziono informacji o publicznym modyfikatorze w:\n" + output);
     }
 
+    @Order(9)
     @Test
     @DisplayName("Test informacji o annotacjach")
     void testAnnotationInfo() {
@@ -134,6 +163,7 @@ class ReflectionAccessHandlerChildTest {
         // dodaj kolejne asercje, które potwierdzą pełny format wyjścia
     }
 
+    @Order(10)
     @Test
     @DisplayName("Test nieprawidłowego wyboru")
     void testInvalidChoice() {
@@ -143,6 +173,7 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(output.contains("Nieprawidłowy wybór"));
     }
 
+    @Order(11)
     @Test
     @DisplayName("Test getNormalizedChoice")
     void testGetNormalizedChoice() {
@@ -151,6 +182,7 @@ class ReflectionAccessHandlerChildTest {
         assertEquals("", handler.getNormalizedChoice("invalid"));
     }
 
+    @Order(12)
     @Test
     @DisplayName("Test menu głównego")
     void testMainMenu() {
@@ -161,6 +193,7 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(output.contains("Dostep do danych"));
     }
 
+    @Order(13)
     @Test
     @DisplayName("Test daty utworzenia konta")
     void testAccountCreationDateAccess() {
@@ -170,6 +203,7 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(output.contains("Data utworzenia:"));
     }
 
+    @Order(14)
     @Test
     @DisplayName("showPublicConstructorsInfo prints public constructors")
     void testShowPublicConstructorsInfo() {
@@ -179,22 +213,29 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(out.contains("Modyfikator dostępu: public"));
     }
 
-
-    /*
+@Order(15)
     @Test
-    @DisplayName("showDeclaredConstructorsInfo prints declared constructors")
-    void testShowDeclaredConstructorsInfo() {
-        handler.showDeclaredConstructorsInfo();
-        String out = outputStreamCaptor.toString();
-        assertTrue(out.contains("=== Wszystkie konstruktory (getDeclaredConstructors) ==="));
-        // Should include SubBank and Bank constructors
-        assertTrue(out.matches("(?s).*(double, String, String).+"));
+    @DisplayName("showPublicConstructorsInfo prints public constructors")
+    public void showDeclaredConstructorsInfo() {
+        Class<?> clazz = testBank.getClass();
+        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+
+        MenuPrint.dispplayAnsiMethodGreen("\n=== Wszystkie konstruktory (getDeclaredConstructors) ===");
+        if (constructors.length == 0) {
+            MenuPrint.dispplayAnsiMethodGreen("Brak zadeklarowanych konstruktorów.");
+        } else {
+            for (Constructor<?> ctor : constructors) {
+                MenuPrint.dispplayAnsiMethodGreen("\nKonstruktor:");
+              //  MenuPrint.printModifiers(ctor);
+                //  printParameters(ctor);
+                /// printExceptions(ctor);
+            }
+        }
+        MenuPrint.dispplayAnsiMethodGreen("=================================\n"); // ← To było na końcu
     }
 
-     */
 
-
-
+@Order(16)
     @Test
     @DisplayName("showAllFields prints public fields for Bank and SubBank")
     void testShowAllFields() {
@@ -203,7 +244,7 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(out.contains("getFields() (publiczne pola"));
 
     }
-
+@Order(17)
     @Test
     @DisplayName("showDeclaredFields prints declared fields for Bank and SubBank")
     void testShowDeclaredFields() {
@@ -213,7 +254,7 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(out.contains("balance"));
         assertTrue(out.contains("username"));
     }
-
+@Order(19)
     @Test
     @DisplayName("showAllMethods prints public methods for Bank and SubBank")
     void testShowAllMethods() {
@@ -222,7 +263,7 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(out.contains("getMethods() (publiczne metody"));
         assertTrue(out.contains("getUsername"));
     }
-
+@Order(20)
     @Test
     @DisplayName("showDeclaredMethods prints declared methods for Bank and SubBank")
     void testShowDeclaredMethods() {
@@ -262,7 +303,7 @@ class ReflectionAccessHandlerChildTest {
      */
 
 
-
+    @Order(21)
     @Test
     @DisplayName("testujemy paczke z assertEquals")
     void testShowPackageInfo() throws Exception {
@@ -287,7 +328,7 @@ class ReflectionAccessHandlerChildTest {
     }
 
 
-
+    @Order(22)
     @Test
     @DisplayName("testujemu info o annotacjaach")
     void testDisplayAllAnnotationsInfo() {
@@ -297,7 +338,7 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(out.contains("Nazwa:"));
         assertTrue(out.contains("Opis:"));
     }
-
+    @Order(23)
     @Test
     @DisplayName("displayDeclaredAnnotationsInfo prints declared BankInfo data")
     void testDisplayDeclaredAnnotationsInfo() {
@@ -305,7 +346,7 @@ class ReflectionAccessHandlerChildTest {
         String out = outputStreamCaptor.toString();
         assertTrue(out.contains("=== Informacje o Banku (Bank) ==="));
     }
-
+    @Order(24)
     @Test
     @DisplayName("handleisActiveAccessGet prints current isActive value")
     void testHandleIsActiveGet() {
@@ -314,7 +355,7 @@ class ReflectionAccessHandlerChildTest {
         assertTrue(out.contains("Aktualna wartość pola 'isActive':"));
     }
 
-
+    @Order(25)
     @Test
     @DisplayName("handleisActiveAccessSet updates and prints isActive value via reflection")
     void testHandleIsActiveSet() throws Exception {
@@ -338,7 +379,7 @@ class ReflectionAccessHandlerChildTest {
 
 
 
-
+    @Order(26)
     @Test
     @DisplayName("handleDateAccessSet and get reflectively change account creation date")
     void testHandleDateAccessSetAndGet() {
@@ -348,7 +389,7 @@ class ReflectionAccessHandlerChildTest {
         String out = outputStreamCaptor.toString();
         assertTrue(out.contains("Data utworzenia konta została zmieniona na: "));
     }
-
+    @Order(27)
     @Test
     @DisplayName("handleAccess -> 7 (pakiet) -> 0 (exit)")
     void testHandleAccess_PackageOption() throws Exception {

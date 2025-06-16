@@ -16,10 +16,10 @@ import java.util.Scanner;
 public class ObjectAccessHandler  {
     private final Bank bank;
     private final String[] DATA_ACCESS_QUOTES = {
-            " Dostęp do skarbca danych...",
-            " Panel kontrolny aktywowany...",
-            " Wybierz cel swojej operacji...",
-            " Przygotuj się do inspekcji..."
+            " ...",
+            " Panel juz aktywowany...",
+            " Wybierz cel dzialania...",
+            " Przygotuj się do introspekcji..."
     };
 
     private final Map<String, String> FIELD_ICONS = Map.of(
