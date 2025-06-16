@@ -16,10 +16,10 @@ import java.util.Scanner;
 public class ObjectAccessHandler  {
     private final Bank bank;
     private final String[] DATA_ACCESS_QUOTES = {
-            " ...",
-            " Panel juz aktywowany...",
-            " Wybierz cel dzialania...",
-            " Przygotuj się do introspekcji..."
+            "...",
+            "Panel juz aktywowany...",
+            "Wybierz cel dzialania...",
+            "Przygotuj się do introspekcji..."
     };
 
     private final Map<String, String> FIELD_ICONS = Map.of(
@@ -43,7 +43,7 @@ public class ObjectAccessHandler  {
                         Ansi.ansi()
                                 .fg(Ansi.Color.GREEN)
                                 .bold()
-                                .a(" \"Powrót do menu głównego.\"")
+                                .a("\"Powrót do menu głównego.\"")
                                 .reset().toString()
                 );
                 return;
@@ -80,7 +80,7 @@ public class ObjectAccessHandler  {
                             Ansi.ansi()
                                     .fg(Ansi.Color.RED)
                                     .bold()
-                                    .a("❌ Nieprawidłowy wybór pola. Spróbuj ponownie.")
+                                    .a("Nieprawidłowy wybór pola. Spróbuj ponownie.")
                                     .reset()
                                     .toString()
                     );
