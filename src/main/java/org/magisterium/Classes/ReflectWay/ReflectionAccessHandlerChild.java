@@ -439,7 +439,7 @@ SubBank subBank;
             Field[] fields = clazz.getFields();
             MenuPrint.dispplayAnsiMethodGreen("[" + clazz.getSimpleName() + "]");
             for (Field f : fields) {
-                String line = String.format("  • %s %s (%s)",
+                String line = String.format("   %s %s (%s)",
                         Modifier.toString(f.getModifiers()),
                         f.getType().getSimpleName(),
                         f.getName()
@@ -457,7 +457,7 @@ SubBank subBank;
             Field[] fields = clazz.getDeclaredFields();
             MenuPrint.dispplayAnsiMethodMagenta("[" + clazz.getSimpleName() + "]");
             for (Field f : fields) {
-                String line = String.format("  • %s %s (%s)",
+                String line = String.format("   %s %s (%s)",
                         Modifier.toString(f.getModifiers()),
                         f.getType().getSimpleName(),
                         f.getName()
@@ -475,7 +475,7 @@ SubBank subBank;
             Method[] methods = clazz.getMethods();
             MenuPrint.dispplayAnsiMethodYellow("[" + clazz.getSimpleName() + "]");
             for (Method m : methods) {
-                String line = String.format("  • %s %s %s()",
+                String line = String.format("   %s %s %s()",
                         Modifier.toString(m.getModifiers()),
                         m.getReturnType().getSimpleName(),
                         m.getName()
@@ -493,7 +493,7 @@ SubBank subBank;
             Method[] methods = clazz.getDeclaredMethods();
             MenuPrint.dispplayAnsiMethodMagenta("[" + clazz.getSimpleName() + "]");
             for (Method m : methods) {
-                String line = String.format("  • %s %s %s()",
+                String line = String.format("   %s %s %s()",
                         Modifier.toString(m.getModifiers()),
                         m.getReturnType().getSimpleName(),
                         m.getName()
