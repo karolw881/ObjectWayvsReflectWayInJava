@@ -11,8 +11,10 @@ import java.util.Scanner;
 public class MyScanner implements IMyScanner {
     private final Scanner scanner;
     private String[] EPIC_SLOGANS = {
-            "Hakuj jak prawdziwy władca kodu",
-            "Programowanie to Twoje królestwo",
+            "Jakie podejście wybierzesz?",
+            "Jaką drogę obierzesz?",
+            "Refleksje zawansowana?" ,
+            "Czy obiektowosc schowana? ",
             "Zatwierdź, Enterem",
             "Cofnij, Zerem",
             "Dozwolone głowne np. 1 2. (3) ",
@@ -50,7 +52,7 @@ public class MyScanner implements IMyScanner {
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a("❌ Nieprawidłowy wybór. Spróbuj ponownie.")
+                                .a("Nieprawidłowy wybór. Spróbuj ponownie.")
                                 .reset()
                                 .toString()
                 );
@@ -71,7 +73,7 @@ public class MyScanner implements IMyScanner {
                         Ansi.ansi()
                                 .fg(Ansi.Color.MAGENTA)
                                 .bold()
-                                .a(index + ". 🔥 " + epicSlogan + " 🔥")
+                                .a(index + " " + epicSlogan + " ")
                                 .reset().toString()
                 );
                 index++;
@@ -86,17 +88,17 @@ public class MyScanner implements IMyScanner {
 
             // Colorful, styled menu items
             System.out.println(
-                    Ansi.ansi().fg(Ansi.Color.YELLOW).a("1. Obiektowa 💻").reset().toString() +
+                    Ansi.ansi().fg(Ansi.Color.YELLOW).a("1. Obiektowa ").reset().toString() +
                             "  " +
                             Ansi.ansi().fg(Ansi.Color.CYAN).a("[Klasyczny atak!]").reset().toString()
             );
             System.out.println(
-                    Ansi.ansi().fg(Ansi.Color.BLUE).a("2. Refleksyjna 🕵️").reset().toString() +
+                    Ansi.ansi().fg(Ansi.Color.BLUE).a("2. Refleksyjna ").reset().toString() +
                             "  " +
                             Ansi.ansi().fg(Ansi.Color.RED).a("[Przemyśl swój ruch!]").reset().toString()
             );
             System.out.println(
-                    Ansi.ansi().fg(Ansi.Color.RED).a("0. Zakończ ❌").reset().toString() +
+                    Ansi.ansi().fg(Ansi.Color.RED).a("0. Zakończ ").reset().toString() +
                             "  " +
                             Ansi.ansi().fg(Ansi.Color.WHITE).a("[Do zobaczenia, wojowniku kodu!]").reset().toString()
             );
@@ -105,7 +107,7 @@ public class MyScanner implements IMyScanner {
                     Ansi.ansi()
                             .fg(Ansi.Color.CYAN)
                             .bold()
-                            .a("\n🎯 Twój wybór: ")
+                            .a("\nTwój wybór: ")
                             .reset().toString()
             );
 

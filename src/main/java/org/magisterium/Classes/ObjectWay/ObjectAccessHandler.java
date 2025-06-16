@@ -16,18 +16,18 @@ import java.util.Scanner;
 public class ObjectAccessHandler  {
     private final Bank bank;
     private final String[] DATA_ACCESS_QUOTES = {
-            "🔐 Dostęp do skarbca danych...",
-            "📊 Panel kontrolny aktywowany...",
-            "🎯 Wybierz cel swojej operacji...",
-            "💫 Przygotuj się do inspekcji..."
+            " Dostęp do skarbca danych...",
+            " Panel kontrolny aktywowany...",
+            " Wybierz cel swojej operacji...",
+            " Przygotuj się do inspekcji..."
     };
 
     private final Map<String, String> FIELD_ICONS = Map.of(
-            "saldo", "💰",
-            "nazwa", "👤",
-            "data", "📅",
-            "hasło", "🔑",
-            "status", "⚡"
+            "saldo", "Ob",
+            "nazwa", "je",
+            "data", "ct",
+            "hasło", "i",
+            "status", "ve"
     );
 
     public ObjectAccessHandler(Bank bank) {
@@ -96,7 +96,7 @@ public class ObjectAccessHandler  {
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
+                                .a("  ACCESS DENIED  ")
                                 .reset()
                                 .toString()
                 );
@@ -127,12 +127,12 @@ public class ObjectAccessHandler  {
                             Ansi.ansi()
                                     .fg(Ansi.Color.GREEN)
                                     .bold()
-                                    .a("✅ Saldo zostało zaktualizowane.")
+                                    .a("Saldo zostało zaktualizowane.")
                                     .reset()
                                     .toString()
                     );
                 } catch (NumberFormatException e) {
-                    dispplayAnsiMethodRed("❌ Nieprawidłowy format kwoty.");
+                    dispplayAnsiMethodRed(" Nieprawidłowy format kwoty.");
                 }
                 break;
             default:
@@ -140,7 +140,7 @@ public class ObjectAccessHandler  {
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a("❌ Nieprawidłowy wybór. Spróbuj ponownie.")
+                                .a(" Nieprawidłowy wybór. Spróbuj ponownie.")
                                 .reset()
                                 .toString()
                 );
@@ -365,7 +365,7 @@ public class ObjectAccessHandler  {
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a(" \n 🚫  ❌ ACCESS DENIED  ❌  🚫")
+                                .a(" \n  ACCESS DENIED  ")
                                 .reset().toString()
                 );
                 break;
@@ -376,14 +376,14 @@ public class ObjectAccessHandler  {
                 dispplayAnsiMethodGreen("Podaj nową nazwę użytkownika: ");
                 String newUsername = scanner.nextLine();
                 bank.setUsername(newUsername);
-                dispplayAnsiMethodGreen("✅ Nazwa użytkownika została zaktualizowana.");
+                dispplayAnsiMethodGreen(" Nazwa użytkownika została zaktualizowana.");
                 break;
             default:
                 System.out.println(
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a("❌ Nieprawidłowy wybór. Spróbuj ponownie.")
+                                .a(" Nieprawidłowy wybór. Spróbuj ponownie.")
                                 .reset()
                                 .toString()
                 );
@@ -401,7 +401,7 @@ public class ObjectAccessHandler  {
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
+                                .a("  ACCESS DENIED ")
                                 .reset().toString()
                 );
                 break;
@@ -433,7 +433,7 @@ public class ObjectAccessHandler  {
                     Ansi.ansi()
                             .fg(Ansi.Color.GREEN)
                             .bold()
-                            .a("✅ Status aktywności został zaktualizowany.")
+                            .a("Status aktywności został zaktualizowany.")
                             .reset().toString()
             );
         } else {
@@ -441,7 +441,7 @@ public class ObjectAccessHandler  {
                     Ansi.ansi()
                             .fg(Ansi.Color.RED)
                             .bold()
-                            .a("❌ Nieprawidłowy format statusu. Wprowadź 'true' lub 'false'.")
+                            .a(" Nieprawidłowy format statusu. Wprowadź 'true' lub 'false'.")
                             .reset().toString()
             );
         }
@@ -456,13 +456,13 @@ public class ObjectAccessHandler  {
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a("Bezpośredni dostęp do daty utworzenia: 🚫  ❌ ACCESS DENIED  ❌  🚫")
+                                .a("Bezpośredni dostęp do daty utworzenia: ACCESS DENIED  ")
                                 .reset().toString()
                 );
 
                 break;
             case "2":
-                dispplayAnsiMethodGreen("📅 Data utworzenia konta: " + bank.getAccountCreationDate());
+                dispplayAnsiMethodGreen(" Data utworzenia konta: " + bank.getAccountCreationDate());
                 break;
             case "3":
                 Scanner scanner = new Scanner(System.in);
@@ -477,7 +477,7 @@ public class ObjectAccessHandler  {
                                 Ansi.ansi()
                                         .fg(Ansi.Color.RED)
                                         .bold()
-                                        .a("❌ Nie można ustawić daty utworzenia na datę z przeszłości!")
+                                        .a(" Nie można ustawić daty utworzenia na datę z przeszłości!")
                                         .reset().toString()
                         );
                     } else {
@@ -486,7 +486,7 @@ public class ObjectAccessHandler  {
                                 Ansi.ansi()
                                         .fg(Ansi.Color.GREEN)
                                         .bold()
-                                        .a("✅ Data utworzenia została zaktualizowana na: " + bank.getAccountCreationDate())
+                                        .a(" Data utworzenia została zaktualizowana na: " + bank.getAccountCreationDate())
                                         .reset().toString()
                         );
                     }
@@ -495,7 +495,7 @@ public class ObjectAccessHandler  {
                             Ansi.ansi()
                                     .fg(Ansi.Color.RED)
                                     .bold()
-                                    .a("❌ Format daty jest niepoprawny!")
+                                    .a(" Format daty jest niepoprawny!")
                                     .reset().toString()
                     );
                 }
@@ -517,7 +517,7 @@ public class ObjectAccessHandler  {
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a(" 🚫  ❌ ACCESS DENIED  ❌  🚫")
+                                .a(" ACCESS DENIED  ")
                                 .reset().toString()
                 );
                 break;
@@ -532,14 +532,14 @@ public class ObjectAccessHandler  {
                         Ansi.ansi()
                                 .fg(Ansi.Color.GREEN)
                                 .bold()
-                                .a("✅ Hasło zostało zaktualizowane."));
+                                .a("Hasło zostało zaktualizowane."));
                 break;
             default:
                 System.out.println(
                         Ansi.ansi()
                                 .fg(Ansi.Color.RED)
                                 .bold()
-                                .a("❌ Nieprawidłowy wybór. Spróbuj ponownie.")
+                                .a(" Nieprawidłowy wybór. Spróbuj ponownie.")
                                 .reset()
                                 .toString()
                 );

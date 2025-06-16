@@ -246,7 +246,7 @@ SubBank subBank;
             isActiveField.setAccessible(true);
 
             // Zapytanie użytkownika o nową wartość pola
-            System.out.print("🔄 Ustaw nową wartość pola 'isActive' (true/false): ");
+            System.out.print(" Ustaw nową wartość pola 'isActive' (true/false): ");
             boolean newValue = scanner.nextBoolean();
             scanner.nextLine(); // Czyszczenie bufora wejścia
 
@@ -254,13 +254,13 @@ SubBank subBank;
             isActiveField.setBoolean(bank, newValue);
 
             // Wyświetlenie nowej wartości
-            System.out.println("✅ Wartość pola 'isActive' została zmieniona na: " + isActiveField.getBoolean(bank));
+            System.out.println(" Wartość pola 'isActive' została zmieniona na: " + isActiveField.getBoolean(bank));
         } catch (NoSuchFieldException e) {
-            System.out.println("❌ Pole 'isActive' nie istnieje.");
+            System.out.println(" Pole 'isActive' nie istnieje.");
         } catch (IllegalAccessException e) {
-            System.out.println("❌ Brak dostępu do pola 'isActive'.");
+            System.out.println(" Brak dostępu do pola 'isActive'.");
         } catch (Exception e) {
-            System.out.println("❌ Błąd: Wystąpił nieoczekiwany problem.");
+            System.out.println(" Błąd: Wystąpił nieoczekiwany problem.");
         }
     }
 
@@ -305,14 +305,14 @@ SubBank subBank;
             boolean currentValue = isActiveField.getBoolean(bank);
 
             // Wyświetlenie wartości
-            dispplayAnsiMethodMagenta("🔍 Aktualna wartość pola 'isActive': " + currentValue);
+            dispplayAnsiMethodMagenta(" Aktualna wartość pola 'isActive': " + currentValue);
 
         } catch (NoSuchFieldException e) {
-            System.out.println("❌ Pole 'isActive' nie istnieje.");
+            System.out.println(" Pole 'isActive' nie istnieje.");
         } catch (IllegalAccessException e) {
-            System.out.println("❌ Brak dostępu do pola 'isActive'.");
+            System.out.println(" Brak dostępu do pola 'isActive'.");
         } catch (Exception e) {
-            System.out.println("❌ Błąd: Wystąpił nieoczekiwany problem.");
+            System.out.println(" Błąd: Wystąpił nieoczekiwany problem.");
         }
     }
 
@@ -366,15 +366,15 @@ SubBank subBank;
             Object balanceValue = balance.get(bank);
 
 
-          //  dispplayAnsiMethodGreen("💰 balance/saldo : " + balanceValue);
+          //  dispplayAnsiMethodGreen(" balance/saldo : " + balanceValue);
 
 
-            dispplayAnsiMethodRed("💰 balance/saldo : " + balanceValue);
+            dispplayAnsiMethodRed(" balance/saldo : " + balanceValue);
 
         } catch (NoSuchFieldException e) {
-            dispplayAnsiMethodGreen("❌ Pole 'balance' nie istnieje.");
+            dispplayAnsiMethodGreen(" Pole 'balance' nie istnieje.");
         } catch (IllegalAccessException e) {
-            dispplayAnsiMethodRed("❌ Brak dostępu do pola 'balance'.");
+            dispplayAnsiMethodRed(" Brak dostępu do pola 'balance'.");
         }
 
     }
@@ -388,7 +388,7 @@ SubBank subBank;
 
     private void handleBalanceAccessSet(Scanner scanner) {
         try {
-            dispplayAnsiMethodBlue("🔄 Wprowadź nową wartość pola 'balance': ");
+            dispplayAnsiMethodBlue(" Wprowadź nową wartość pola 'balance': ");
             String line = scanner.nextLine().trim();
             double newBalanceValue = Double.parseDouble(line);
 
@@ -398,13 +398,13 @@ SubBank subBank;
             balanceField.setAccessible(true);
             balanceField.set(bank, newBalanceValue);
 
-           dispplayAnsiMethodBlue("🔄 Wartość pola 'balance' została ustawiona na: " + newBalanceValue);
+           dispplayAnsiMethodBlue(" Wartość pola 'balance' została ustawiona na: " + newBalanceValue);
 
         } catch (NumberFormatException e) {
-            MenuPrint.dispplayAnsiMethodRed("❌ Wprowadzono nieprawidłową wartość.");
+            MenuPrint.dispplayAnsiMethodRed(" Wprowadzono nieprawidłową wartość.");
             // już pobraliśmy linię powyżej, więc bufor jest czysty — nie trzeba dodatkowego scanner.next()
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            MenuPrint.dispplayAnsiMethodRed("❌ Błąd wewnętrzny: nie można uzyskać dostępu do pola 'balance'.");
+            MenuPrint.dispplayAnsiMethodRed(" Błąd wewnętrzny: nie można uzyskać dostępu do pola 'balance'.");
             e.printStackTrace();
         }
     }
@@ -521,13 +521,13 @@ SubBank subBank;
             // Wywołanie metody refleksyjnie
             Object usernameValue = getUsernameMethod.invoke(bank);
 
-            dispplayAnsiMethodGreen("🔐 Username: " + usernameValue);
+            dispplayAnsiMethodGreen(" Username: " + usernameValue);
         } catch (NoSuchMethodException e) {
-            MenuPrint.dispplayAnsiMethodRed("❌ Metoda 'getUsername' nie istnieje.");
+            MenuPrint.dispplayAnsiMethodRed(" Metoda 'getUsername' nie istnieje.");
         } catch (IllegalAccessException e) {
-            MenuPrint.dispplayAnsiMethodRed("❌ Brak dostępu do metody 'getUsername'.");
+            MenuPrint.dispplayAnsiMethodRed(" Brak dostępu do metody 'getUsername'.");
         } catch (InvocationTargetException e) {
-            MenuPrint.dispplayAnsiMethodRed("❌ Błąd przy wywoływaniu metody: " + e.getCause());
+            MenuPrint.dispplayAnsiMethodRed(" Błąd przy wywoływaniu metody: " + e.getCause());
         }
     }
 
@@ -540,7 +540,7 @@ SubBank subBank;
 
     private void handleUsernameAccessSet(Scanner scanner) {
         try {
-            dispplayAnsiMethodBlue("🔄 Wprowadź nową wartość pola 'username': ");
+            dispplayAnsiMethodBlue(" Wprowadź nową wartość pola 'username': ");
             String newUsernameValue = scanner.nextLine();
 
             // Pobranie pola 'username' z klasy Bank
@@ -552,11 +552,11 @@ SubBank subBank;
             // Zmiana wartości pola 'username' na instancji obiektu bank
             usernameField.set(bank, newUsernameValue);
 
-           dispplayAnsiMethodBlue("🔄 Wartość pola 'username' została ustawiona na: " + newUsernameValue);
+           dispplayAnsiMethodBlue(" Wartość pola 'username' została ustawiona na: " + newUsernameValue);
         } catch (NoSuchFieldException e) {
-            MenuPrint.dispplayAnsiMethodRed("❌ Pole 'username' nie istnieje.");
+            MenuPrint.dispplayAnsiMethodRed(" Pole 'username' nie istnieje.");
         } catch (IllegalAccessException e) {
-            MenuPrint.dispplayAnsiMethodRed("❌ Błąd podczas zmiany wartości pola 'username'.");
+            MenuPrint.dispplayAnsiMethodRed(" Błąd podczas zmiany wartości pola 'username'.");
             e.printStackTrace();
         }
     }
@@ -584,7 +584,7 @@ SubBank subBank;
 
     public void handlePasswordAccessSet(Scanner scanner) {
         try {
-            dispplayAnsiMethodBlue("🔄 Wprowadź nową wartość pola 'passwordHash': ");
+            dispplayAnsiMethodBlue(" Wprowadź nową wartość pola 'passwordHash': ");
             String newPasswordValue = scanner.nextLine(); // Odczytanie ciągu znaków od użytkownika
 
             // Pobranie klasy obiektu bank
@@ -596,11 +596,11 @@ SubBank subBank;
             // Wywołanie metody setUsername na instancji obiektu bank
             setPasswordMethod.invoke(bank, newPasswordValue);
 
-            dispplayAnsiMethodBlue("🔄 Wartość pola 'password' została ustawiona na: " + newPasswordValue);
+            dispplayAnsiMethodBlue(" Wartość pola 'password' została ustawiona na: " + newPasswordValue);
         } catch (NoSuchMethodException e) {
-            MenuPrint.dispplayAnsiMethodRed("❌ Metoda 'setUsername' nie istnieje.");
+            MenuPrint.dispplayAnsiMethodRed(" Metoda 'setUsername' nie istnieje.");
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            MenuPrint.dispplayAnsiMethodRed("❌ Błąd podczas wywołania metody 'setUsername'.");
+            MenuPrint.dispplayAnsiMethodRed(" Błąd podczas wywołania metody 'setUsername'.");
             e.printStackTrace();
         }
     }
@@ -620,11 +620,11 @@ SubBank subBank;
             Object passwordValue = passwordHashField.get(bank);
 
 
-            dispplayAnsiMethodBlue("💰 password: " + passwordValue);
+            dispplayAnsiMethodBlue(" password: " + passwordValue);
         } catch (NoSuchFieldException e) {
-            dispplayAnsiMethodRed("❌ Pole 'balance' nie istnieje.");
+            dispplayAnsiMethodRed(" Pole 'balance' nie istnieje.");
         } catch (IllegalAccessException e) {
-            dispplayAnsiMethodRed("❌ Brak dostępu do pola 'balance'.");
+            dispplayAnsiMethodRed(" Brak dostępu do pola 'balance'.");
         }
     }
 
@@ -672,16 +672,16 @@ SubBank subBank;
             // Wywołanie metody refleksyjnie
             setDateMethod.invoke(bank, newDate);
 
-            dispplayAnsiMethodGreen("✅ Data utworzenia konta została zmieniona na: " + newDate);
+            dispplayAnsiMethodGreen(" Data utworzenia konta została zmieniona na: " + newDate);
 
         } catch (NoSuchMethodException e) {
-            dispplayAnsiMethodRed("❌ Metoda 'setAccountCreationDate' nie istnieje.");
+            dispplayAnsiMethodRed(" Metoda 'setAccountCreationDate' nie istnieje.");
         } catch (IllegalAccessException e) {
-            dispplayAnsiMethodRed("❌ Brak dostępu do metody 'setAccountCreationDate'.");
+            dispplayAnsiMethodRed(" Brak dostępu do metody 'setAccountCreationDate'.");
         } catch (InvocationTargetException e) {
-            dispplayAnsiMethodRed("❌ Błąd przy wywoływaniu metody: " + e.getCause());
+            dispplayAnsiMethodRed(" Błąd przy wywoływaniu metody: " + e.getCause());
         } catch (Exception e) {
-            dispplayAnsiMethodRed("❌ Błąd: Nie udało się zmienić daty. Upewnij się, że podany format jest poprawny.");
+            dispplayAnsiMethodRed("Błąd: Nie udało się zmienić daty. Upewnij się, że podany format jest poprawny.");
         }
     }
 
@@ -700,12 +700,12 @@ SubBank subBank;
                 // Odczytanie wartości pola "password" z instancji obiektu bank
                 Object ac = accountCreationDate.get(bank);
 
-                dispplayAnsiMethodYellow("💰 Data utworzenia: " + ac);
+                dispplayAnsiMethodYellow(" Data utworzenia: " + ac);
             //    System.out.println("💰 Data utworzenia: " + ac);
             } catch (NoSuchFieldException e) {
-                MenuPrint.dispplayAnsiMethodRed("❌ Pole 'utworzenia nie istnieje' nie istnieje.");
+                MenuPrint.dispplayAnsiMethodRed(" Pole 'utworzenia nie istnieje' nie istnieje.");
             } catch (IllegalAccessException e) {
-                MenuPrint.dispplayAnsiMethodRed("❌ Brak dostępu do pola 'data utworzenia'.");
+                MenuPrint.dispplayAnsiMethodRed(" Brak dostępu do pola 'data utworzenia'.");
             }
 
         }
