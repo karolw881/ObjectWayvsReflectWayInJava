@@ -35,7 +35,7 @@ public class MenuPrint {
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.GREEN)
-                        .a(FIELD_ICONS2.get("wszystkie") + "1.Dostep do danych ")
+                        .a(FIELD_ICONS2.get("wszystkie") + "1. Dostep do danych ")
                         .reset().toString() +
                         Ansi.ansi()
                                 .fg(Ansi.Color.BLUE)
