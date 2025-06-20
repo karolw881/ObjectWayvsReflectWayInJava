@@ -23,11 +23,11 @@ public class ObjectAccessHandler  {
     };
 
     private final Map<String, String> FIELD_ICONS = Map.of(
-            "saldo", "Ob",
-            "nazwa", "je",
-            "data", "ct",
-            "hasło", "i",
-            "status", "ve"
+            "saldo", "",
+            "nazwa", "",
+            "data", "",
+            "hasło", "",
+            "status", ""
     );
 
     public ObjectAccessHandler(Bank bank) {
@@ -234,7 +234,7 @@ public class ObjectAccessHandler  {
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.GREEN)
-                        .a("\n" + FIELD_ICONS.get("saldo") + " 1. Saldo")
+                        .a("\n" + FIELD_ICONS.get("saldo") + "1. Saldo")
                         .reset().toString() +
                         Ansi.ansi()
                                 .fg(Ansi.Color.BLUE)
@@ -245,7 +245,7 @@ public class ObjectAccessHandler  {
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.YELLOW)
-                        .a(FIELD_ICONS.get("nazwa") + " 2. Nazwa użytkownika")
+                        .a(FIELD_ICONS.get("nazwa") + "2. Nazwa użytkownika")
                         .reset().toString() +
                         Ansi.ansi()
                                 .fg(Ansi.Color.BLUE)
@@ -256,7 +256,7 @@ public class ObjectAccessHandler  {
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.CYAN)
-                        .a(FIELD_ICONS.get("data") + " 3. Data utworzenia konta")
+                        .a(FIELD_ICONS.get("data") + "3. Data utworzenia konta")
                         .reset().toString() +
                         Ansi.ansi()
                                 .fg(Ansi.Color.BLUE)
@@ -267,7 +267,7 @@ public class ObjectAccessHandler  {
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.RED)
-                        .a(FIELD_ICONS.get("hasło") + " 4. Hasło")
+                        .a(FIELD_ICONS.get("hasło") + "4. Hasło")
                         .reset().toString() +
                         Ansi.ansi()
                                 .fg(Ansi.Color.BLUE)
@@ -278,7 +278,7 @@ public class ObjectAccessHandler  {
         System.out.println(
                 Ansi.ansi()
                         .fg(Ansi.Color.GREEN)
-                        .a(FIELD_ICONS.get("status") + " 5. Status aktywności")
+                        .a(FIELD_ICONS.get("status") + "5. Status aktywności")
                         .reset().toString() +
                         Ansi.ansi()
                                 .fg(Ansi.Color.BLUE)
@@ -291,7 +291,7 @@ public class ObjectAccessHandler  {
                 Ansi.ansi()
                         .fg(Ansi.Color.RED)
                         .bold()
-                        .a("↩ 0. Powrót do menu głównego")
+                        .a("0. Powrót do menu głównego")
                         .reset().toString()
         );
 
